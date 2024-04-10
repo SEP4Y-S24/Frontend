@@ -7,7 +7,7 @@ const TextArea: React.FC<{ id: string; rows?: number; labelText?: string; placeh
   placeholder = "Write your message here",
 }) => {
   return (
-    <div className="p-7">
+    <div>
       <label
         htmlFor={id}
         className="block mb-2 text-base font-normal text-dark"
