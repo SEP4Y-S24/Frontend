@@ -11,18 +11,14 @@ function App() {
           <h1 className="text-3xl font-bold underline">Hello world!</h1>
           <TextArea id="message" rows={5} />
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        </a>
-        <p>
-          <Button text="Click me!" style="red" onClick={() => alert("Hello!")} />
-        </p>  
+       
+        
+      
+        
+        
     
       </header>
+      <Button text="Click me!"  style={"primaryColor"} onClick={() => console.log("Button clicked")} />
     </div>
   );
 }
