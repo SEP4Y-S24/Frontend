@@ -1,4 +1,5 @@
 import React from "react";
+import TextArea from "./components/Form/TextArea";
 import "./App.css";
 
 function App() {
@@ -7,6 +8,7 @@ function App() {
       <header className="App-header">
         <p>
           <h1 className="text-3xl font-bold underline">Hello world!</h1>
+          <TextArea id="message" rows={5} />
         </p>
         <a
           className="App-link"
