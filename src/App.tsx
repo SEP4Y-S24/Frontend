@@ -2,15 +2,22 @@ import React from "react";
 import TextArea from "./components/Form/TextArea";
 
 import Button from "./components/Elements/Button";
+import Dropdown from "./components/Form/selectForm";
+
+const options = [
+  { id: 1, name: 'Option 1' },
+  { id: 2, name: 'Option 2' },
+  { id: 3, name: 'Option 3' },
+];
+
 
 function App() {
   return (
     <div className="App">
       <header className="App-header">
+
       </header>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
-          <TextArea id="message" rows={5} />
-      <Button text="Click me!" color="primaryColor" onClick={() => console.log("Button clicked")} />
+      <Dropdown dropdownLabel="Select an option" options={options} />
     </div>
   );
 }
