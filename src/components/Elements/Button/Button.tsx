@@ -1,4 +1,4 @@
-
+    
 interface Props{
     text: string;
     style: string;

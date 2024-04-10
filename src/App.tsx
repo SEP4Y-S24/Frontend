@@ -19,6 +19,7 @@ function App() {
           <h1 className="text-3xl font-bold underline">Hello world!</h1>
         </p>
         <Dropdown dropdownLabel="Select an option" options={options} />
+        <Button style="primaryColor" text="Submit" onClick={() => alert("Submited")}/>
         <a
           className="App-link"
           href="https://reactjs.org"
