@@ -10,7 +10,6 @@ const options = [
   { id: 3, name: 'Option 3' },
 ];
 
-
 function App() {
   return (
     <div className="App">
@@ -18,6 +17,8 @@ function App() {
 
       </header>
       <Dropdown dropdownLabel="Select an option" options={options} />
+      <TextArea id="message" rows={5} />
+      <Button text="Click me" onClick={() => console.log("Button clicked")} color="primaryColor" />
     </div>
   );
 }
