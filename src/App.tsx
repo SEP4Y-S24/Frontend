@@ -1,21 +1,19 @@
 import React from "react";
 import "./App.css";
+import Dropdown from "./components/Form/selectForm"
+
+
+const options = [
+  { id: 1, name: 'Clock1' },
+  { id: 2, name: 'Clock 2' },
+  { id: 3, name: 'Clock 3' }
+];
+
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        </a>
-      </header>
+      <Dropdown dropdownLabel ="Select a Clock" options ={options}/>
     </div>
   );
 }
