@@ -10,7 +10,7 @@ const TextArea: React.FC<{ id: string; rows?: number; labelText?: string; placeh
     <div className="p-7">
       <label
         htmlFor={id}
-        className="block mb-2 text-sm font-medium text-black-900 "
+        className="block mb-2 text-base font-normal text-black-900 "
       >
         {labelText}
       </label>
