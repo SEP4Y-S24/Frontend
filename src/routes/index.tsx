@@ -12,7 +12,7 @@ export const AppRoutes = () => {
     const routes2 = publicRoutes
     //const routes = auth.user ? protectedRoutes : publicRoutes;
 
-    const element = useRoutes([...routes2, ...commonRoutes]);
+    const element = useRoutes([...routes, ...commonRoutes]);
 
     return <>{element}</>;
 };

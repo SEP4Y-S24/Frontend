@@ -8,7 +8,7 @@ export const Register = () => {
 
     return (
         <Layout title="Register your account">
-            <p>login form</p>
+            <p>register form</p>
         </Layout>
     );
 };

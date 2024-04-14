@@ -15,6 +15,7 @@ module.exports = {
       'background': '#F3F4F6', // background for components
       'danger': '#F23030', // red
       'dangerHover': '#E10E0E', // darker red
+      'primaryColorOpacity': 'rgba(55, 88, 249, 0.1)', // blue with opacity
       
     },
     extend: {},
