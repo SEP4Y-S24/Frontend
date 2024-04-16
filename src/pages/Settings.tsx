@@ -1,6 +1,8 @@
 export const Settings = () => {
-    return (
-        <h1>Settings</h1>
 
+    return (
+        <div>
+        <h1>Settings</h1>
+        </div>
     );
 };
