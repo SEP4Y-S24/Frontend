@@ -9,7 +9,7 @@ export const AppRoutes = () => {
     const commonRoutes = [{ path: '/', element: <Landing /> }];
 
     const routes =  protectedRoutes;
-    const routes2 = publicRoutes
+    const routes2 = publicRoutes;
     //const routes = auth.user ? protectedRoutes : publicRoutes;
 
     const element = useRoutes([...routes, ...commonRoutes]);
