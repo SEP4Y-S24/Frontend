@@ -2,11 +2,13 @@ import * as React from 'react';
 import Pagination from '@mui/material/Pagination';
 import Stack from '@mui/material/Stack';
 
-export default function PaginationRounded() {
+interface Props{
+    pages : number;
+}
+export default function PaginationRounded({pages} : Props) {
   return (
     <Stack spacing={2}>
-      <Pagination count={10} shape="rounded" />
-      <Pagination count={10} variant="outlined" shape="rounded" />
+      <Pagination count={pages} variant="outlined" shape="rounded" color='primary'/>
     </Stack>
   );
 }
