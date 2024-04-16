@@ -23,7 +23,7 @@ export const protectedRoutes = [
         children: [
             { path: '/messages', element: <Messages /> },
             { path: '/settings', element: <Settings /> },
-            { path: '/dashboard', element: <Dashboard /> },
+            { path: '', element: <Dashboard /> },
             { path: '*', element: <Navigate to="." /> },
         ],
     },
