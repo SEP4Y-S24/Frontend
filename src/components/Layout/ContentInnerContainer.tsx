@@ -3,16 +3,23 @@ import * as React from 'react';
 
 type ContentLayoutProps = {
     children: React.ReactNode;
+    className: string;
 };
 
-export const ContentInnerContainer = ({ children}: ContentLayoutProps) => {
+function classNames(...classes : string []) {
+    return classes.filter(Boolean).join(' ')
+  }
+  
+
+export const ContentInnerContainer = ({ children, className}: ContentLayoutProps) => {
     return (
         <>
-            <div className="bg-white rounded drop-shadow-sm">
-                <div className="p-4">
+            <div className={classNames("bg-white rounded drop-shadow-sm", className)}>
+                <div className="p-4 ">
                     {children}
                 </div>
             </div>
         </>
     );
 };
+//""

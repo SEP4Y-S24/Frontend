@@ -1,16 +1,18 @@
-import * as React from 'react';
-
+import * as React from "react";
 
 type ContentLayoutProps = {
-    children: React.ReactNode;
+  children: React.ReactNode;
+  className: string;
 };
 
-export const ContentLayout = ({ children}: ContentLayoutProps) => {
-    return (
-        <>
-           <div className="m-5">
-               {children}
-           </div>
-        </>
-    );
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
+}
+
+export const ContentLayout = ({ children, className }: ContentLayoutProps) => {
+  return (
+    <>
+      <div className={classNames("m-5", className)}>{children}</div>
+    </>
+  );
 };
