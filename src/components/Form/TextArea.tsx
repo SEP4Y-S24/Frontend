@@ -1,13 +1,14 @@
 import React from "react";
 
-const TextArea: React.FC<{ id: string; rows?: number; labelText?: string; placeholder?: string }> = ({
+const TextArea: React.FC<{ id?: string; rows?: number; labelText?: string; placeholder?: string; className?: string}> = ({
   id,
   rows = 4,
-  labelText = "Your message",
-  placeholder = "Write your message here",
+  labelText = "Label",
+  placeholder = "Placeholder",
+  className = "",
 }) => {
   return (
-    <div>
+    <div className={className}>
       <label
         htmlFor={id}
         className="block mb-2 text-base font-normal text-dark"
