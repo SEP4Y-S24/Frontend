@@ -36,12 +36,7 @@ const CurrentTime = () => {
     return (
 
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <Heading text={"Text test"} type={"heading1"}/>
-            <Heading text={"Text test"} type={"heading2"}/>
-            <Heading text={"Text test"} type={"heading3"}/>
-            <Heading text={"Text test"} type={"heading4"}/>
-            <Heading text={"Text test"} type={"heading5"}/>
-
+            <Heading text={"Current time"} type={"heading1"}/>
             <p className="text-lg font-semibold">{showTime}</p>
 
         </ContentInnerContainer>
