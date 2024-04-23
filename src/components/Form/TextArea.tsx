@@ -1,11 +1,21 @@
 import React from "react";
 
-const TextArea: React.FC<{ id?: string; rows?: number; labelText?: string; placeholder?: string; className?: string}> = ({
+const TextArea: React.FC<{
+  id?: string;
+  rows?: number;
+  labelText?: string;
+  placeholder?: string;
+  className?: string;
+  value: string;
+  onChange: (newValue: string) => void;
+}> = ({
   id,
   rows = 4,
   labelText = "Label",
   placeholder = "Placeholder",
   className = "",
+  value,
+  onChange,
 }) => {
   return (
     <div className={className}>
@@ -20,6 +30,8 @@ const TextArea: React.FC<{ id?: string; rows?: number; labelText?: string; place
         rows={rows}
         className="block p-2.5 w-full text-sm text-primaryText bg-white-50 rounded-md border border-stroke focus:outline-none focus:ring-1"
         placeholder={placeholder}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
       ></textarea>
     </div>
   );

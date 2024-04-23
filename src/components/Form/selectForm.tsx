@@ -1,32 +1,50 @@
-import { Fragment, useState } from 'react'
-import { Listbox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
-
+import { Fragment, useState } from "react";
+import { Listbox, Transition } from "@headlessui/react";
+import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
 
 interface DropdownProps {
-    dropdownLabel: string;
-    options: { id: number; name: string; }[];
-    className: string;
-  }
-function classNames(...classes : string []) {
-  return classes.filter(Boolean).join(' ')
+  dropdownLabel: string;
+  options: { id: number; name: string }[];
+  className: string;
+  value: { id: number; name: string };
+  onChange: (value: { id: number; name: string }) => void;
+}
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(" ");
 }
 
-export default function Dropdown({dropdownLabel , options, className } : DropdownProps) {
-  const [selected, setSelected] = useState(options[0])
+export default function Dropdown({
+  dropdownLabel,
+  options,
+  className,
+  value,
+  onChange,
+}: DropdownProps) {
+  const handleSelectionChange = (selectedValue: {
+    id: number;
+    name: string;
+  }) => {
+    console.log("Selected Value:", selectedValue);
+    onChange(selectedValue);
+  };
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox value={value} onChange={handleSelectionChange}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-base font-normal leading-6 text-dark text-left">{dropdownLabel}</Listbox.Label>
+          <Listbox.Label className="block text-base font-normal leading-6 text-dark text-left">
+            {dropdownLabel}
+          </Listbox.Label>
           <div className={classNames("relative mt-2", className)}>
             <Listbox.Button className="relative w-full cursor-default rounded-md bg-white py-1.5 pl-3 pr-10 text-left text-black shadow-sm ring-1 ring-inset ring-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 sm:text-sm sm:leading-6">
               <span className="flex items-center">
-                <span className="ml-3 block truncate">{selected.name}</span>
+                <span className="ml-3 block truncate">{value.name}</span>
               </span>
               <span className="pointer-events-none absolute inset-y-0 right-0 ml-3 flex items-center pr-2">
-                <ChevronUpDownIcon className="h-5 w-5 text-gray-400" aria-hidden="true" />
+                <ChevronUpDownIcon
+                  className="h-5 w-5 text-gray-400"
+                  aria-hidden="true"
+                />
               </span>
             </Listbox.Button>
 
@@ -43,8 +61,8 @@ export default function Dropdown({dropdownLabel , options, className } : Dropdow
                     key={element.id}
                     className={({ active }) =>
                       classNames(
-                        active ? 'bg-primaryColor text-white' : 'text-dark',
-                        'relative cursor-default select-none py-2 pl-3 pr-9'
+                        active ? "bg-primaryColor text-white" : "text-dark",
+                        "relative cursor-default select-none py-2 pl-3 pr-9"
                       )
                     }
                     value={element}
@@ -52,9 +70,11 @@ export default function Dropdown({dropdownLabel , options, className } : Dropdow
                     {({ selected, active }) => (
                       <>
                         <div className="flex items-center">
-
                           <span
-                            className={classNames(selected ? 'font-semibold' : 'font-normal', 'ml-3 block truncate')}
+                            className={classNames(
+                              selected ? "font-semibold" : "font-normal",
+                              "ml-3 block truncate"
+                            )}
                           >
                             {element.name}
                           </span>
@@ -63,8 +83,8 @@ export default function Dropdown({dropdownLabel , options, className } : Dropdow
                         {selected ? (
                           <span
                             className={classNames(
-                              active ? 'text-white' : 'text-dark',
-                              'absolute inset-y-0 right-0 flex items-center pr-4'
+                              active ? "text-white" : "text-dark",
+                              "absolute inset-y-0 right-0 flex items-center pr-4"
                             )}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />
@@ -80,5 +100,5 @@ export default function Dropdown({dropdownLabel , options, className } : Dropdow
         </>
       )}
     </Listbox>
-  )
+  );
 }
