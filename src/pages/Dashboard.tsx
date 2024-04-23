@@ -1,33 +1,43 @@
-import InputField from "../components/Form/InputField";
-import PopUp from "../components/Elements/PopUp/PopUp";
-import {useState} from "react";
+
+import * as React from "react";
+import {ContentInnerContainer} from "../components/Layout/ContentInnerContainer";
+import {ContentLayout} from "../components/Layout/ContentLayout";
+import TitleHeading from "../components/Elements/Headings/titleHeading";
+import {useEffect, useState} from "react";
 
 export const Dashboard = () => {
-    const [showPopup, setShowPopup] = useState(false);
-    const handleButtonClick = () => {
-        // Set showPopup state to true to display the popup
-        setShowPopup(true);
-    };
-    const proceed = () => {
-        console.log("Proceed button clicked");
-    };
+
     return (
-        <>
-            <h1>Dashboard</h1>
-            <button onClick={handleButtonClick}>Open Popup</button>
+            <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
+            <CurrentTime/>
+</ContentLayout>
 
-            {/* Render the PopUp component conditionally */}
-            {showPopup && (
-                <PopUp
-                    title="Warning"
-                    textAlert="Are you sure you want to deactivate?"
-                    type="success"
-                    buttonCancelText="Cancel"
-                    buttonProceedText={"Deactivate"}
-                    onClickProceed={proceed}
-                />
-            )}
-        </>
 
+    );
+};
+const CurrentTime = () => {
+    let timezone = 'Europe/London';
+    const [currentTime, setCurrentTime] = useState(new Date());
+
+    useEffect(() => {
+        const intervalID = setInterval(() => {
+            setCurrentTime(new Date());
+        }, 1000);
+
+        // Clear interval on component unmount
+        return () => clearInterval(intervalID);
+    }, []); // Empty dependency array to run effect only once on mount
+
+    const showTime = currentTime.toLocaleTimeString('en-US', {
+        timeZone: timezone,
+        hour12: false, // Display 24-hour format
+    });
+    return (
+
+        <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+            <TitleHeading className="mb-3" heading="Current time"/>
+            <p className="text-lg font-semibold">{showTime}</p>
+
+        </ContentInnerContainer>
     );
 };
