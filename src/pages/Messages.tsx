@@ -3,6 +3,8 @@ import TextArea from "../components/Form/TextArea";
 import SelectForm from "../components/Form/selectForm";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
+import TitleHeading from "../components/Elements/Headings/titleHeading";
+import SubTitleHeading from "../components/Elements/Headings/subTitleHeading";
 
 export const Messages = () => {
   const receiverOptions = [
@@ -48,6 +50,8 @@ export const Messages = () => {
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+          <TitleHeading className="mb-1" heading="Send a message"></TitleHeading>
+          <SubTitleHeading className="mb-3" subTitle="Do not have specific contact? Add a new contact here!"></SubTitleHeading>
           <TextArea
             rows={4}
             labelText="Your message"
@@ -68,10 +72,11 @@ export const Messages = () => {
             text="Click me"
             onClick={() => console.log("Button clicked")}
             color="bg-primaryColor"
-            hover={"hover:bg-dangerHover"}
+            hover={"hover:bg-primaryColorHover"}
           />
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+          <TitleHeading className="mb-3" heading="Received messages"></TitleHeading>
             <ReceivedMessage
               name="John Doe"
               text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."

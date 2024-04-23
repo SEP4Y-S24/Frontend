@@ -1,7 +1,14 @@
 import React from 'react'
 
-export const subTitleHeading = (subTitle : string) => {
+interface Props {
+  className: string;
+  subTitle: string,
+}
+
+const subTitleHeading: React.FC<Props> = ({className, subTitle}) => {
   return (
-        <h4 className='font-bold text-dark text-1xl'> {subTitle} </h4>
+        <h4 className={`font-light text-dark text-1xl ${className}`}> {subTitle} </h4>
   )
 }
+
+export default subTitleHeading;
