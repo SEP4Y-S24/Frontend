@@ -2,14 +2,15 @@
 import * as React from "react";
 import {ContentInnerContainer} from "../components/Layout/ContentInnerContainer";
 import {ContentLayout} from "../components/Layout/ContentLayout";
-import TitleHeading from "../components/Elements/Headings/titleHeading";
 import {useEffect, useState} from "react";
+import Heading from "../components/Elements/Headings/Heading";
 
 export const Dashboard = () => {
 
     return (
             <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <CurrentTime/>
+
 </ContentLayout>
 
 
@@ -35,7 +36,12 @@ const CurrentTime = () => {
     return (
 
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <TitleHeading className="mb-3" heading="Current time"/>
+            <Heading text={"Text test"} type={"heading1"}/>
+            <Heading text={"Text test"} type={"heading2"}/>
+            <Heading text={"Text test"} type={"heading3"}/>
+            <Heading text={"Text test"} type={"heading4"}/>
+            <Heading text={"Text test"} type={"heading5"}/>
+
             <p className="text-lg font-semibold">{showTime}</p>
 
         </ContentInnerContainer>

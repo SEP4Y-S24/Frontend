@@ -4,9 +4,9 @@ import TextArea from "../components/Form/TextArea";
 import SelectForm from "../components/Form/selectForm";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
-import TitleHeading from "../components/Elements/Headings/titleHeading";
-import SubTitleHeading from "../components/Elements/Headings/subTitleHeading";
 import PaginationRounded from "../components/Elements/Pagination/pagination";
+import Heading from "../components/Elements/Headings/Heading";
+import * as React from "react";
 
 export const Messages = () => {
   const [message, setMessage] = useState("");
@@ -69,14 +69,9 @@ export const Messages = () => {
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <TitleHeading
-            className="mb-1"
-            heading="Send a message"
-          ></TitleHeading>
-          <SubTitleHeading
-            className="mb-3"
-            subTitle="Do not have specific contact? Add a new contact here!"
-          ></SubTitleHeading>
+          <Heading text={"Send a message"} type={"heading1"}/>
+
+          <Heading text={"Do not have specific contact? Add a new contact here!"} type={"heading4"} className={"pb-3"}/>
           <TextArea
             rows={4}
             labelText="Your message"
@@ -106,7 +101,7 @@ export const Messages = () => {
           />
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <TitleHeading className="mb-3" heading="Received messages" />
+          <Heading text={"Received messages"} type={"heading1"}/>
           <ReceivedMessage
             name="John Doe"
             text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
