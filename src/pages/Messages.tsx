@@ -75,12 +75,7 @@ export const Messages = () => {
             options={clockOptions}
             className="mb-5"
           />
-          <Button
-            text="Click me"
-            onClick={() => console.log("Button clicked")}
-            color="bg-primaryColor"
-            hover={"hover:bg-primaryColorHover"}
-          />
+          <Button text="Click me" type={"info"} onClick={() => console.log("Button clicked")}/>
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
           <TitleHeading className="mb-3" heading="Received messages" />
