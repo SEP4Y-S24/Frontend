@@ -7,7 +7,7 @@ export const Register = () => {
     const navigate = useNavigate();
 
     return (
-        <Layout title="Register your account">
+        <Layout>
             <p>register form</p>
         </Layout>
     );

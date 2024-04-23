@@ -17,7 +17,7 @@ export const Dashboard = () => {
     );
 };
 const CurrentTime = () => {
-    let timezone = 'Europe/London';
+    let timezone = 'Europe/Copenhagen';
     const [currentTime, setCurrentTime] = useState(new Date());
 
     useEffect(() => {
