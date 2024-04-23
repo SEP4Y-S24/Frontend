@@ -5,6 +5,7 @@ import { ContentInnerContainer } from "../components/Layout/ContentInnerContaine
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import TitleHeading from "../components/Elements/Headings/titleHeading";
 import SubTitleHeading from "../components/Elements/Headings/subTitleHeading";
+import PaginationRounded from "../components/Elements/Pagination/pagination";
 
 export const Messages = () => {
   const receiverOptions = [
@@ -50,8 +51,14 @@ export const Messages = () => {
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <TitleHeading className="mb-1" heading="Send a message"></TitleHeading>
-          <SubTitleHeading className="mb-3" subTitle="Do not have specific contact? Add a new contact here!"></SubTitleHeading>
+          <TitleHeading
+            className="mb-1"
+            heading="Send a message"
+          ></TitleHeading>
+          <SubTitleHeading
+            className="mb-3"
+            subTitle="Do not have specific contact? Add a new contact here!"
+          ></SubTitleHeading>
           <TextArea
             rows={4}
             labelText="Your message"
@@ -76,12 +83,42 @@ export const Messages = () => {
           />
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <TitleHeading className="mb-3" heading="Received messages"></TitleHeading>
-            <ReceivedMessage
-              name="John Doe"
-              text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-              imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-            />
+          <TitleHeading className="mb-3" heading="Received messages" />
+          <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+           <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+           <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+           <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+           <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+           <ReceivedMessage
+            name="John Doe"
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+            imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+          />
+          
+          <PaginationRounded
+            className="flex flex-col items-center"
+            pages={1}
+          ></PaginationRounded>
         </ContentInnerContainer>
       </ContentLayout>
     </>
