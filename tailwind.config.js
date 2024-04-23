@@ -16,7 +16,10 @@ module.exports = {
       'danger': '#F23030', // red
       'dangerHover': '#E10E0E', // darker red
       'primaryColorOpacity': 'rgba(55, 88, 249, 0.1)', // blue with opacity
-      'whiteHover': '#F9FAFB'
+      'whiteHover': '#F9FAFB',
+      'warning': '#FBBF24',
+      'warningOpacity': '#FFFBEB',
+      'warningHover': '#F59E0B',
       
     },
     extend: {},

@@ -29,7 +29,7 @@ export const Landing = () => {
                     <p>The best smart clock ever made</p>
                     <div className="mt-8 flex justify-center">
                         <div className="inline-flex rounded-md shadow">
-                            <Button text="Start with smart clock" onClick={handleStart} color="bg-danger" hover={"hover:bg-dangerHover"}/>
+                            <Button text={"Start with smart clock"} type={"danger"} onClick={handleStart}/>
                         </div>
                         <div className="ml-3 inline-flex">
                             <a

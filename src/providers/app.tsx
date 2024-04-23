@@ -11,7 +11,7 @@ const ErrorFallback = () => {
             role="alert"
         >
             <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-            <Button text="Click me" color="bg-danger" hover={"hover:bg-dangerHover"} onClick={() => window.location.assign(window.location.origin)}/>
+            <Button text={"Click me"} type={"danger"} onClick={() => window.location.assign(window.location.origin)}/>
         </div>
     );
 };
