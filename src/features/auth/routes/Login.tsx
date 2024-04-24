@@ -5,7 +5,6 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
 import {Simulate} from "react-dom/test-utils";
-import submit = Simulate.submit;
 import {useState} from "react";
 
 
