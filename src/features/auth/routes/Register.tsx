@@ -72,7 +72,7 @@ export const Register = () => {
                         </div>
 
                         <div className={"pt-5"}>
-                            <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
+                            <Button text={"Register"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
                         </div>
 
 

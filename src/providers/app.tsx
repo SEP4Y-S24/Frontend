@@ -8,6 +8,7 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
+import {useUser} from "../lib/auth";
 
 
 const ErrorFallback = () => {
@@ -28,10 +29,14 @@ const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
 export const AppProvider = () => {
-    //const routes = auth.user ? protectedRoutes : publicRoutes;
-    const routes =  [...protectedRoutes, ...commonRoutes];
+    const user = useUser();
+
+    const route = user.data ? protectedRoutes : publicRoutes;
+    const routes =  [...route, ...commonRoutes];
     const router = createBrowserRouter(routes);
+
     return (
+
         <React.Suspense
             fallback={
                 <div className="flex items-center justify-center w-screen h-screen">
@@ -43,5 +48,6 @@ export const AppProvider = () => {
                     <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
+
     );
 };

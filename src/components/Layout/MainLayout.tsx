@@ -11,6 +11,7 @@ import * as React from 'react';
 import { NavLink, Link } from 'react-router-dom';
 
 import logo from '../../assets/Logo.svg';
+import {useLogout, useUser} from "../../lib/auth";
 
 
 type SideNavigationItem = {
@@ -84,6 +85,7 @@ type UserNavigationItem = {
 
 const UserNavigation = () => {
 
+    const logout = useLogout();
 
     const userNavigation = [
         { name: 'Your Profile', to: './profile' },
@@ -91,10 +93,14 @@ const UserNavigation = () => {
             name: 'Sign out',
             to: '',
             onClick: () => {
+                logout.mutate({});
                 console.log('Sign out');
             },
         },
     ].filter(Boolean) as UserNavigationItem[];
+    const user = useUser();
+    const userName = user.data?.name;
+
 
     return (
         <Menu as="div" className="ml-3 relative">
@@ -103,11 +109,11 @@ const UserNavigation = () => {
                     <div>
                         <Menu.Button className="max-w-xs p-2 flex items-center text-sm rounded-full focus:outline-none ">
                             <div className='grid grid-cols-1 pr-4'>
-                                <div><span className='text-dark font-medium'>Alexandro Bolfa</span></div>
+                                <div><span className='text-dark font-medium'>{userName}</span></div>
                                 <div><span className='text-xs text-primaryText'>Clock user</span></div>
                             </div>
                             <div className='rounded-3xl max-w-10 max-h-10'>
-                                <img alt='userAvatar' className='rounded-full' src="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"/>
+                                <img alt='userAvatar' className='rounded-full' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlyG6nAdKXe4OsY7Un96eqGuC7XxxSBaUKZQ&usqp=CAU"/>
                             </div>
                         </Menu.Button>
                     </div>
