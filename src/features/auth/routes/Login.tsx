@@ -1,53 +1,73 @@
 
-import {Link} from 'react-router-dom';
+import {Form, Link} from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
-import {Simulate} from "react-dom/test-utils";
-import {useState} from "react";
+import * as z from 'zod';
+import React, {useState} from "react";
 
+
+const schema = z.object({
+    email: z.string().min(1, 'Required').email('Invalid email format'),
+    password: z.string().min(1, 'Required'),
+});
+type LoginValues = {
+    email: string;
+    password: string;
+};
 
 export const Login = () => {
-    const [formData, setFormData] = useState({
-        email: '',
-        password: ''
-    });
 
-    const handleInputChange = (e:any) => {
+    const [values, setValues] = useState<LoginValues>({ email: '', password: '' });
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: value
-        });
+        setValues({ ...values, [name]: value });
+        setErrors({ ...errors, [name]: '' });
     };
 
-    const handleSubmit = () => {
-        console.log(formData);
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        try {
+            schema.parse(values);
+            // If validation passes, proceed with form submission
+            console.log('Form submitted:', values);
+        } catch (error) {
+            if (error instanceof z.ZodError) {
+                const fieldErrors: { [key: string]: string } = {};
+                error.errors.forEach(err => {
+                    const path = err.path.join('.');
+                    fieldErrors[path] = err.message;
+                });
+                setErrors(fieldErrors);
+            }
+        }
     };
 
-
-    //const navigate = useNavigate();
 
     return (
         <Layout>
+
+            <Form onSubmit={handleSubmit}>
             <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                 <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                     <Heading text={"Sign in to your account"} type={"heading1"} className={"text-center"}/>
                 </div>
-
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-
                         <div>
-                            <InputField type={"email"} id={"email"} labelText={"Email address"} isRequired={true} name={"email"} onChange={handleInputChange}/>
+                            <InputField type={"email"} id={"email"} labelText={"Email address"} isRequired={true} name={"email"} onChange={handleChange}
+                                        error={errors.email}/>
                         </div>
-
                         <div>
-                            <InputField type={"password"} id={"password"} labelText={"Password"} isRequired={true} name={"password"} onChange={handleInputChange}/>
+                            <InputField type={"password"} id={"password"} labelText={"Password"} isRequired={true} name={"password"}  onChange={handleChange}
+                                        error={errors.password}/>
                             </div>
 
                         <div className={"pt-5"}>
-                            <Button text={"Sign in"} type={"info"} className={"w-full justify-center"} onClick={()=>handleSubmit()}/>
+                            <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
                         </div>
 
 
@@ -57,6 +77,7 @@ export const Login = () => {
                     </p>
                 </div>
             </div>
+            </Form>
         </Layout>
     );
 };

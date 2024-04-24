@@ -2,17 +2,19 @@ import React from "react";
 
 const InputField: React.FC<{
     id?: string; labelText?: string;
-    placeholder?: string; className?: string, error?: string, type?: string, isRequired?: boolean, name: string,  onChange?: any
+    placeholder?: string; className?: string, error?: string, type?: string, isRequired?: boolean, value?:any, name: string,  onChange?: any
 }> = ({
           id,
           labelText = "Label",
           placeholder = "",
           className = "",
+    value,
     type = "text",
           error = "",
     isRequired = false,
     name,
-     onChange
+     onChange,
+
       }) => {
     return (
         <div className={className}>
@@ -29,7 +31,7 @@ const InputField: React.FC<{
                 placeholder={placeholder}
                 type={type}
                 required={isRequired}
-
+                value={value}
                 onChange={onChange}
             />
             <span className="text-danger text-sm">{error}</span>

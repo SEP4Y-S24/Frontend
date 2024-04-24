@@ -96,7 +96,7 @@ export const Messages = () => {
           />
           <Button
             text="Click me"
-            type={"info"}
+            styleType={"info"}
             onClick={handleSendMessage}
           />
         </ContentInnerContainer>

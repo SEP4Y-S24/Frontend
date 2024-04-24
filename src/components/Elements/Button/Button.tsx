@@ -1,18 +1,22 @@
 import clsx from "clsx";
 interface Props{
     text: string;
-    type: "warning" | "success" | "info" | "neutral" | "danger";
-    onClick: () => void;
+    styleType: "warning" | "success" | "info" | "neutral" | "danger";
+    onClick?: () => void;
+    type?: "button" | "submit" | "reset";
     className?: string;
 }
 
-const Button = ({text, onClick, type, className}: Props) => {
+const Button = ({text, onClick, styleType, className, type}: Props) => {
     let border;
     let textColor;
     let hover;
     let color;
+    if (type === undefined) {
+        type = "button";
+    }
 
-    switch (type) {
+    switch (styleType) {
         case "danger":
             color = "bg-danger";
             hover = "hover:bg-dangerHover";
@@ -53,7 +57,7 @@ const Button = ({text, onClick, type, className}: Props) => {
     return (
         <button   className={clsx(
             `${color} ${hover} ${className} py-2 px-4 rounded ${border} ${textColor}`
-        )}  onClick={onClick}>{text}</button>
+        )}  onClick={onClick} type={type}>{text}</button>
 );
 };
 

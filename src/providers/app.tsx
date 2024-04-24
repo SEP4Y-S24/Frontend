@@ -1,8 +1,14 @@
 import Button from "../components/Elements/Button";
 import React from "react";
 import {ErrorBoundary} from "react-error-boundary";
-import {HelmetProvider} from "react-helmet-async";
-import { BrowserRouter as Router } from 'react-router-dom';
+import {
+    createBrowserRouter,
+    RouterProvider,
+} from "react-router-dom";
+import {Landing} from "../pages/Landing";
+//import {publicRoutes} from "../routes/public";
+import { protectedRoutes} from "../routes/protected";
+
 
 const ErrorFallback = () => {
     return (
@@ -11,15 +17,21 @@ const ErrorFallback = () => {
             role="alert"
         >
             <h2 className="text-lg font-semibold">Ooops, something went wrong :( </h2>
-            <Button text={"Click me"} type={"danger"} onClick={() => window.location.assign(window.location.origin)}/>
+            <Button text={"Click me"} styleType={"danger"} onClick={() => window.location.assign(window.location.origin)}/>
         </div>
     );
 };
-type AppProviderProps = {
-    children: React.ReactNode;
-};
 
-export const AppProvider = ({ children }: AppProviderProps) => {
+const protectedRoutesVar = protectedRoutes
+//const publicRoutesVar = publicRoutes;
+
+const commonRoutes = [
+    { path: '/', element: <Landing /> },
+];
+export const AppProvider = () => {
+    //const routes = auth.user ? protectedRoutes : publicRoutes;
+    const routes =  [...protectedRoutesVar, ...commonRoutes];
+    const router = createBrowserRouter(routes);
     return (
         <React.Suspense
             fallback={
@@ -29,9 +41,7 @@ export const AppProvider = ({ children }: AppProviderProps) => {
             }
         >
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <HelmetProvider>
-                    <Router>{children}</Router>
-                </HelmetProvider>
+                    <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
     );

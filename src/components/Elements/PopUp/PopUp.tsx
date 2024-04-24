@@ -87,9 +87,9 @@ const PopUp = ({textAlert, type, title, onClickProceed, buttonCancelText, button
                                 </div>
                                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                     { (buttonProceedText) && onClickProceed &&
-                                    <Button text={buttonProceedText} type={type}  onClick={() => onClickProceed}/>}
+                                    <Button text={buttonProceedText} styleType={type}  onClick={() => onClickProceed}/>}
 
-                                    <Button text={buttonCancelText} type={"neutral"} className={"mr-3"} onClick={() => setOpen(false)}/>
+                                    <Button text={buttonCancelText} styleType={"neutral"} className={"mr-3"} onClick={() => setOpen(false)}/>
                                 </div>
                             </Dialog.Panel>
                         </Transition.Child>
