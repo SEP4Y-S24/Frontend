@@ -6,7 +6,7 @@ import {
     RouterProvider,
 } from "react-router-dom";
 import {Landing} from "../pages/Landing";
-//import {publicRoutes} from "../routes/public";
+import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
 
 
@@ -22,15 +22,14 @@ const ErrorFallback = () => {
     );
 };
 
-const protectedRoutesVar = protectedRoutes
-//const publicRoutesVar = publicRoutes;
+
 
 const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
 export const AppProvider = () => {
     //const routes = auth.user ? protectedRoutes : publicRoutes;
-    const routes =  [...protectedRoutesVar, ...commonRoutes];
+    const routes =  [...protectedRoutes, ...commonRoutes];
     const router = createBrowserRouter(routes);
     return (
         <React.Suspense

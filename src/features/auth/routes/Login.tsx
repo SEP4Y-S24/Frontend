@@ -9,8 +9,8 @@ import React, {useState} from "react";
 
 
 const schema = z.object({
-    email: z.string().min(1, 'Required').email('Invalid email format'),
-    password: z.string().min(1, 'Required'),
+    email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
+    password: z.string().min(1, 'Password is required'),
 });
 type LoginValues = {
     email: string;
@@ -34,7 +34,7 @@ export const Login = () => {
         try {
             schema.parse(values);
             // If validation passes, proceed with form submission
-            console.log('Form submitted:', values);
+            console.log('Form login submitted:', values);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
@@ -58,11 +58,11 @@ export const Login = () => {
                 </div>
                 <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div>
-                            <InputField type={"email"} id={"email"} labelText={"Email address"} isRequired={true} name={"email"} onChange={handleChange}
+                            <InputField type={"email"} id={"email"} labelText={"Email address"}  name={"email"} onChange={handleChange}
                                         error={errors.email}/>
                         </div>
                         <div>
-                            <InputField type={"password"} id={"password"} labelText={"Password"} isRequired={true} name={"password"}  onChange={handleChange}
+                            <InputField type={"password"} id={"password"} labelText={"Password"}  name={"password"}  onChange={handleChange}
                                         error={errors.password}/>
                             </div>
 
