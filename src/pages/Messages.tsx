@@ -23,7 +23,6 @@ export const Messages = () => {
   const [receiverError, setReceiverError] = useState("");
   const [clockError, setClockError] = useState("");
 
-
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
     { id: 2, name: "Receiver 2" },
@@ -37,13 +36,12 @@ export const Messages = () => {
   ];
 
   const handleSendMessage = () => {
-
     if (!message.trim()) {
       setMessageError("Please enter a message");
     } else {
       setMessageError("");
     }
-    
+
     if (!receiver || receiver.id === 0) {
       setReceiverError("Please select a receiver");
     } else {
@@ -53,10 +51,9 @@ export const Messages = () => {
     if (!clock || clock.id === 0) {
       setClockError("Please select a clock");
     } else {
-      setClockError(""); 
+      setClockError("");
     }
 
-    console.log("Sent Message:");
     console.log("Message:", message);
     console.log("Receiver:", receiver);
     console.log("Clock:", clock);
@@ -93,9 +90,13 @@ export const Messages = () => {
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <Heading text={"Send a message"} type={"heading1"}/>
+          <Heading text={"Send a message"} type={"heading1"} />
 
-          <Heading text={"Do not have specific contact? Add a new contact here!"} type={"heading4"} className={"pb-3"}/>
+          <Heading
+            text={"Do not have specific contact? Add a new contact here!"}
+            type={"heading4"}
+            className={"pb-3"}
+          />
           <TextArea
             rows={4}
             labelText="Your message"
@@ -128,7 +129,7 @@ export const Messages = () => {
           />
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <Heading text={"Received messages"} type={"heading1"}/>
+          <Heading text={"Received messages"} type={"heading1"} />
           <ReceivedMessage
             name="John Doe"
             text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
