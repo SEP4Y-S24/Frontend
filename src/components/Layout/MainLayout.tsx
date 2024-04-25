@@ -1,6 +1,5 @@
 import { Dialog, Menu, Transition } from '@headlessui/react';
 import {
-    UserIcon,
     XMarkIcon,
     Bars4Icon,
 
@@ -99,7 +98,7 @@ const UserNavigation = () => {
         },
     ].filter(Boolean) as UserNavigationItem[];
     const user = useUser();
-    const userName = user.data?.name;
+    const userName = user.data?.email;
 
 
     return (

@@ -24,8 +24,11 @@ async function handleUserResponse(data: UserResponse) {
 }
 
 async function userFn() {
-    const { user } = await getUser();
-    return user ?? null;
+    if (storage.getToken()) {
+        const {user} = await getUser();
+        return user;
+    }
+    return null;
 }
 
 async function loginFn(data: LoginCredentials) {
