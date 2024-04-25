@@ -30,7 +30,6 @@ const commonRoutes = [
 ];
 export const AppProvider = () => {
     const user = useUser();
-
     const route = user.data ? protectedRoutes : publicRoutes;
     const routes =  [...route, ...commonRoutes];
     const router = createBrowserRouter(routes);

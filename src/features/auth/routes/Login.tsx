@@ -6,6 +6,7 @@ import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
 import * as z from 'zod';
 import React, {useState} from "react";
+import {useLogin} from "../../../lib/auth";
 
 
 const schema = z.object({
@@ -18,7 +19,7 @@ type LoginValues = {
 };
 
 export const Login = () => {
-
+    const login = useLogin();
     const [values, setValues] = useState<LoginValues>({ email: '', password: '' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
@@ -34,7 +35,8 @@ export const Login = () => {
         try {
             schema.parse(values);
             // If validation passes, proceed with form submission
-            console.log('Form login submitted:', values);
+            //console.log('Form login submitted:', values);
+            login.mutate(values);
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
