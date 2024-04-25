@@ -19,6 +19,11 @@ export const Messages = () => {
     name: "Select",
   });
 
+  const [messageError, setMessageError] = useState("");
+  const [receiverError, setReceiverError] = useState("");
+  const [clockError, setClockError] = useState("");
+
+
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
     { id: 2, name: "Receiver 2" },
@@ -32,6 +37,25 @@ export const Messages = () => {
   ];
 
   const handleSendMessage = () => {
+
+    if (!message.trim()) {
+      setMessageError("Please enter a message");
+    } else {
+      setMessageError("");
+    }
+    
+    if (!receiver || receiver.id === 0) {
+      setReceiverError("Please select a receiver");
+    } else {
+      setReceiverError("");
+    }
+
+    if (!clock || clock.id === 0) {
+      setClockError("Please select a clock");
+    } else {
+      setClockError(""); 
+    }
+
     console.log("Sent Message:");
     console.log("Message:", message);
     console.log("Receiver:", receiver);
@@ -79,6 +103,7 @@ export const Messages = () => {
             className="mb-4"
             value={message}
             onChange={setMessage}
+            error={messageError}
           />
           <SelectForm
             dropdownLabel="Select receiver"
@@ -86,6 +111,7 @@ export const Messages = () => {
             className="mb-4"
             value={receiver}
             onChange={setReceiver}
+            error={receiverError}
           />
           <SelectForm
             dropdownLabel="Select clocks of receiver"
@@ -93,6 +119,7 @@ export const Messages = () => {
             className="mb-5"
             value={clock}
             onChange={setClock}
+            error={clockError}
           />
           <Button
             text="Click me"

@@ -8,6 +8,7 @@ interface DropdownProps {
   className: string;
   value: { id: number; name: string };
   onChange: (value: { id: number; name: string }) => void;
+  error?: string;
 }
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -19,6 +20,7 @@ export default function Dropdown({
   className,
   value,
   onChange,
+  error = "",
 }: DropdownProps) {
   const handleSelectionChange = (selectedValue: {
     id: number;
@@ -96,9 +98,12 @@ export default function Dropdown({
                 ))}
               </Listbox.Options>
             </Transition>
+            <span className="text-danger text-sm">{error}</span>
           </div>
+          
         </>
       )}
     </Listbox>
+    
   );
 }
