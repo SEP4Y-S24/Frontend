@@ -46,7 +46,6 @@ const CurrentTime = () => {
             <p className="text-lg font-semibold">{showTime}</p>
             <p>{name}</p>
             <p>{token}</p>
-
         </ContentInnerContainer>
     );
 };
