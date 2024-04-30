@@ -22,6 +22,7 @@ export const Messages = () => {
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
   const [clockError, setClockError] = useState("");
+  const [successMessage, setSuccessMessage] = useState("");
 
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
@@ -36,6 +37,9 @@ export const Messages = () => {
   ];
 
   const handleSendMessage = () => {
+    
+    setSuccessMessage("")
+
     if (!message.trim()) {
       setMessageError("Please enter a message");
     } else {
@@ -52,6 +56,14 @@ export const Messages = () => {
       setClockError("Please select a clock");
     } else {
       setClockError("");
+    }
+
+    if (message && receiver.id !== 0 && clock.id !== 0) {
+      setSuccessMessage("Message sent successfully!"); // Set success message
+      // Clear form fields after successful message send
+      setMessage("");
+      setReceiver({ id: 0, name: "Select" });
+      setClock({ id: 0, name: "Select" });
     }
 
     console.log("Message:", message);
@@ -127,6 +139,10 @@ export const Messages = () => {
             styleType={"info"}
             onClick={handleSendMessage}
           />
+
+          {successMessage && (
+            <p className="text-green mt-3">{successMessage}</p>
+          )}
         </ContentInnerContainer>
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
           <Heading text={"Received messages"} type={"heading1"} />
