@@ -26,7 +26,6 @@ export default function Dropdown({
     id: number;
     name: string;
   }) => {
-    console.log("Selected Value:", selectedValue);
     onChange(selectedValue);
   };
 
