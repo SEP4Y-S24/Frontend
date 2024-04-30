@@ -1,11 +1,15 @@
 import {Form, Link, useNavigate} from 'react-router-dom';
 
-import { Layout } from '../components/Layout';
+import {Layout} from '../components/Layout';
 import * as z from "zod";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
+import axios from "axios";
+import {EmblaOptionsType} from "embla-carousel";
+import Card from "../../../components/Elements/Card/Card";
+import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 
 
 const schema = z.object({
@@ -17,16 +21,58 @@ type RegisterValues = {
     email: string;
     password: string;
     name: string;
+    avatarId: string;
 };
+interface Pokemon {
+    id: number;
+    imageUrl: string;
+}
+
+const OPTIONS: EmblaOptionsType = {align: 'start'}
+const SLIDE_COUNT = 6
+const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 export const Register = () => {
-    const [values, setValues] = useState<RegisterValues>({ email: '', password: '', name: '' });
+    //for register form
+    const [values, setValues] = useState<RegisterValues>({email: '', password: '', name: '', avatarId: ''});
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
+    //for pokemon image slider
+    const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
+    const [selectedPokemonId, setSelectedPokemonId] = useState<string | null>(null);
+
+    const handlePokemonSelect = (pokemonId: string) => {
+        setSelectedPokemonId(pokemonId);
+        handleChange({target: {name: 'avatarId', value: pokemonId}} as React.ChangeEvent<HTMLInputElement>)
+    };
+//getting pokemon data from api
+    useEffect(() => {
+        const fetchPokemon = async () => {
+            try {
+                const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=10");
+                const {results} = response.data;
+                const pokemonData: Pokemon[] = await Promise.all(
+                    results.map(async (pokemon: any) => {
+                        const pokemonResponse = await axios.get(pokemon.url);
+                        return {
+                            id: pokemonResponse.data.id,
+                            imageUrl: pokemonResponse.data.sprites.front_default,
+                        };
+                    })
+                );
+                setPokemonList(pokemonData);
+            } catch (error) {
+                console.error("Error fetching Pokemon data:", error);
+            }
+        };
+        fetchPokemon();
+    }, []);
+
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = e.target;
-        setValues({ ...values, [name]: value });
-        setErrors({ ...errors, [name]: '' });
+        const {name, value} = e.target;
+        setValues({...values, [name]: value});
+        setErrors({...errors, [name]: ''});
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -59,20 +105,32 @@ export const Register = () => {
                     </div>
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div>
-                            <InputField type={"text"} id={"name"} labelText={"Name"}  name={"name"} onChange={handleChange}
+                            <InputField type={"text"} id={"name"} labelText={"Name"} name={"name"}
+                                        onChange={handleChange}
                                         error={errors.name}/>
                         </div>
                         <div>
-                            <InputField type={"email"} id={"email"} labelText={"Email address"}  name={"email"} onChange={handleChange}
+                            <InputField type={"email"} id={"email"} labelText={"Email address"} name={"email"}
+                                        onChange={handleChange}
                                         error={errors.email}/>
                         </div>
                         <div>
-                            <InputField type={"password"} id={"password"} labelText={"Password"}  name={"password"}  onChange={handleChange}
+                            <InputField type={"password"} id={"password"} labelText={"Password"} name={"password"}
+                                        onChange={handleChange}
                                         error={errors.password}/>
                         </div>
 
+
+                        <label
+                            className="block my-2 text-base font-normal text-dark"> Choose your avatar:
+                        </label>
+
+                        <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
+                                       onSelect={handlePokemonSelect}/>
+
                         <div className={"pt-5"}>
-                            <Button text={"Register"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
+                            <Button text={"Register"} styleType={"info"} className={"w-full justify-center"}
+                                    type="submit"/>
                         </div>
 
 

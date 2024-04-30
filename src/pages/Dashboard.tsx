@@ -6,12 +6,17 @@ import {useEffect, useState} from "react";
 import Heading from "../components/Elements/Headings/Heading";
 import {useUser} from "../lib/auth";
 import storage from "../utils/storage";
+import {EmblaOptionsType} from "embla-carousel";
+import EmblaCarousel from "../components/Elements/Carousel/Carousel";
+
+
 
 export const Dashboard = () => {
 
     return (
             <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
             <CurrentTime/>
+
 
 </ContentLayout>
 
