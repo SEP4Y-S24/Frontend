@@ -9,7 +9,7 @@ const InputField: React.FC<{
   type?: string;
   isRequired?: boolean;
   value?: any;
-  name: string;
+  name?: string;
   onChange?: any;
 }> = ({
   id,

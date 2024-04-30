@@ -59,8 +59,8 @@ export const Messages = () => {
     }
 
     if (message && receiver.id !== 0 && clock.id !== 0) {
-      setSuccessMessage("Message sent successfully!"); // Set success message
-      // Clear form fields after successful message send
+      setSuccessMessage("Message sent successfully!");
+      
       setMessage("");
       setReceiver({ id: 0, name: "Select" });
       setClock({ id: 0, name: "Select" });

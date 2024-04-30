@@ -7,6 +7,7 @@ import {MainLayout} from "../components/Layout";
 const { Dashboard } = lazyImport(() => import('../pages/Dashboard'), 'Dashboard');
 const { Messages } = lazyImport(() => import('../pages/Messages'), 'Messages');
 const { Settings } = lazyImport(() => import('../pages/Settings'), 'Settings');
+const { Contacts } = lazyImport(() => import('../pages/Contacts'), 'Contacts');
 
 const App = () => {
     return (
@@ -23,6 +24,7 @@ export const protectedRoutes = [
         children: [
             { path: '/messages', element: <Messages /> },
             { path: '/settings', element: <Settings /> },
+            { path: '/contacts', element: <Contacts /> },
             { path: '', element: <Dashboard /> },
             { path: '*', element: <Navigate to="." /> },
         ],
