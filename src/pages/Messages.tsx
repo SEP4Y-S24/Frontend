@@ -24,6 +24,43 @@ export const Messages = () => {
   const [clockError, setClockError] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
 
+  // for ASCII characters only
+  const validateMessage = (text: string): boolean => {
+    const asciiRegex = /^[\x00-\x7F]*$/;
+    return asciiRegex.test(text);
+  };
+
+  const validateFields = () => {
+    let valid = true;
+
+    if (!message.trim()) {
+      setMessageError("Please enter a message");
+      valid = false;
+    } else if (!validateMessage(message)) {
+      setMessageError("You may only use the characters A to Z, 0 to 9, and common symbols.");
+      valid = false;
+    } else {
+      setMessageError("");
+    }
+
+    if (!receiver || receiver.id === 0) {
+      setReceiverError("Please select a receiver");
+      valid = false;
+    } else {
+      setReceiverError("");
+    }
+
+    if (!clock || clock.id === 0) {
+      setClockError("Please select a clock");
+      valid = false;
+    } else {
+      setClockError("");
+    }
+
+    return valid;
+  };
+
+
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
     { id: 2, name: "Receiver 2" },
@@ -37,30 +74,11 @@ export const Messages = () => {
   ];
 
   const handleSendMessage = () => {
-    
-    setSuccessMessage("")
+    setSuccessMessage("");
 
-    if (!message.trim()) {
-      setMessageError("Please enter a message");
-    } else {
-      setMessageError("");
-    }
-
-    if (!receiver || receiver.id === 0) {
-      setReceiverError("Please select a receiver");
-    } else {
-      setReceiverError("");
-    }
-
-    if (!clock || clock.id === 0) {
-      setClockError("Please select a clock");
-    } else {
-      setClockError("");
-    }
-
-    if (message && receiver.id !== 0 && clock.id !== 0) {
+    if (validateFields()) {
       setSuccessMessage("Message sent successfully!");
-      
+
       setMessage("");
       setReceiver({ id: 0, name: "Select" });
       setClock({ id: 0, name: "Select" });
