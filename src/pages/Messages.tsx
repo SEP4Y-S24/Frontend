@@ -162,9 +162,9 @@ export const Messages = () => {
           />
 
           <PaginationRounded
-            className="flex flex-col items-center"
-            pages={1}
-          ></PaginationRounded>
+    className="flex flex-col items-center"
+    pages={1}
+    />
         </ContentInnerContainer>
       </ContentLayout>
     </>
