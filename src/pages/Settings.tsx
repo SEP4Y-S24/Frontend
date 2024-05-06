@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import React, { useState, useEffect } from "react";
 import moment from "moment-timezone";
 import SelectForm from "../components/Form/selectForm";
