@@ -1,22 +1,17 @@
 import React from "react";
-import "./App.css";
+
+import {AppProvider} from "./providers/app";
+
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+
 
 function App() {
+  const [queryClient] = React.useState(() => new QueryClient());
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          <h1 className="text-3xl font-bold underline">Hello world!</h1>
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-        </a>
-      </header>
-    </div>
+      <QueryClientProvider client={queryClient}>
+      <AppProvider/>
+      </QueryClientProvider>
   );
 }
 
