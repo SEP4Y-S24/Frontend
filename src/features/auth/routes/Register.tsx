@@ -1,4 +1,4 @@
-import {Form, Link, useNavigate} from 'react-router-dom';
+import {Form, Link} from 'react-router-dom';
 
 import {Layout} from '../components/Layout';
 import * as z from "zod";
@@ -8,7 +8,6 @@ import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
 import axios from "axios";
 import {EmblaOptionsType} from "embla-carousel";
-import Card from "../../../components/Elements/Card/Card";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 
 
@@ -39,10 +38,8 @@ export const Register = () => {
 
     //for pokemon image slider
     const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
-    const [selectedPokemonId, setSelectedPokemonId] = useState<string | null>(null);
-
     const handlePokemonSelect = (pokemonId: string) => {
-        setSelectedPokemonId(pokemonId);
+        
         handleChange({target: {name: 'avatarId', value: pokemonId}} as React.ChangeEvent<HTMLInputElement>)
     };
 //getting pokemon data from api

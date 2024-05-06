@@ -1,6 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
 import { CheckIcon, ChevronUpDownIcon } from "@heroicons/react/20/solid";
-import { Fragment, useState } from "react";
+import { Fragment} from "react";
 
 
 interface DropdownProps {
@@ -27,7 +27,6 @@ export default function Dropdown({
     id: number;
     name: string;
   }) => {
-    console.log("Selected Value:", selectedValue);
     onChange(selectedValue);
   };
 

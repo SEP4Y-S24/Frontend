@@ -1,4 +1,4 @@
-import { Dialog, Menu, Transition } from '@headlessui/react';
+import {Dialog, Menu, Transition} from '@headlessui/react';
 import {
     XMarkIcon,
     Bars4Icon,
@@ -7,10 +7,10 @@ import {
 } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
 import * as React from 'react';
-import { NavLink, Link } from 'react-router-dom';
-
+import {NavLink, Link} from 'react-router-dom';
 import logo from '../../assets/Logo.svg';
 import {useLogout, useUser} from "../../lib/auth";
+import Heading from "../Elements/Headings/Heading";
 
 
 type SideNavigationItem = {
@@ -21,20 +21,17 @@ type SideNavigationItem = {
 const SideNavigation = () => {
 
     const navigation = [
-        { name: 'Dashboard', to: '.'},
-        { name: 'Messages', to: './messages' },
-        { name: 'Calendar', to: './calendar' },
-        { name: 'Events', to: './events' },
-        { name: 'Tasks', to: './tasks' },
-        { name: 'Statistics', to: './statistics' },
-        { name: 'Alarm', to: './alarm' },
-        { name: 'Timer', to: './timer' },
-        { name: 'Contacts', to: './contacts' },
-    ].filter(Boolean) as SideNavigationItem[];
-
-    const navigationBottom = [
-        { name: 'About us', to: './about'},
-        { name: 'Settings', to: './settings' },
+        {name: 'Dashboard', to: '.'},
+        {name: 'Messages', to: './messages'},
+        {name: 'Calendar', to: './calendar'},
+        {name: 'Events', to: './events'},
+        {name: 'Tasks', to: './tasks'},
+        {name: 'Statistics', to: './statistics'},
+        {name: 'Alarm', to: './alarm'},
+        {name: 'Timer', to: './timer'},
+        {name: 'Contacts', to: './contacts'},
+        {name: 'About us', to: './about'},
+        {name: 'Settings', to: './settings'},
     ].filter(Boolean) as SideNavigationItem[];
 
     return (
@@ -56,22 +53,6 @@ const SideNavigation = () => {
                 </div>
 
             ))}
-            {navigationBottom.map((item, index) => (
-                <div className=' flex items-center gap-4 content-between px-2 py-2 row-end-1  rounded-md hover:bg-primaryColorOpacity' key={item.name}>
-                    <div className='self-end'>
-                        <NavLink
-                            end={index === 0}
-                            to={item.to}
-                            className={clsx(
-                                'pl-5 text-sm text-primaryText font-medium focus:text-primaryColor',
-                            )}
-                        >
-                            {item.name}
-                        </NavLink>
-                    </div>
-
-                </div>
-            ))}
         </>
     );
 };
@@ -87,7 +68,7 @@ const UserNavigation = () => {
     const logout = useLogout();
 
     const userNavigation = [
-        { name: 'Your Profile', to: './profile' },
+        {name: 'Your Profile', to: './profile'},
         {
             name: 'Sign out',
             to: '',
@@ -103,16 +84,18 @@ const UserNavigation = () => {
 
     return (
         <Menu as="div" className="ml-3 relative">
-            {({ open }) => (
+            {({open}) => (
                 <>
                     <div>
-                        <Menu.Button className="max-w-xs p-2 flex items-center text-sm rounded-full focus:outline-none ">
+                        <Menu.Button
+                            className="max-w-xs p-2 flex items-center text-sm rounded-full focus:outline-none ">
                             <div className='grid grid-cols-1 pr-4'>
                                 <div><span className='text-dark font-medium'>{userName}</span></div>
                                 <div><span className='text-xs text-primaryText'>Clock user</span></div>
                             </div>
                             <div className='rounded-3xl max-w-10 max-h-10'>
-                                <img alt='userAvatar' className='rounded-full' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlyG6nAdKXe4OsY7Un96eqGuC7XxxSBaUKZQ&usqp=CAU"/>
+                                <img alt='userAvatar' className='rounded-full'
+                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlyG6nAdKXe4OsY7Un96eqGuC7XxxSBaUKZQ&usqp=CAU"/>
                             </div>
                         </Menu.Button>
                     </div>
@@ -132,7 +115,7 @@ const UserNavigation = () => {
                         >
                             {userNavigation.map((item) => (
                                 <Menu.Item key={item.name}>
-                                    {({ active }) => (
+                                    {({active}) => (
                                         <Link
                                             onClick={item.onClick}
                                             to={item.to}
@@ -158,7 +141,7 @@ type MobileSidebarProps = {
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
+const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
     return (
         <Transition.Root show={sidebarOpen} as={React.Fragment}>
             <Dialog
@@ -177,7 +160,7 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75" />
+                    <Dialog.Overlay className="fixed inset-0 bg-gray-600 bg-opacity-75"/>
                 </Transition.Child>
                 <Transition.Child
                     as={React.Fragment}
@@ -202,17 +185,21 @@ const MobileSidebar = ({ sidebarOpen, setSidebarOpen }: MobileSidebarProps) => {
                                 <button
                                     className="ml-1 flex items-center justify-center h-10 w-5"
                                     onClick={() => setSidebarOpen(false)}
-                                ><XMarkIcon className="h-5 w-5 text-stroke" aria-hidden="true" />
+                                ><XMarkIcon className="h-5 w-5 text-stroke" aria-hidden="true"/>
                                 </button>
                             </div>
                         </Transition.Child>
                         <div className="flex-shrink-0 flex items-center px-4 bg-white">
-                            <Logo />
+                            <Logo/>
                         </div>
                         <div className="mt-5 flex-1 h-0 overflow-y-auto bg-white">
                             <nav className="px-2 space-y-1 ">
-                                <SideNavigation />
+                                <SideNavigation/>
                             </nav>
+                        </div>
+                        <div className="flex flex-col h-16 flex-shrink-0 px-4 bg-white">
+                            <Heading text={"Kabelikova"} type={"heading2"}/>
+                            <Heading text={"Id:123"} type={"heading4"}/>
                         </div>
                     </div>
                 </Transition.Child>
@@ -228,12 +215,16 @@ const Sidebar = () => {
             <div className="flex flex-col w-56">
                 <div className="flex flex-col h-0 flex-1">
                     <div className="flex items-center h-16 flex-shrink-0 px-4 bg-gray-900">
-                        <Logo />
+                        <Logo/>
                     </div>
                     <div className="flex-1 flex flex-col overflow-y-auto">
                         <nav className="flex-1 px-2 py-4 bg-gray-800 space-y-1">
-                            <SideNavigation />
+                            <SideNavigation/>
                         </nav>
+                    </div>
+                    <div className="flex flex-col h-16 flex-shrink-0 px-4 bg-gray-900">
+                        <Heading text={"Kabelikova"} type={"heading2"}/>
+                        <Heading text={"Id:123"} type={"heading4"}/>
                     </div>
                 </div>
             </div>
@@ -244,7 +235,7 @@ const Sidebar = () => {
 const Logo = () => {
     return (
         <Link className="flex items-center text-white" to=".">
-            <img className="h-8 w-auto" src={logo} alt="Workflow" />
+            <img className="h-8 w-auto" src={logo} alt="Workflow"/>
         </Link>
     );
 };
@@ -253,13 +244,13 @@ type MainLayoutProps = {
     children: React.ReactNode;
 };
 
-export const MainLayout = ({ children }: MainLayoutProps) => {
+export const MainLayout = ({children}: MainLayoutProps) => {
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
     return (
         <div className="h-screen flex overflow-hidden bg-gray-100">
-            <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-            <Sidebar />
+            <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
+            <Sidebar/>
             <div className="flex flex-col w-0 flex-1 overflow-hidden">
                 <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
                     <button
@@ -267,11 +258,11 @@ export const MainLayout = ({ children }: MainLayoutProps) => {
                         onClick={() => setSidebarOpen(true)}
                     >
                         <span className="sr-only">Open sidebar</span>
-                        <Bars4Icon className="h-6 w-6" aria-hidden="true" />
+                        <Bars4Icon className="h-6 w-6" aria-hidden="true"/>
                     </button>
                     <div className="flex-1 px-4 flex justify-end">
                         <div className="ml-4 flex items-center md:ml-6">
-                            <UserNavigation />
+                            <UserNavigation/>
                         </div>
                     </div>
                 </div>

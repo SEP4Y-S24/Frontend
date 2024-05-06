@@ -25,9 +25,15 @@ export const Messages = () => {
   const [successMessage, setSuccessMessage] = useState("");
 
   // for ASCII characters only
-  const validateMessage = (text: string): boolean => {
+  const validateASCIIMessage = (text: string): boolean => {
+    // eslint-disable-next-line no-control-regex
     const asciiRegex = /^[\x00-\x7F]*$/;
     return asciiRegex.test(text);
+  };
+
+  // max 40 characters
+  const validateMessageLength = (text: string): boolean => {
+    return text.length <= 40;
   };
 
   const validateFields = () => {
@@ -36,8 +42,13 @@ export const Messages = () => {
     if (!message.trim()) {
       setMessageError("Please enter a message");
       valid = false;
-    } else if (!validateMessage(message)) {
-      setMessageError("You may only use the characters A to Z, 0 to 9, and common symbols.");
+    } else if (!validateASCIIMessage(message)) {
+      setMessageError(
+        "You may only use the characters A to Z, 0 to 9, and common symbols."
+      );
+      valid = false;
+    } else if (!validateMessageLength(message)) {
+      setMessageError("Message must be no more than 40 characters.");
       valid = false;
     } else {
       setMessageError("");
@@ -59,7 +70,6 @@ export const Messages = () => {
 
     return valid;
   };
-
 
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
@@ -195,10 +205,7 @@ export const Messages = () => {
             imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
           />
 
-          <PaginationRounded
-    className="flex flex-col items-center"
-    pages={1}
-    />
+          <PaginationRounded className="flex flex-col items-center" pages={1} />
         </ContentInnerContainer>
       </ContentLayout>
     </>
