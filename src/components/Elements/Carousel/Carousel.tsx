@@ -3,7 +3,6 @@ import {EmblaCarouselType, EmblaOptionsType} from 'embla-carousel'
 
 import useEmblaCarousel from 'embla-carousel-react'
 import './CarouselStyle.css'
-import Card from "../Card/Card";
 import RadioButton from "../../Form/RadioButton";
 type PropType = {
     slides: number[]
