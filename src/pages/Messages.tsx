@@ -26,6 +26,7 @@ export const Messages = () => {
 
   // for ASCII characters only
   const validateASCIIMessage = (text: string): boolean => {
+    // eslint-disable-next-line no-control-regex
     const asciiRegex = /^[\x00-\x7F]*$/;
     return asciiRegex.test(text);
   };

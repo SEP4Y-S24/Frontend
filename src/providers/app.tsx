@@ -30,6 +30,7 @@ const commonRoutes = [
 ];
 export const AppProvider = () => {
     const user = useUser();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
     const routes =  [...protectedRoutes, ...commonRoutes];

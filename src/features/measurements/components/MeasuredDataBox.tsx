@@ -1,11 +1,6 @@
 import {ContentInnerContainer} from "../../../components/Layout/ContentInnerContainer";
 import Heading from "../../../components/Elements/Headings/Heading";
-import {PresentationChartLineIcon} from "@heroicons/react/24/outline";
 import {MeasuredData} from "../types";
-
-
-
-
 
 const MeasuredDataBox = ({name, day, value, icon, colorBackground, colorText}:MeasuredData) => {
     return (

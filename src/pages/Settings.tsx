@@ -1,13 +1,10 @@
 import React, {useState, useEffect} from 'react';
 import moment from 'moment-timezone';
-import Dropdown from "../components/Form/selectForm";
-import PaginationRounded from "../components/Elements/Pagination/pagination";
 import SelectForm from "../components/Form/selectForm";
 import {ContentLayout} from "../components/Layout/ContentLayout";
 import {ContentInnerContainer} from "../components/Layout/ContentInnerContainer";
 import Heading from "../components/Elements/Headings/Heading";
-import TextArea from "../components/Form/TextArea";
-import Button from "../components/Elements/Button";
+
 
 interface Time {
     id: number;
@@ -140,6 +137,7 @@ export const Settings = () => {
                 }
                 timeRequest += time.id;
                 const zones = moment.tz(timeRequest);
+                // eslint-disable-next-line @typescript-eslint/no-unused-vars
                 let formatedResponse = zones.format();
                 console.log(convertIdToString(time.id));
             } catch (error) {
@@ -162,7 +160,7 @@ export const Settings = () => {
         if (id < 0) {
             IdToString += "+" + id.toString().slice(1);
         }
-        if (id == 0) {
+        if (id === 0) {
             IdToString += id;
         }
         return IdToString;
