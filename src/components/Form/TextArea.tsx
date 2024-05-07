@@ -6,9 +6,11 @@ const TextArea: React.FC<{
   labelText?: string;
   placeholder?: string;
   className?: string;
-  value: string;
-  onChange: (newValue: string) => void;
+  value?: string;
+  onChange?: any;
   error?: string;
+  name?: string;
+  disabled?: boolean;
 }> = ({
   id,
   rows = 4,
@@ -17,6 +19,8 @@ const TextArea: React.FC<{
   className = "",
   value,
   onChange,
+                          name,
+    disabled = false,
   error = "",
 }) => {
   return (
@@ -30,10 +34,12 @@ const TextArea: React.FC<{
       <textarea
         id={id}
         rows={rows}
+        name={name}
         className="block p-2.5 w-full text-sm text-primaryText bg-white-50 rounded-md border border-stroke focus:outline-none focus:ring-1"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        disabled={disabled}
+        onChange={(e) => onChange(e.target.value? e.target.value : value)}
       />
       <span className="text-danger text-sm">{error}</span>
     </div>
