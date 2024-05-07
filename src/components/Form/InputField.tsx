@@ -8,7 +8,7 @@ const InputField: React.FC<{
   error?: string;
   type?: string;
   isRequired?: boolean;
-  value?: any;
+  value?: string;
   name?: string;
   onChange?: any;
 }> = ({
