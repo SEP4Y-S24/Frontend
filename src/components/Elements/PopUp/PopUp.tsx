@@ -14,12 +14,14 @@ interface Props {
   type: "warning" | "success" | "info" | "danger";
   title: string;
   onClickProceed?: () => void;
+  onCancel?: () => void;
 }
 const PopUp = ({
   textAlert,
   type,
   title,
   onClickProceed,
+  onCancel,
   buttonCancelText,
   buttonProceedText,
 }: Props) => {
@@ -56,6 +58,13 @@ const PopUp = ({
       iconComponent = null;
       iconColor = "text-primaryColor";
   }
+
+  const handleCancel = () => {
+    setOpen(false); // Close the popup
+    if (onCancel) {
+      onCancel(); // Call the onCancel function if provided
+    }
+  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -119,7 +128,7 @@ const PopUp = ({
                     text={buttonCancelText}
                     styleType={"neutral"}
                     className={"mr-3"}
-                    onClick={() => setOpen(false)}
+                    onClick={handleCancel} // Call handleCancel on cancel button click
                   />
                 </div>
               </Dialog.Panel>

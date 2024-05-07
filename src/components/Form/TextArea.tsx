@@ -27,13 +27,13 @@ const TextArea: React.FC<{
       >
         {labelText}
       </label>
-      <textarea
+      <textarea 
         id={id}
         rows={rows}
         className="block p-2.5 w-full text-sm text-primaryText bg-white-50 rounded-md border border-stroke focus:outline-none focus:ring-1"
         placeholder={placeholder}
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange(e.target.value? e.target.value : value)}
       />
       <span className="text-danger text-sm">{error}</span>
     </div>
