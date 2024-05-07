@@ -11,6 +11,8 @@ const InputField: React.FC<{
   value?: string;
   name?: string;
   onChange?: any;
+  disabled?: boolean;
+
 }> = ({
   id,
   labelText = "Label",
@@ -22,6 +24,7 @@ const InputField: React.FC<{
   isRequired = false,
   name,
   onChange,
+    disabled = false,
 }) => {
   return (
     <div className={className}>
@@ -40,6 +43,7 @@ const InputField: React.FC<{
         required={isRequired}
         value={value}
         onChange={onChange}
+        disabled={disabled}
       />
       <span className="text-danger text-sm">{error}</span>
     </div>

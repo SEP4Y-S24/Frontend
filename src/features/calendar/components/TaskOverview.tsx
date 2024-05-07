@@ -5,7 +5,7 @@ import Badge from "../../../components/Elements/Badge/Badge";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import * as React from "react";
 import {dummyDataForTasks, TaskProps} from "../types";
-import {XMarkIcon} from "@heroicons/react/24/outline";
+import {EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 const Task: React.FC<TaskProps> = ({
                                        name,
                                        deadlineDate,
@@ -13,6 +13,7 @@ const Task: React.FC<TaskProps> = ({
                                        status,
     onDelete,
     onClick,
+    onEdit,
                                    }) => {
     function getStyleTypeByStatus(status:string) {
         switch (status) {
@@ -27,34 +28,56 @@ const Task: React.FC<TaskProps> = ({
         }
     }
     return (
-        <div onClick={onClick} className="flex items-center justify-between space-x-3 px-3 py-1 my-2 bg-whiteHover hover:bg-background rounded">
+        <div className="flex items-center justify-between space-x-3 px-3 py-1 my-2 bg-whiteHover hover:bg-background rounded">
             <div>
-                <Heading text={name} type={"heading3"}/>
-                <Heading text={"Deadline: " + deadlineDate + " at: " + deadlineTime } type={"heading5"}/>
+                <Heading text={name} type={"heading3"} />
+                <Heading text={"Deadline: " + deadlineDate + " at: " + deadlineTime} type={"heading5"} />
             </div>
             <div>
-                <Badge text={status.name} styleType={getStyleTypeByStatus(status.name)} isFilled={false}/>
+                <Badge text={status.name} styleType={getStyleTypeByStatus(status.name)} isFilled={false} />
             </div>
-            <div>
-                <XMarkIcon className={"text-primaryColor h-5 w-5"} onClick={onDelete}/>
+            <div className="flex items-center space-x-2">
+                <div>
+                    <EyeIcon className="text-dark h-5 w-5 mr-1" onClick={onClick} />
+                </div>
+                <div>
+                    <PencilSquareIcon className="text-dark h-5 w-5" onClick={onEdit} />
+                </div>
+                <div>
+                    <XMarkIcon className="text-dark h-5 w-5" onClick={onDelete} />
+                </div>
             </div>
         </div>
+
     );
 };
-export const TaskOverview = () => {
+interface TaskOverviewProps {
+    selectedTask: TaskProps | null;
+    setSelectedTask: React.Dispatch<React.SetStateAction<TaskProps | null>>;
+    tasks: TaskProps[] | null;
+    setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
+    setMode: React.Dispatch<React.SetStateAction<"create" | "edit" | "view">>;
+}
+export const TaskOverview: React.FC<TaskOverviewProps> = ({ selectedTask, setSelectedTask, tasks, setTasks, setMode }) => {
     const [isNotStarted, setIsNotStarted] = useState(false);
     const [isInProgress, setIsInProgress] = useState(false);
     const [isDone, setIsDone] = useState(false);
-    const [tasks, setTasks] = useState<TaskProps[]>(dummyDataForTasks);
-    const [selectedTask, setSelectedTask] = useState<TaskProps | null>(null);
+
 
     const handleTaskClick = (task:TaskProps) => {
         setSelectedTask(task);
+        setMode("view");
         console.log("Selected task", task)
     };
+    const handleTaskEdit = (task:TaskProps) => {
+        setSelectedTask(task);
+        setMode("edit");
+        console.log("Selected task for editting", task)
+    };
     const handleTaskDelete = (taskToDelete:TaskProps) => {
-        const updatedTasks = tasks.filter(task => task !== taskToDelete);
+        const updatedTasks = tasks?tasks.filter(task => task !== taskToDelete):[];
         setTasks(updatedTasks);
+        setMode("create");
         console.log("Deleted task", taskToDelete)
     };
     const handleFilterIsNotStarted = () => {
@@ -66,19 +89,28 @@ export const TaskOverview = () => {
     const handleFilterIsDone = () => {
         setIsDone(!isDone);
     };
+    const handleTaskAdd = () => {
+        setMode("create");
+        setSelectedTask(null);
+    };
     useEffect(() => {
-        console.log("Tasks", tasks)
     }, [tasks]);
+
 return (
     <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-        <Heading text={"Tasks"} type={"heading1"} />
+        <div className="flex justify-between items-center">
+            <Heading text={"Tasks"} type={"heading1"} />
+            <div>
+                <PlusIcon className="text-dark h-5 w-5" onClick={handleTaskAdd} />
+            </div>
+        </div>
         <Badge styleType={"warning"} isFilled={isNotStarted} text={"Not started"} onClick={handleFilterIsNotStarted}/>
         <Badge styleType={"info"} isFilled={isInProgress} text={"In progress"} onClick={handleFilterIsInProgress}/>
         <Badge styleType={"success"} isFilled={isDone} text={"Done"} onClick={handleFilterIsDone}/>
-        {tasks.map((task, index) => (
+        {tasks?tasks.map((task, index) => (
             <Task key={index} name={task.name} deadlineDate={task.deadlineDate}  onDelete={() => handleTaskDelete(task)}
-                  deadlineTime={task.deadlineTime} status={task.status} onClick={() => handleTaskClick(task)}/>
-        ))}
+                  deadlineTime={task.deadlineTime} onEdit={()=> handleTaskEdit(task)} status={task.status} onClick={() => handleTaskClick(task)}/>
+        )):<p>no tasks</p>}
         <PaginationRounded className="flex flex-col items-center" pages={1} />
     </ContentInnerContainer>
 );
