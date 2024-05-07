@@ -7,6 +7,8 @@ import Button from "../components/Elements/Button";
 import { useState } from "react";
 import * as z from "zod";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import PopUp from "../components/Elements/PopUp/PopUp";
+import { ContactProps } from "../features/contacts/types";
 
 const schema = z.object({
   email: z
@@ -20,10 +22,16 @@ export const Contacts = () => {
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [email, setEmail] = useState("");
   const [contacts, setContacts] = useState<
-    Array<{ email: string; imageSrc: string }>
+    Array<ContactProps>
   >([]);
+  const [selectedContact, setSelectedContact] = useState<ContactProps>({
+    email: "",
+    imageSrc: "",
+  })
 
   const [isHovered, setIsHovered] = useState<number | false>(false);
+  const [showPopUp, setShowPopUp] = useState(false);
+  const [popupType, setPopupType] = useState<"success" | "delete" | null>(null);
 
   const handleAddContact = () => {
     setMessage("");
@@ -32,7 +40,7 @@ export const Contacts = () => {
     try {
       schema.parse({ email });
       console.log({ email });
-      setMessage("Contact successfully added!");
+
       //logic to add the contacts to the list
       setContacts([
         ...contacts,
@@ -43,6 +51,7 @@ export const Contacts = () => {
         },
       ]);
       setEmail("");
+      handleSuccessPopup();
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: { [key: string]: string } = {};
@@ -62,9 +71,36 @@ export const Contacts = () => {
   };
 
   const handleDeleteContact = (index: number) => {
-    // Update the contacts state to remove the contact at the given index
-    setContacts((prevContacts) => prevContacts.filter((_, i) => i !== index));
+    // Set the selected contact
+    setSelectedContact(contacts[index]);
+    // Show the delete popup
+    handleDeletePopup();
+    
   };
+  // Function to handle the deletion process
+  const handleConfirmDelete = () => {
+    
+    const updatedContacts = [...contacts];
+    updatedContacts.splice(
+      updatedContacts.findIndex((contact) => contact.email === selectedContact.email),
+      1
+    );
+    setContacts(updatedContacts);
+    setShowPopUp(false);
+
+  };
+
+
+  const handleSuccessPopup = () => {
+    setPopupType("success");
+    setShowPopUp(true);
+  };
+  
+  const handleDeletePopup = () => {
+    setPopupType("delete");
+    setShowPopUp(true);
+  };
+
 
   return (
     <>
@@ -77,11 +113,11 @@ export const Contacts = () => {
             <>
               {contacts.map((contact, index) => (
                 <div
-                key={index}
-                className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded"
-                onMouseEnter={() => setIsHovered(index)}
-                onMouseLeave={() => setIsHovered(false)}
-              >
+                  key={index}
+                  className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded"
+                  onMouseEnter={() => setIsHovered(index)}
+                  onMouseLeave={() => setIsHovered(false)}
+                >
                   <div className="rounded-full overflow-hidden h-10 w-10 ">
                     <img
                       src={contact.imageSrc}
@@ -95,12 +131,12 @@ export const Contacts = () => {
 
                   {/* ensures that the XMark icon appears only on the contact you're hovering over. */}
                   {isHovered === index && (
-                  <div>
-                    <button onClick={() => handleDeleteContact(index)}>
-                      <XMarkIcon className="size-6 text-secondaryText" />
-                    </button>
-                  </div>
-                )}
+                    <div>
+                      <button onClick={() => handleDeleteContact(index)}>
+                        <XMarkIcon className="size-6 text-secondaryText" />
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
 
@@ -135,6 +171,29 @@ export const Contacts = () => {
 
           {message && <p className="text-green mt-3">{message}</p>}
         </ContentInnerContainer>
+
+        {showPopUp && popupType === "success" &&(
+          <PopUp
+            title="Success"
+            textAlert="Contact was added succesfully!"
+            type="success"
+            buttonCancelText={"Close"}
+            onCancel={() => setShowPopUp(false)}
+          />
+        )}
+
+        {showPopUp && popupType === "delete" && (
+          <PopUp
+            title="Delete contact"
+            textAlert="Are you sure you want to delete this contact?"
+            type="danger"
+            buttonCancelText="Cancel"
+            buttonProceedText={"Delete"}
+            onClickProceed={handleConfirmDelete}
+            onCancel={() => setShowPopUp(false)}
+            
+          />
+        )}
       </ContentLayout>
     </>
   );

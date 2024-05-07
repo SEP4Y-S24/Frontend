@@ -31,7 +31,7 @@ const TextArea: React.FC<{
       >
         {labelText}
       </label>
-      <textarea
+      <textarea 
         id={id}
         rows={rows}
         name={name}
