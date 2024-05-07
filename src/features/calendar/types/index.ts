@@ -58,4 +58,10 @@ export let dummyDataForTasks: TaskProps[] = [
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 3, name: "Done" }
     },
+    {
+        "name": "Task 7",
+        "deadlineDate": ('2022-04-17'),
+        "deadlineTime": ('2022-04-17T15:30'),
+        status: { id: 3, name: "Done" }
+    }
 ]

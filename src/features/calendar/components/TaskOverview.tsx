@@ -63,6 +63,9 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ selectedTask, setSel
     const [isInProgress, setIsInProgress] = useState(false);
     const [isDone, setIsDone] = useState(false);
 
+    const [currentPage, setCurrentPage] = useState(1);
+    const tasksPerPage = 7;
+
 
     const handleTaskClick = (task:TaskProps) => {
         setSelectedTask(task);
@@ -107,11 +110,28 @@ return (
         <Badge styleType={"warning"} isFilled={isNotStarted} text={"Not started"} onClick={handleFilterIsNotStarted}/>
         <Badge styleType={"info"} isFilled={isInProgress} text={"In progress"} onClick={handleFilterIsInProgress}/>
         <Badge styleType={"success"} isFilled={isDone} text={"Done"} onClick={handleFilterIsDone}/>
-        {tasks?tasks.map((task, index) => (
-            <Task key={index} name={task.name} deadlineDate={task.deadlineDate}  onDelete={() => handleTaskDelete(task)}
-                  deadlineTime={task.deadlineTime} onEdit={()=> handleTaskEdit(task)} status={task.status} onClick={() => handleTaskClick(task)}/>
-        )):<p>no tasks</p>}
-        <PaginationRounded className="flex flex-col items-center" pages={1} />
+        {tasks
+            ? tasks
+                .slice((currentPage - 1) * tasksPerPage, currentPage * tasksPerPage)
+                .map((task, index) => (
+                    <Task
+                        key={index}
+                        name={task.name}
+                        deadlineDate={task.deadlineDate}
+                        onDelete={() => handleTaskDelete(task)}
+                        deadlineTime={task.deadlineTime}
+                        onEdit={() => handleTaskEdit(task)}
+                        status={task.status}
+                        onClick={() => handleTaskClick(task)}
+                    />
+                ))
+            : <p>No tasks</p>
+        }
+        <PaginationRounded
+            //page={currentPage} onChange={(page:any) => setCurrentPage(page)}
+                           className="flex flex-col items-center"
+                           pages={1}
+                           />
     </ContentInnerContainer>
 );
 };
