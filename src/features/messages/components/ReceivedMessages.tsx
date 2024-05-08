@@ -1,8 +1,17 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import { ReceivedMessageProps } from "../types";
+import * as React from "react";
+import {useState} from "react";
 
 const ReceivedMessages = () => {
+
+
+
+    const [currentPage, setCurrentPage] = useState<number>(1);
+    const handleChangeOfPage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+    };
   const ReceivedMessage: React.FC<ReceivedMessageProps> = ({
     name,
     text,
@@ -58,7 +67,11 @@ const ReceivedMessages = () => {
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
       />
-      <PaginationRounded className="flex flex-col items-center" pages={1} />
+        <PaginationRounded
+            page={Number(currentPage)} onChange={handleChangeOfPage}
+            className="flex flex-col items-center" pages={1}
+            //pages={tasks?Math.ceil(tasks.length / 7):1}
+            />
     </>
   );
 };
