@@ -104,7 +104,7 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
         placeholder="Write your message here"
         className="mb-4"
         value={message.text}
-        onChange={(newValue) =>
+        onChange={(newValue: string) =>
           setMessage((prevMessage) => ({
             ...prevMessage,
             text: newValue,
@@ -117,7 +117,7 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
         options={receiverOptions}
         className="mb-4"
         value={message.receiver}
-        onChange={(newValue) =>
+        onChange={(newValue: any) =>
           setMessage((prevMessage) => ({
             ...prevMessage,
             receiver: newValue,
@@ -130,7 +130,7 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
         options={clockOptions}
         className="mb-5"
         value={message.clock}
-        onChange={(newValue) =>
+        onChange={(newValue: any) =>
           setMessage((prevMessage) => ({
             ...prevMessage,
             clock: newValue,
