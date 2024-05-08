@@ -1,5 +1,4 @@
-
-import * as React from "react";
+     import * as React from "react";
 import {ContentInnerContainer} from "../components/Layout/ContentInnerContainer";
 import {ContentLayout} from "../components/Layout/ContentLayout";
 import {useEffect, useState} from "react";
@@ -87,7 +86,7 @@ const CurrentTime = () => {
     const token = storage.getToken();
     return (
 
-        <ContentInnerContainer className="flex-1 md:h-auto bg-white">
+        <ContentInnerContainer className="mx-1 flex-1 md:h-auto bg-white">
             <Heading text={"Current time"} type={"heading1"}/>
             <p className="text-lg font-semibold">{showTime}</p>
             <p>{name}</p>

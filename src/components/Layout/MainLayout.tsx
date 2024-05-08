@@ -27,7 +27,6 @@ const SideNavigation = () => {
         {name: 'Events', to: './events'},
         {name: 'Tasks', to: './tasks'},
         {name: 'Statistics', to: './statistics'},
-        {name: 'Alarm', to: './alarm'},
         {name: 'Timer', to: './timer'},
         {name: 'Contacts', to: './contacts'},
         {name: 'About us', to: './about'},
@@ -198,8 +197,10 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
                             </nav>
                         </div>
                         <div className="flex flex-col h-16 flex-shrink-0 px-4 bg-white">
-                            <Heading text={"Kabelikova"} type={"heading2"}/>
-                            <Heading text={"Id:123"} type={"heading4"}/>
+                            <div className={"bg-primaryColorOpacity p-2 rounded"}>
+                                <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
+                                <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                            </div>
                         </div>
                     </div>
                 </Transition.Child>
@@ -222,9 +223,12 @@ const Sidebar = () => {
                             <SideNavigation/>
                         </nav>
                     </div>
-                    <div className="flex flex-col h-16 flex-shrink-0 px-4 bg-gray-900">
-                        <Heading text={"Kabelikova"} type={"heading2"}/>
-                        <Heading text={"Id:123"} type={"heading4"}/>
+                    <div className="flex flex-col h-20 flex-shrink-0 px-6 bg-gray-900">
+                        <div className={"bg-primaryColorOpacity p-2 rounded"}>
+                            <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
+                            <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                        </div>
+
                     </div>
                 </div>
             </div>
