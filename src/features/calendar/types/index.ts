@@ -1,4 +1,3 @@
-import dayjs, {Dayjs} from "dayjs";
 
 export interface TaskProps {
     name: string;
@@ -60,6 +59,12 @@ export let dummyDataForTasks: TaskProps[] = [
     },
     {
         "name": "Task 7",
+        "deadlineDate": ('2022-04-17'),
+        "deadlineTime": ('2022-04-17T15:30'),
+        status: { id: 3, name: "Done" }
+    },
+    {
+        "name": "Task 8",
         "deadlineDate": ('2022-04-17'),
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 3, name: "Done" }

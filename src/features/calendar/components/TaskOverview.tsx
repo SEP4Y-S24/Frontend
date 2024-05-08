@@ -6,6 +6,7 @@ import PaginationRounded from "../../../components/Elements/Pagination/paginatio
 import * as React from "react";
 import {dummyDataForTasks, TaskProps} from "../types";
 import {EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
+import {Pagination} from "@mui/material";
 const Task: React.FC<TaskProps> = ({
                                        name,
                                        deadlineDate,
@@ -63,9 +64,11 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ selectedTask, setSel
     const [isInProgress, setIsInProgress] = useState(false);
     const [isDone, setIsDone] = useState(false);
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const tasksPerPage = 7;
-
+    const handleChangeOfPage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setCurrentPage(value);
+    };
 
     const handleTaskClick = (task:TaskProps) => {
         setSelectedTask(task);
@@ -128,10 +131,9 @@ return (
             : <p>No tasks</p>
         }
         <PaginationRounded
-            //page={currentPage} onChange={(page:any) => setCurrentPage(page)}
+            page={Number(currentPage)} onChange={handleChangeOfPage}
                            className="flex flex-col items-center"
-                           pages={1}
-                           />
+                           pages={tasks?Math.ceil(tasks.length / 7):1}/>
     </ContentInnerContainer>
 );
 };

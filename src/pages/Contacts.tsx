@@ -9,6 +9,7 @@ import * as z from "zod";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import PopUp from "../components/Elements/PopUp/PopUp";
 import { ContactProps } from "../features/contacts/types";
+import * as React from "react";
 
 const schema = z.object({
   email: z
@@ -21,6 +22,11 @@ export const Contacts = () => {
   const [message, setMessage] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [email, setEmail] = useState("");
+
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const handleChangeOfPage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setCurrentPage(value);
+  };
   const [contacts, setContacts] = useState<
     Array<ContactProps>
   >([]);
@@ -140,13 +146,15 @@ export const Contacts = () => {
                 </div>
               ))}
 
-              {/* Conditionally render pagination only when there are 5 or more contacts */}
+              {/* Conditionally render pagination only when there are 5 or more contacts*/}
               {contacts.length >= 8 && (
-                <PaginationRounded
-                  className="flex flex-col items-center pt-4"
-                  pages={2} // Replace with your pagination logic
-                />
+                  <PaginationRounded
+                      page={Number(currentPage)} onChange={handleChangeOfPage}
+                      className="flex flex-col items-center" pages={1}
+                      //pages={tasks?Math.ceil(tasks.length / 7):1}
+                  />
               )}
+
             </>
           )}
         </ContentInnerContainer>
