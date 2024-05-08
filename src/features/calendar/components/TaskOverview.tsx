@@ -4,7 +4,7 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import Badge from "../../../components/Elements/Badge/Badge";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import * as React from "react";
-import {dummyDataForTasks, TaskProps} from "../types";
+import { TaskProps} from "../types";
 import {EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 const Task: React.FC<TaskProps> = ({
                                        name,
@@ -63,6 +63,7 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ selectedTask, setSel
     const [isInProgress, setIsInProgress] = useState(false);
     const [isDone, setIsDone] = useState(false);
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [currentPage, setCurrentPage] = useState(1);
     const tasksPerPage = 7;
 

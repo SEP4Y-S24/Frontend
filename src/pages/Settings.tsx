@@ -24,6 +24,7 @@ export const Settings = () => {
         }
         timeRequest += selectedTimezone.id;
         const zones = moment.tz(timeRequest);
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         let formatedResponse = zones.format();
         console.log(convertIdToString(selectedTimezone.id));
       } catch (error) {
