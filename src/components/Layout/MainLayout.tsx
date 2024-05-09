@@ -28,6 +28,7 @@ const SideNavigation = () => {
         {name: 'Tasks', to: './tasks'},
         {name: 'Categories', to: './categories'},
         {name: 'Statistics', to: './statistics'},
+        {name: 'Alarm', to: './alarm'},
         {name: 'Timer', to: './timer'},
         {name: 'Contacts', to: './contacts'},
         {name: 'About us', to: './about'},

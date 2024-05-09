@@ -93,8 +93,6 @@ export const Categories = () => {
                             ))
                         : <p>No tasks</p>
                     }
-
-                    <Switcher/>
                 </ContentInnerContainer>
             </ContentLayout>
         </>
