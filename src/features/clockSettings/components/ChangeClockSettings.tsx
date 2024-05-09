@@ -66,7 +66,7 @@ const ChangeClockSettings = ({
         value={selectedClock}
         onChange={handleOnChangeClock}
       />
-      <InputField
+      <InputField 
         labelText="Change name"
         placeholder=""
         className={"pb-3"}

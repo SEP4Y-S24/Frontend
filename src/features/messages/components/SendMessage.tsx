@@ -5,6 +5,7 @@ import { useState } from "react";
 import { MessageProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
+import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 
 
 const SendMessage = ({ receiverOptions, clockOptions }: any) => {
@@ -92,7 +93,8 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
 
   return (
     <>
-      <Heading text={"Send a message"} type={"heading1"} />
+    <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+    <Heading text={"Send a message"} type={"heading1"} />
       <Heading
         text={"Do not have specific contact? Add a new contact here!"}
         type={"heading4"}
@@ -150,7 +152,8 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
             buttonCancelText={"Close"}
             onCancel={handlePopupClose}
           />
-        )}
+      )}
+    </ContentInnerContainer>
     </>
   );
 };

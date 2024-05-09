@@ -1,5 +1,6 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
+import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 import { ReceivedMessageProps } from "../types";
 
 const ReceivedMessages = () => {
@@ -27,38 +28,40 @@ const ReceivedMessages = () => {
 
   return (
     <>
-      <Heading text={"Received messages"} type={"heading1"} />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <ReceivedMessage
-        name="John Doe"
-        text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-        imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
-      />
-      <PaginationRounded className="flex flex-col items-center" pages={1} />
+      <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+        <Heading text={"Received messages"} type={"heading1"} />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <ReceivedMessage
+          name="John Doe"
+          text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
+          imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
+        />
+        <PaginationRounded className="flex flex-col items-center" pages={1} />
+      </ContentInnerContainer>
     </>
   );
 };

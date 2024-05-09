@@ -9,4 +9,4 @@ export interface ReceivedMessageProps {
     name: string;
     text: string;
     imageSrc: string;
-  }
+}
