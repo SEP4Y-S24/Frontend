@@ -12,6 +12,26 @@ export interface Status{
     id: number;
     name: string;
 }
+export interface CategoriesType {
+    name: string;
+    color: string;
+    onDelete?: () => void;
+}
+export const dummyCategories: CategoriesType[] = [
+    {
+        name: "Books",
+        color: "#000000"
+    },
+    {
+        name: "Electronics",
+        color: "#33FF57"
+    },
+    {
+        name: "Clothing",
+        color: "#FFFFFF"
+    }
+];
+
 export let dummyDataForTasks: TaskProps[] = [
     {
         "name": "Task 1",
