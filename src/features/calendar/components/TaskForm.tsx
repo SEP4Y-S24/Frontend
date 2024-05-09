@@ -1,6 +1,7 @@
 import {useEffect, useState} from "react";
 import {dummyDataForTasks, TaskProps} from "../types";
 import * as React from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as z from "zod";
 import {ContentInnerContainer} from "../../../components/Layout/ContentInnerContainer";
 import {Form} from "react-router-dom";
@@ -14,6 +15,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, {Dayjs} from "dayjs";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {DateTimePicker} from "@mui/x-date-pickers";
 interface TaskFormProps {
     selectedTask: TaskProps | null;
@@ -38,6 +40,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode, setMode
         name: "Not started",
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const {name, value} = e.target;
         setName(value);
     };
@@ -100,6 +103,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode, setMode
         setDeadlineDate(dayjs(selectedTask?.deadlineDate)||deadlineDate)
         setDeadlineTime(dayjs(selectedTask?.deadlineTime)||deadlineTime)
         setDescription(selectedTask?.description||description)
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         setStatus(selectedTask?.status||status) }, [mode, selectedTask]);
     return (
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
