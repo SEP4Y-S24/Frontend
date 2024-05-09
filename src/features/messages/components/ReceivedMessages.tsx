@@ -1,5 +1,6 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
+import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 import { ReceivedMessageProps } from "../types";
 import * as React from "react";
 import {useState} from "react";
@@ -36,7 +37,8 @@ const ReceivedMessages = () => {
 
   return (
     <>
-      <Heading text={"Received messages"} type={"heading1"} />
+    <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+       <Heading text={"Received messages"} type={"heading1"} />
       <ReceivedMessage
         name="John Doe"
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
@@ -67,11 +69,12 @@ const ReceivedMessages = () => {
         text="Lorem ipsum dolor sit amet, consectetur adipiscing elit."
         imageSrc="https://yt3.googleusercontent.com/wzEypbVsmY9BI-IbLwVius4UvC2rejtJB_PTXAdPpYXQ07EIjl5Ms55NCFq_dILwONpxrzE2xA=s900-c-k-c0x00ffffff-no-rj"
       />
-        <PaginationRounded
+      <PaginationRounded
             page={Number(currentPage)} onChange={handleChangeOfPage}
             className="flex flex-col items-center" pages={1}
             //pages={tasks?Math.ceil(tasks.length / 7):1}
             />
+            </ContentInnerContainer>
     </>
   );
 };

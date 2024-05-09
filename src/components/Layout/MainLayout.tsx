@@ -26,11 +26,12 @@ const SideNavigation = () => {
         {name: 'Calendar', to: './calendar'},
         {name: 'Events', to: './events'},
         {name: 'Tasks', to: './tasks'},
+        {name: 'Categories', to: './categories'},
         {name: 'Statistics', to: './statistics'},
         {name: 'Timer', to: './timer'},
         {name: 'Contacts', to: './contacts'},
         {name: 'About us', to: './about'},
-        {name: 'Settings', to: './settings'},
+        {name: 'Clock settings', to: './settings'},
     ].filter(Boolean) as SideNavigationItem[];
 
     return (

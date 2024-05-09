@@ -10,6 +10,7 @@ const { Settings } = lazyImport(() => import('../pages/Settings'), 'Settings');
 const { Contacts } = lazyImport(() => import('../pages/Contacts'), 'Contacts');
 const { Tasks } = lazyImport(() => import('../pages/Tasks'), 'Tasks');
 const {Calendar} = lazyImport(() => import('../pages/Calendar'), 'Calendar');
+const {Categories} = lazyImport(() => import('../pages/Categories'), 'Categories');
 
 const App = () => {
     return (
@@ -31,6 +32,7 @@ export const protectedRoutes = [
             { path: '/settings', element: <Settings /> },
             { path: '/contacts', element: <Contacts /> },
             { path: '/tasks', element: <Tasks /> },
+            { path: '/categories', element: <Categories /> },
         ],
     },
 ];
