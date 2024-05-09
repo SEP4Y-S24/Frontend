@@ -1,5 +1,5 @@
 import { render,screen } from '@testing-library/react';
-import Heading from '../../components/Elements/Headings/Heading';
+import Heading from '../../../components/Elements/Headings/Heading';
 
 describe('Heading component', () => {
   it('renders correctly with heading1 type', () => {

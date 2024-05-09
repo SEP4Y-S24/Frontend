@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react'
-import Badge from '../../components/Elements/Badge/Badge'
+import Badge from '../../../components/Elements/Badge/Badge'
 
 describe('Badge component', () => {
     it('renders the badge with the correct style(warning) and text', () => {

@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from '@testing-library/react';
-import PopUp from '../../components/Elements/PopUp/PopUp';
+import PopUp from '../../../components/Elements/PopUp/PopUp';
 
 describe('PopUp component', () => {
     it('renders the popup with the correct properties and handles cancel button click event', () => {

@@ -1,5 +1,5 @@
 import { render,screen } from '@testing-library/react';
-import Card  from '../../components/Elements/Card/Card';
+import Card  from '../../../components/Elements/Card/Card';
 
 
 describe('Card component', ()=>{
