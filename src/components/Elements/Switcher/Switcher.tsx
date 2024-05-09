@@ -1,15 +1,11 @@
 import React, { useState } from 'react';
 
 interface SwitcherProps {
-    // Define props if any
+    isChecked: boolean;
+    onChange: () => void;
 }
 
-const Switcher: React.FC<SwitcherProps> = () => {
-    const [isChecked, setIsChecked] = useState<boolean>(false);
-
-    const handleCheckboxChange = () => {
-        setIsChecked((prevChecked) => !prevChecked);
-    };
+const Switcher: React.FC<SwitcherProps> = ({ isChecked, onChange }) => {
 
     return (
         <>
@@ -18,7 +14,7 @@ const Switcher: React.FC<SwitcherProps> = () => {
                     <input
                         type='checkbox'
                         checked={isChecked}
-                        onChange={handleCheckboxChange}
+                        onChange={onChange}
                         className='sr-only'
                     />
                     <div className='block h-8 w-14 rounded-full bg-[#E5E7EB]'/>
