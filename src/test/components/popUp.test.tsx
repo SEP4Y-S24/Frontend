@@ -36,7 +36,6 @@ describe('PopUp component', () => {
     
 });
 
-
 describe('PopUp component with procced button', () => { 
     it('renders the popup with the correct properties and handles proceed button click event', () => {
         const textAlert = 'Are you sure you want to deactivate?';
@@ -66,6 +65,6 @@ describe('PopUp component with procced button', () => {
         const proccedButton = screen.getByText(buttonProceedText);
         expect(proccedButton).toBeInTheDocument();
         fireEvent.click(proccedButton);
-        expect(onCancelMock).toHaveBeenCalled();
+        expect(onClickProceedMock).toHaveBeenCalled();
     });
 })
