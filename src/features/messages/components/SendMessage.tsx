@@ -5,8 +5,6 @@ import { useState } from "react";
 import {MessageProps, SentMessageProps} from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
-import axios from "axios";
-import {IP_ADDRESS, PORT} from "../../../lib/axios";
 import {sendMessage} from "../api/createMessage";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 
@@ -97,7 +95,6 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
                 console.error('Error sending message:', error);
                 // Handle error, such as displaying an error message to the user
             });
-
     }
 
     console.log("Message:", message);
