@@ -19,7 +19,7 @@ export const Tasks = () => {
     return (
         <>
             <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-                <TaskOverview selectedTask={selectedTask} setSelectedTask={setSelectedTask} tasks={tasks} setTasks={setTasks} setMode={setMode}/>
+                <TaskOverview setSelectedTask={setSelectedTask} tasks={tasks} setTasks={setTasks} setMode={setMode}/>
                 <TaskForm selectedTask={selectedTask} mode={mode}/>
             </ContentLayout>
         </>
