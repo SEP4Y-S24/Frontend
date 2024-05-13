@@ -14,6 +14,7 @@ import {CategoriesType, dummyCategories} from "../features/calendar/types";
 import {XMarkIcon} from "@heroicons/react/24/outline";
 
 import Switcher from "../components/Elements/Switcher/Switcher";
+import {getTextColor} from "../features/calendar/types/categoryColorLogic";
 
 
 export const Categories = () => {
@@ -88,7 +89,7 @@ export const Categories = () => {
                                     key={index}
                                     name={cat.name}
                                     color={cat.color}
-                                    onDelete={() => handleTaskDelete(cat)}
+                                    onClick={() => handleTaskDelete(cat)}
                                 />
                             ))
                         : <p>No tasks</p>
@@ -100,33 +101,12 @@ export const Categories = () => {
 };
 const Category: React.FC<CategoriesType> = ({
                                        name,
-                                       onDelete,
+                                       onClick,
                                                 color
                                    }) => {
 
-    //logic for getting black or white text color based on background color
-    interface RGB {
-        r: number;
-        g: number;
-        b: number;
-    }
 
-    function getTextColor(bgColor: string): string {
-        const rgb: RGB = hexToRgb(bgColor);
-        const luminance: number = (0.299 * rgb.r + 0.587 * rgb.g + 0.114 * rgb.b) / 255;
-        return luminance > 0.5 ? 'black' : 'white';
-    }
 
-    function hexToRgb(hex: string): RGB {
-        const shorthandRegex: RegExp = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, (m, r, g, b) => r + r + g + g + b + b);
-        const result: RegExpExecArray | null = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return result ? {
-            r: parseInt(result[1], 16),
-            g: parseInt(result[2], 16),
-            b: parseInt(result[3], 16)
-        } : { r: 0, g: 0, b: 0 }; // Return black if hex is invalid
-    }
     return (
         <div style={{ backgroundColor: color}} className="flex items-center justify-between space-x-3 px-3 py-1 my-2 rounded">
             <div>
@@ -134,7 +114,7 @@ const Category: React.FC<CategoriesType> = ({
             </div>
             <div className="flex items-center space-x-2">
                 <div>
-                    <XMarkIcon style={{color: `${getTextColor(color)}`}} className="text-dark h-5 w-5" onClick={onDelete} />
+                    <XMarkIcon style={{color: `${getTextColor(color)}`}} className="text-dark h-5 w-5" onClick={onClick} />
                 </div>
             </div>
         </div>
