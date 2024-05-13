@@ -1,4 +1,8 @@
 export interface GraphProps {
-    xAxis : [number]
-    yAxis : [number] 
+    xAxis: number[]
+    series: number []
+}
+
+export interface TabProps{
+    value: string;
 }

@@ -11,6 +11,7 @@ const { Settings } = lazyImport(() => import("../pages/Settings"), "Settings");
 const { Contacts } = lazyImport(() => import("../pages/Contacts"), "Contacts");
 const { Tasks } = lazyImport(() => import("../pages/Tasks"), "Tasks");
 const { Calendar } = lazyImport(() => import("../pages/Calendar"), "Calendar");
+const {Statistics} = lazyImport(()=> import("../pages/Statistics"),"Statistics")
 const { Categories } = lazyImport(
   () => import("../pages/Categories"),
   "Categories"
@@ -39,6 +40,7 @@ export const protectedRoutes = [
       { path: "/tasks", element: <Tasks /> },
       { path: "/categories", element: <Categories /> },
       { path: "/alarm", element: <Alarm /> },
+      { path: "/statistics", element: <Statistics />},
     ],
   },
 ];

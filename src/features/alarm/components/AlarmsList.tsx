@@ -1,8 +1,6 @@
-import { XMarkIcon } from "@heroicons/react/24/outline";
 import Heading from "../../../components/Elements/Headings/Heading";
-import { AlarmProps, dummyDataForAlarms } from "../types";
+import { AlarmProps } from "../types";
 import { useState } from "react";
-import Switcher from "../../../components/Elements/Switcher/Switcher";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
 
