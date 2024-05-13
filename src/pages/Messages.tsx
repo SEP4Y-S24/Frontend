@@ -1,6 +1,6 @@
 import { ContentLayout } from "../components/Layout/ContentLayout";
+import MessagesList from "../features/messages/components/MessagesList";
 import SendMessage from "../features/messages/components/SendMessage";
-import ReceivedMessages from "../features/messages/components/ReceivedMessages";
 
 export const Messages = () => {
   const receiverOptions = [
@@ -22,7 +22,7 @@ export const Messages = () => {
           receiverOptions={receiverOptions}
           clockOptions={clockOptions}
         />
-        <ReceivedMessages />
+        <MessagesList />
       </ContentLayout>
     </>
   );
