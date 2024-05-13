@@ -91,6 +91,7 @@ const SendMessage = ({
             receiver: { id: 0, name: "Select" },
             clock: { id: 0, name: "Select" },
           });
+
           updateSentMessages((prevSentMessages: any) => [
             ...prevSentMessages,
             {
@@ -98,6 +99,7 @@ const SendMessage = ({
               text: message.text,
             },
           ]);
+          
         })
         .catch((error) => {
           console.error("Error sending message:", error);
