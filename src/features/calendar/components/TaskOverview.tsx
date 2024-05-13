@@ -180,7 +180,7 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
             {renderTasks()}
             <PaginationRounded
                 page={1}
-                onChange={() => {}} // handle page change
+                onChange={() => {}} // handle page
                 className="flex flex-col items-center"
                 pages={Math.ceil(filteredTasks.length / 7)} // adjust tasksPerPage accordingly
             />
