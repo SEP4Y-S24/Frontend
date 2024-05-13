@@ -6,7 +6,7 @@ import ToggleMessages from "./ToggleMessages";
 
 
 
-const MessagesList = () => {
+const MessagesList = ({sentMessages, updateSentMessages}: any) => {
   const [activeTab, setActiveTab] = useState<'sent' | 'received'>('sent');
 
   const handleTabChange = (tab: 'sent' | 'received') => {
@@ -18,7 +18,7 @@ const MessagesList = () => {
       <div className="flex items-center mb-2">
         <ToggleMessages activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
-      {activeTab === 'received' ? <ReceivedMessages /> : <SentMessages />}
+      {activeTab === 'received' ? <ReceivedMessages /> : <SentMessages sentMessages={sentMessages} updateSentMessages={updateSentMessages} />}
     </ContentInnerContainer>
   );
 };

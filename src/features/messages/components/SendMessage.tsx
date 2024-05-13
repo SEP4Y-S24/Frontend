@@ -2,14 +2,13 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import TextArea from "../../../components/Form/TextArea";
 import SelectForm from "../../../components/Form/selectForm";
 import { useState } from "react";
-import {MessageProps, SendMessageProps} from "../types";
+import {MessageProps} from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
-import {sendMessage} from "../api/createMessage";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 
 
-const SendMessage = ({ receiverOptions, clockOptions }: any) => {
+const SendMessage = ({ receiverOptions, clockOptions, updateSentMessages }: any) => {
 
   const [message, setMessage] = useState<MessageProps>({
     text: "",
@@ -74,27 +73,21 @@ const SendMessage = ({ receiverOptions, clockOptions }: any) => {
     setSuccessMessage("");
 
     if (validateFields()) {
-        const messageToSend: SendMessageProps = {
-            message: message.text,
-            receiverId: "5f3bb5af-e982-4a8b-8590-b620597a7360",
-            clockId: "f656d97d-63b7-451a-91ee-0e620e652c9e",
-            userId: "5f3bb5af-e982-4a8b-8590-b620597a7360"
-        };
-        sendMessage(messageToSend)
-            .then((response) => {
-                console.log('Message sent successfully:', response);
+      
+                console.log('Message sent successfully:');
                 setShowPopup(true);
                 setMessage({
                     text: "",
                     receiver: { id: 0, name: "Select" },
                     clock: { id: 0, name: "Select" },
                 });
-                // Handle success, such as showing a success message or updating state
-            })
-            .catch((error) => { 
-                console.error('Error sending message:', error);
-                // Handle error, such as displaying an error message to the user
-            });
+                updateSentMessages((prevSentMessages: any) => [
+                  ...prevSentMessages,
+                  {
+                    userEmail: message.receiver.name,
+                    text: message.text,
+                  },
+                ]);
     }
 
     console.log("Message:", message);

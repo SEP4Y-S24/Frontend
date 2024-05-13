@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
-import { SentMessagesProps, dummyDataSentMessages } from "../types";
+import { SentMessagesProps } from "../types";
 import Heading from "../../../components/Elements/Headings/Heading";
 
-const SentMessages: React.FC = () => {
-  const [sentMessages] = useState<SentMessagesProps[]>(
-    dummyDataSentMessages
-  );
+
+interface SentMessagesInterface {
+  sentMessages: SentMessagesProps[]; // Define the sentMessages prop here
+  updateSentMessages: (newSentMessages: SentMessagesProps[]) => void;
+}
+
+const SentMessages: React.FC<SentMessagesInterface> = ({sentMessages}) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const messagesPerPage = 5;
 
@@ -17,11 +20,14 @@ const SentMessages: React.FC = () => {
     setCurrentPage(value);
   };
 
+  
+  const reversedMessages = sentMessages.slice().reverse();
+
   return (
     <>
-      {sentMessages.length > 0 ? (
+      {reversedMessages.length > 0 ? (
         <>
-          {sentMessages
+          {reversedMessages
             .slice((currentPage - 1) * 5, currentPage * 5) // Adjust number of messages per page
             .map((message, index) => (
               <SentMessage
@@ -30,7 +36,7 @@ const SentMessages: React.FC = () => {
                 text={message.text}
               />
             ))}
-          {sentMessages.length > messagesPerPage && ( // Display pagination only if there are more than 5 alarms
+          {reversedMessages.length > messagesPerPage && ( // Display pagination only if there are more than 5 alarms
             <PaginationRounded
               page={currentPage}
               onChange={handleChangeOfPage}
