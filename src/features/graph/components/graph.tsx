@@ -16,6 +16,7 @@ export default function Graph(props : GraphProps) {
           ]}
           width={600}
           height={400}
+          colors={[props.color]}
         />
       </div>
     </div>
