@@ -34,24 +34,26 @@ const SideNavigation = () => {
         {name: 'About us', to: './about'},
         {name: 'Clock settings', to: './settings'},
     ].filter(Boolean) as SideNavigationItem[];
+    const [active, setActive] = React.useState(0);
+    const handleClick = (index:any) => {
+        setActive(index);
+    };
 
     return (
         <>
             {navigation.map((item, index) => (
-                <div className=' flex items-center px-2 py-2  rounded-md hover:bg-primaryColorOpacity' key={item.name}>
-                    <NavLink
-                        end={index === 0}
-                        to={item.to}
-                        className={clsx(
-                            'pl-5 text-primaryText text-sm font-medium focus:text-primaryColor',
-                        )}
-                    >
-                        <div>
+                <NavLink
+                    key={item.name}
+                    to={item.to}
+                    className="block"
+                    onClick={() => handleClick(index)}
+                >
+                    <div className={`flex items-center px-2 py-2 rounded-md hover:bg-primaryColorOpacity cursor-pointer ${active === index ? 'text-primaryColor bg-primaryColorOpacity' : 'text-primaryText'}`}>
+                        <div className="pl-5 text-sm font-medium focus:text-primaryColor">
                             {item.name}
                         </div>
-
-                    </NavLink>
-                </div>
+                    </div>
+                </NavLink>
 
             ))}
         </>

@@ -47,12 +47,14 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
                 onDelete={() => handleAlarmDelete(alarm)}
               />
             ))}
-          <PaginationRounded
-            page={Number(currentPage)}
-            onChange={handleChangeOfPage}
-            className="flex flex-col items-center"
-            pages={Math.ceil(alarms.length / 5)}
-          />
+      {alarms.length > alarmsPerPage && ( // Display pagination only if there are more than 5 alarms
+            <PaginationRounded
+              page={currentPage}
+              onChange={handleChangeOfPage}
+              className="flex flex-col items-center"
+              pages={Math.ceil(alarms.length / alarmsPerPage)}
+            />
+          )}
         </>
       ) : (
         <Heading
