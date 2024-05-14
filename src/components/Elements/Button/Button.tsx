@@ -38,7 +38,7 @@ const Button = ({text, onClick, styleType, className, type}: Props) => {
         case "neutral":
             color = "bg-white";
             hover = "hover:bg-whiteHover";
-            border = "border border-stroke border-dark";
+            border = "border border-stroke";
             textColor = "text-dark";
             break;
         case "warning":

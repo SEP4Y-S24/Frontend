@@ -6,9 +6,10 @@ import React, {useEffect, useState} from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
-import axios from "axios";
+
 import {EmblaOptionsType} from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
+import {fetchPokemon, Pokemon} from "../../avatarPic/api";
 
 
 const schema = z.object({
@@ -22,10 +23,7 @@ type RegisterValues = {
     name: string;
     avatarId: string;
 };
-interface Pokemon {
-    id: number;
-    imageUrl: string;
-}
+
 
 const OPTIONS: EmblaOptionsType = {align: 'start'}
 const SLIDE_COUNT = 6
@@ -44,25 +42,10 @@ export const Register = () => {
     };
 //getting pokemon data from api
     useEffect(() => {
-        const fetchPokemon = async () => {
-            try {
-                const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=10");
-                const {results} = response.data;
-                const pokemonData: Pokemon[] = await Promise.all(
-                    results.map(async (pokemon: any) => {
-                        const pokemonResponse = await axios.get(pokemon.url);
-                        return {
-                            id: pokemonResponse.data.id,
-                            imageUrl: pokemonResponse.data.sprites.front_default,
-                        };
-                    })
-                );
-                setPokemonList(pokemonData);
-            } catch (error) {
-                console.error("Error fetching Pokemon data:", error);
-            }
-        };
-        fetchPokemon();
+        fetchPokemon().then(pokemonList => setPokemonList(pokemonList))
+            .catch(error => {
+                //todo Handle error if needed
+            });
     }, []);
 
 

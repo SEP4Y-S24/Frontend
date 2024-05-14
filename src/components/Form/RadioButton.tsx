@@ -14,7 +14,7 @@ const RadioButtonCard: React.FC<Props> = ({ imageUrl, altText , id, onChange, se
 
     return (
         <div
-            className={`radio-card bg-white border border-2 rounded-lg p-1  ${
+            className={`radio-card bg-white  border-2 rounded-lg p-1  ${
                 isSelected ? "border-primaryColor " : "border-stroke"
             }`}
         >
@@ -25,7 +25,7 @@ const RadioButtonCard: React.FC<Props> = ({ imageUrl, altText , id, onChange, se
                 id={id}
                 className="hidden"
                 checked={isSelected}
-                onChange={handleInputChange}
+                onChange={handleInputChange}    
             />
             <label htmlFor={id} className="cursor-pointer block">
                 <img src={imageUrl} alt={altText} />
