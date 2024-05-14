@@ -12,6 +12,7 @@ export const Alarm = () => {
       setAlarms([...alarms, newAlarm]);
     };
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const toggleEnabled = (name: string, time: string) => {
       const updatedAlarms = alarms.map(alarm => {
         if (alarm.name === name && alarm.time === time) {

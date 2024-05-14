@@ -4,7 +4,7 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import Badge from "../../../components/Elements/Badge/Badge";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import * as React from "react";
-import {TaskProps, CategoriesType, dummyCategories} from "../types";
+import {TaskProps, dummyCategories} from "../types";
 import { EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const Task: React.FC<TaskProps> = ({

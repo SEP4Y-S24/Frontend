@@ -6,7 +6,7 @@ import React, {useEffect, useState} from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
-import axios from "axios";
+
 import {EmblaOptionsType} from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 import {fetchPokemon, Pokemon} from "../../avatarPic/api";

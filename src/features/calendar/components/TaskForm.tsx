@@ -17,7 +17,6 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, {Dayjs} from "dayjs";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {DateTimePicker} from "@mui/x-date-pickers";
-import Badge from "../../../components/Elements/Badge/Badge";
 import CategoryTag from "./CategoryTag";
 interface TaskFormProps {
     selectedTask: TaskProps | null;
@@ -104,6 +103,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode}) => {
         setDescription(selectedTask?.description||description)
         setCategories(selectedTask?.categories||categories);
         loadCategories();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         setStatus(selectedTask?.status||status) }, [mode, selectedTask]);
     const loadCategories = () => {
         if (selectedTask && selectedTask.categories) {

@@ -4,7 +4,7 @@ import ToggleMessages from "./ToggleMessages";
 import {dummyDataReceivedMessages, dummyDataSentMessages, ShowMessageProps} from "../types";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Heading from "../../../components/Elements/Headings/Heading";
-import {fetchPokemon, getPokemonPicById} from "../../avatarPic/api";
+import { getPokemonPicById} from "../../avatarPic/api";
 
 
 
@@ -84,7 +84,7 @@ const Message: React.FC<ShowMessageProps> = ({
             })
             .catch(error => {
             });
-    }, []);
+    }, [avatarId]);
 
     return (
         <div className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded">

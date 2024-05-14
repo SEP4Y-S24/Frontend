@@ -13,7 +13,6 @@ import {CategoriesType, dummyCategories} from "../features/calendar/types";
 
 import {XMarkIcon} from "@heroicons/react/24/outline";
 
-import Switcher from "../components/Elements/Switcher/Switcher";
 import {getTextColor} from "../features/calendar/types/categoryColorLogic";
 
 
