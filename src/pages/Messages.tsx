@@ -1,8 +1,11 @@
+import React, {ReactNode} from "react";
 import { useState } from "react";
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import MessagesList from "../features/messages/components/MessagesList";
 import SendMessage from "../features/messages/components/SendMessage";
-import { SentMessagesProps, dummyDataSentMessages } from "../features/messages/types";
+import { ShowMessageProps, dummyDataSentMessages } from "../features/messages/types";
+
+
 
 export const Messages = () => {
   const receiverOptions = [
@@ -17,10 +20,10 @@ export const Messages = () => {
     { id: 3, name: "Clock 3" },
   ];
     
-  const [sentMessages, setSentMessages] = useState<SentMessagesProps[]>(dummyDataSentMessages);
+  const [sentMessages, setSentMessages] = useState<ShowMessageProps[]>(dummyDataSentMessages);
 
   // Function to update the list of sent messages
-  const updateSentMessages = (newSentMessages: SentMessagesProps[]) => {
+  const updateSentMessages = (newSentMessages: ShowMessageProps[]) => {
     setSentMessages(newSentMessages);
   };
 
@@ -34,9 +37,8 @@ export const Messages = () => {
           updateSentMessages={updateSentMessages}
         />
         <MessagesList
-          sentMessages={sentMessages}
-          updateSentMessages={updateSentMessages}
         />
+
       </ContentLayout>
     </>
   );

@@ -12,7 +12,7 @@ interface Props{
 }
 const CategoryTag: React.FC<Props> = ({ text, onClick, className, color, selected, disabled }) => {
     const classStyle = clsx(
-        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium mr-1 relative",
+        "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium mr-1 relative cursor-pointer",
         className,
         { 'selected': selected } // Add 'selected' class if the category is selected
     );
@@ -25,7 +25,6 @@ const CategoryTag: React.FC<Props> = ({ text, onClick, className, color, selecte
     const backgroundStyle = {
         backgroundColor: selected ? color : '#F4F4F4' // Change background color to grayish if not selected
     };
-
     const textStyle = {
         color: selected ? `${getTextColor(color)}` : '#000000' // Change text color based on selection
     };

@@ -24,27 +24,27 @@ export const dummyCategories: CategoriesType[] = [
     {
         id: 1,
         name: "Books",
-        color: "#000000"
+        color: "#826AED"
     },
     {
         id: 2,
         name: "Electronics",
-        color: "#33FF57"
+        color: "#C879FF"
     },
     {
         id: 3,
         name: "Clothing",
-        color: "#147663"
+        color: "#FFB7FF"
     },
     {
         id: 4,
         name: "School",
-        color: "#637614"
+        color: "#3BF4FB"
     },
     {
         id: 5,
         name: "Food",
-        color: "#76146A"
+        color: "#CAFF8A"
     },
     {
         id: 6,
@@ -60,9 +60,9 @@ export let dummyDataForTasks: TaskProps[] = [
         "deadlineDate": ('2022-04-17'),
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 1, name: "Not started" },
-        categories: [{id: 4,
-            name: "School",
-            color: "#637614"}]
+        categories: [{id: 6,
+            name: "Whatever",
+            color: "#DC54CB"}]
     },
     {
         "name": "Task 2",
@@ -70,11 +70,11 @@ export let dummyDataForTasks: TaskProps[] = [
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 2, name: "In progress" },
         categories:[
-            { id: 2,
-                name: "Electronics",
-                color: "#33FF57"}, {id: 4,
+            { id: 5,
+                name: "Food",
+                color: "#CAFF8A"}, {id: 4,
                 name: "School",
-                color: "#637614"}
+                color: "#3BF4FB"}
         ]
     },
     {
@@ -82,12 +82,12 @@ export let dummyDataForTasks: TaskProps[] = [
         "deadlineDate": ('2022-04-17'),
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 3, name: "Done" },
-        categories: [{  id: 6,
-            name: "Whatever",
-            color: "#DC54CB"}, {
-            id: 1,
-            name: "Books",
-            color: "#000000"
+        categories: [{  id: 5,
+            name: "Food",
+            color: "#CAFF8A"}, {
+            id: 4,
+            name: "School",
+            color: "#3BF4FB"
         }]
     },
     {
@@ -95,16 +95,16 @@ export let dummyDataForTasks: TaskProps[] = [
         "deadlineDate": ('2022-04-17'),
         "deadlineTime": ('2022-04-17T10:30'),
         status: { id: 1, name: "Not started" },
-        categories: [{  id: 6,
-            name: "Whatever",
-            color: "#DC54CB"}, {
-            id: 1,
-            name: "Books",
-            color: "#000000"
+        categories: [{  id: 5,
+            name: "Food",
+            color: "#CAFF8A"}, {
+            id: 4,
+            name: "School",
+            color: "#3BF4FB"
         },
-            {id: 3,
-                name: "Clothing",
-                color: "#147663"}]
+            {id: 2,
+                name: "Electronics",
+                color: "#C879FF"}]
     },
     {
         "name": "Task 5",
@@ -114,9 +114,9 @@ export let dummyDataForTasks: TaskProps[] = [
         categories: [{  id: 6,
             name: "Whatever",
             color: "#DC54CB"}, {
-            id: 1,
-            name: "Books",
-            color: "#000000"
+            id: 4,
+            name: "School",
+            color: "#3BF4FB"
         }]
     },
     {
@@ -127,24 +127,22 @@ export let dummyDataForTasks: TaskProps[] = [
         categories: [{  id: 6,
             name: "Whatever",
             color: "#DC54CB"}, {
-            id: 1,
-            name: "Books",
-            color: "#000000"
-        }, {id: 3,
-            name: "Clothing",
-            color: "#147663"}]
+            id: 2,
+            name: "Electronics",
+            color: "#C879FF"
+        }, ]
     },
     {
         "name": "Task 7",
         "deadlineDate": ('2022-04-17'),
         "deadlineTime": ('2022-04-17T15:30'),
         status: { id: 3, name: "Done" },
-        categories: [{  id: 6,
+        categories: [{ id: 6,
             name: "Whatever",
             color: "#DC54CB"}, {
-            id: 1,
-            name: "Books",
-            color: "#000000"
+            id: 2,
+            name: "Electronics",
+            color: "#C879FF"
         }]
     }
 ]

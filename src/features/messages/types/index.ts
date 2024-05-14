@@ -10,49 +10,69 @@ export interface SendMessageProps {
     userId: string;
 }
   
-export interface ReceivedMessageProps {
-    senderEmail: string;
+export interface ShowMessageProps {
+    avatarId: number;
+    email: string;
     text: string;
+    type?:string
 }
 
 
-export interface SentMessagesProps {
-    userEmail: string;
-    text: string;
-}
 
-export let dummyDataSentMessages: SentMessagesProps[] = [
+export let dummyDataSentMessages: ShowMessageProps[] = [
     {
-        userEmail: "alice@example.com",
+        avatarId: 1,
+        email: "alice@example.com",
         text: "Hey, how are you?",
     },
     {
-        userEmail: "bob@example.com",
+        avatarId: 2,
+        email: "bob@example.com",
         text: "Just checking in. Let me know if you need anything.",
     },
     {
-        userEmail: "charlie@example.com",
+        avatarId: 3,
+        email: "charlie@example.com",
+        text: "Reminder: Our meeting is at 3 PM today.",
+    },
+    {
+        avatarId: 13,
+        email: "charlie@example.com",
+        text: "Reminder: Our meeting is at 3 PM today.",
+    },
+    {
+        avatarId: 23,
+        email: "charlie@example.com",
+        text: "Reminder: Our meeting is at 3 PM today.",
+    },
+    {
+        avatarId: 3,
+        email: "charlie@example.com",
         text: "Reminder: Our meeting is at 3 PM today.",
     },
 ]
 
-  export let dummyDataReceivedMessages: ReceivedMessageProps[] = [
+  export let dummyDataReceivedMessages: ShowMessageProps[] = [
     {
-        senderEmail:"alice@.gmail.com",
+        avatarId: 1,
+        email:"alice@.gmail.com",
         text:"Hey, I hope you have a great day!",
 
     },
     {
-        senderEmail:"max@.gmail.com",
+        avatarId: 4,
+        email:"max@.gmail.com",
         text:"Don't forget to get groceries!",
 
     },
     {
-        senderEmail: "bob@example.com",
+        avatarId: 3,
+        email: "bob@example.com",
         text: "Just checking in. Let me know if you need anything.",
     },
     {
-        senderEmail: "david@example.com",
+        avatarId: 2,
+        email: "david@example.com",
         text: "Good morning! I sent you a message.",
     },
     
