@@ -2,8 +2,9 @@ import React, { useState,useEffect } from 'react'
 import Graph from '../features/graph/components/graph'
 import { ContentLayout } from '../components/Layout/ContentLayout'
 import { ContentInnerContainer } from '../components/Layout/ContentInnerContainer'
-import TabComponent from '../features/graph/components/tab'
 import Heading from '../components/Elements/Headings/Heading'
+import { Tabs,Tab } from '../components/Elements/Tab/Tab'
+import { dA } from '@fullcalendar/core/internal-common'
 
 export const Statistics = () => {
     
@@ -30,18 +31,18 @@ export const Statistics = () => {
 
     return (
         <>
-            <ContentLayout className="flex flex-row md:flex-row space-y-4 md:space-y-0 md:space-x-4"> 
-            <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <TabComponent ></TabComponent>
+          <ContentLayout className="flex flex-row md:flex-row space-y-4 md:space-y-0 md:space-x-4"> 
+            <ContentInnerContainer className="flex-1 md:h-auto bg-white">
+              <Tabs>
+                {categoryType.map(type => (
+                  <Tab key={type.id} label={type.name}>
+                    <div className="p-4"><Graph xAxis={xAxis} series={data} /> </div>
+                  </Tab>
+                ))}
+              </Tabs>
             </ContentInnerContainer>
-            </ContentLayout>
-
-            <ContentLayout className="flex flex-row md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-            <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <Heading text={heading} className='pl-10 pt-6' type='heading1'/>
-            <Graph xAxis={xAxis} series={data}></Graph>
-            </ContentInnerContainer>
-            </ContentLayout>
+          </ContentLayout>
         </>
-    );
+      );
+      
 }
