@@ -3,6 +3,7 @@ import Graph from '../features/graph/components/graph'
 import { ContentLayout } from '../components/Layout/ContentLayout'
 import { ContentInnerContainer } from '../components/Layout/ContentInnerContainer'
 import { Tabs,Tab } from '../components/Elements/Tab/Tab'
+import './Statistics.css'
 
 
 
