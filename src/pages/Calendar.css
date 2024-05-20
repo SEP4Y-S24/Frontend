@@ -36,10 +36,6 @@
     background-color: #376cff !important;
 }
 
-.p-4 {
-    justify-content: center !important;
-    display: flex !important;
-}
 
 @media (max-width: 1254px) {
     .fc-header-toolbar.fc-toolbar {

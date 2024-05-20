@@ -30,6 +30,7 @@ export const Messages = () => {
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
         <SendMessage
+            //all the props will be fetched in SendMessageComponent - no need to pass them here
           receiverOptions={receiverOptions}
           clockOptions={clockOptions}
           sentMessages={sentMessages}
