@@ -26,7 +26,8 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
     else{
         let createAlarmData: AlarmModel = {
             clock_id: "f656d97d-63b7-451a-91ee-0e620e652c9e",
-            set_of_time: "2024-05-20T14:30:45Z"
+            set_of_time: "2024-05-20T14:30:45Z",
+            name: "string",
         }
         createAlarm(createAlarmData).then((response) => {
             console.log(response);

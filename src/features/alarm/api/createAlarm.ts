@@ -5,7 +5,7 @@ import {axiosConfig, baseURL} from "../../../lib/axios";
 
 
 export const createAlarm = (data: AlarmModel): Promise<AlarmProps> => {
-    return axios.post(`${baseURL}/alarm`, data, axiosConfig)
+    return axios.post(`${baseURL}/AlarmService/alarm`, data, axiosConfig)
         .then(response => response.data)
         .catch(error => {
             throw error.response.data; // Handle error appropriately

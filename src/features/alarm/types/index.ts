@@ -7,6 +7,7 @@ export interface AlarmProps {
 export interface AlarmModel{
     clock_id: string;
     set_of_time:string;
+    name: string;
 }
 
 export let dummyDataForAlarms: AlarmProps[] = [
