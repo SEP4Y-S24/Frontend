@@ -6,10 +6,11 @@ import Alarm from "./Alarm";
 
 interface AlarmsListProps {
   alarms: AlarmProps[];
-  setAlarms: React.Dispatch<React.SetStateAction<AlarmProps[]>>;
+  onDelete: (alarm: AlarmProps) => void;
+  // onToggle: (name: string, time: string) => void;
 }
 
-const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
+const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, onDelete }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const alarmsPerPage = 5;
 
@@ -18,14 +19,6 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
     value: number
   ) => {
     setCurrentPage(value);
-  };
-
-  const handleAlarmDelete = (alarmToDelete: AlarmProps) => {
-    const updatedAlarms = alarms
-      ? alarms.filter((task) => task !== alarmToDelete)
-      : [];
-    setAlarms(updatedAlarms);
-    console.log("Deleted alarm", alarmToDelete);
   };
 
   return (
@@ -41,10 +34,11 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
             .map((alarm, index) => (
               <Alarm
                 key={index}
+                id={alarm.id}
                 name={alarm.name}
                 time={alarm.time}
                 isEnabled={alarm.isEnabled}
-                onDelete={() => handleAlarmDelete(alarm)}
+                onDelete={() => onDelete(alarm)}
               />
             ))}
       {alarms.length > alarmsPerPage && ( // Display pagination only if there are more than 5 alarms

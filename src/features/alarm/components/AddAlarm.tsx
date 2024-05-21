@@ -6,8 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
 import { Dayjs } from "dayjs";
 import Button from "../../../components/Elements/Button";
-import {AlarmModel, AlarmProps} from "../types";
-import {createAlarm} from "../api/createAlarm";
+import { AlarmProps} from "../types";
 
 interface AddAlarmProps {
   addAlarm: (newAlarm: AlarmProps) => void;
@@ -23,22 +22,9 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
       setTimeError("Please select a time.");
       return;
     }
-    else{
-        let createAlarmData: AlarmModel = {
-            clock_id: "f656d97d-63b7-451a-91ee-0e620e652c9e",
-            set_of_time: "2024-05-20T14:30:45Z",
-            name: "string",
-        }
-        createAlarm(createAlarmData).then((response) => {
-            console.log(response);
-        }).catch(
-            (error) => {
-                console.log(error);
-            }
-        )
-    }
-
+    
     addAlarm({
+      id: "f656d97d-63b7-451a-91ee-0e620e652c9e",
       name: alarmName,
       time: alarmTime.format("HH:mm"),
       isEnabled: true, // new alarm is enabled by default

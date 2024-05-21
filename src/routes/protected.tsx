@@ -41,7 +41,7 @@ export const protectedRoutes = [
       { path: "/events", element: <Events /> },
       { path: "/tasks", element: <Tasks /> },
       { path: "/categories", element: <Categories /> },
-      { path: "/alarm", element: <Alarm /> },
+      { path: "/alarm", element: <Alarm clockId="hardcodedClockId" /> },
       { path: "/statistics", element: <Statistics />},
     ],
   },

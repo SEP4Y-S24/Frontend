@@ -4,7 +4,14 @@ import Switcher from "../../../components/Elements/Switcher/Switcher";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { AlarmProps } from "../types";
 
-const Alarm: React.FC<AlarmProps> = ({ name, time, isEnabled, onDelete }) => {
+
+
+interface AlarmComponentProps extends AlarmProps {
+  onDelete: () => void;
+  // onToggle: () => void;
+}
+
+const Alarm: React.FC<AlarmComponentProps> = ({ name, time, isEnabled, onDelete }) => {
   const [checked, setChecked] = useState<boolean>(isEnabled);
 
   const handleSwitchChange = () => {
