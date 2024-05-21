@@ -67,6 +67,15 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
         "In progress": false,
         "Done": false
     });
+    const handleChangeOfPage = (
+        event: React.ChangeEvent<unknown>,
+        value: number
+    ) => {
+        setCurrentPage(value);
+    };
+
+    const tasksPerPage = 6;
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const categories = dummyCategories;
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
@@ -94,7 +103,7 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
         if (filteredTasks.length === 0) {
             return <p>No tasks</p>;
         }
-        return filteredTasks.map((task, index) => (
+        return filteredTasks.slice((currentPage - 1) * tasksPerPage, currentPage * tasksPerPage).map((task, index) => (
             <Task
                 key={index}
                 name={task.name}
@@ -179,10 +188,10 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
             </div>
             {renderTasks()}
             <PaginationRounded
-                page={1}
-                onChange={() => {}} // handle page
+                page={Number(currentPage)}
+                onChange={handleChangeOfPage} // handle page
                 className="flex flex-col items-center"
-                pages={Math.ceil(filteredTasks.length / 7)} // adjust tasksPerPage accordingly
+                pages={Math.ceil(filteredTasks.length / tasksPerPage)} // adjust tasksPerPage accordingly
             />
         </ContentInnerContainer>
     );

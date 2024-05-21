@@ -1,3 +1,11 @@
+import {AxiosRequestConfig} from "axios";
 
-export const IP_ADDRESS = "10.154.214.49";
-export const PORT = "8080";
+export const baseURL = "https://wapi-test-from-website.azure-api.net/";
+const functionKey = '56de02fbf72147c789334de9bb453f41';
+
+export const axiosConfig: AxiosRequestConfig = {
+    headers: {
+        'Ocp-Apim-Subscription-Key': functionKey,
+        'host':'wapi-test-from-website.azure-api.net'
+    }
+};

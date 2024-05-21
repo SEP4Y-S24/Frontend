@@ -1,15 +1,17 @@
 import {Form, Link} from 'react-router-dom';
-
 import {Layout} from '../components/Layout';
 import * as z from "zod";
 import React, {useEffect, useState} from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
-
 import {EmblaOptionsType} from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 import {fetchPokemon, Pokemon} from "../../avatarPic/api";
+import {hashPassword} from "./index";
+import {RegisterCredentialsDTO} from "../api/register";
+import {useRegister} from "../../../lib/auth";
+import storage from "../../../utils/storage";
 
 
 const schema = z.object({
@@ -23,45 +25,51 @@ type RegisterValues = {
     name: string;
     avatarId: string;
 };
-
-
 const OPTIONS: EmblaOptionsType = {align: 'start'}
 const SLIDE_COUNT = 6
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 export const Register = () => {
     //for register form
-    const [values, setValues] = useState<RegisterValues>({email: '', password: '', name: '', avatarId: ''});
+    const [values, setValues] = useState<RegisterValues>({email: '', password: '', name: '', avatarId: '1'});
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const [pokemonError, setPokemonError] = useState<string>('');
+
 
     //for pokemon image slider
     const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
     const handlePokemonSelect = (pokemonId: string) => {
-        
         handleChange({target: {name: 'avatarId', value: pokemonId}} as React.ChangeEvent<HTMLInputElement>)
     };
 //getting pokemon data from api
     useEffect(() => {
         fetchPokemon().then(pokemonList => setPokemonList(pokemonList))
-            .catch(error => {
-                //todo Handle error if needed
+            .catch(() => {
+                setPokemonError("No pictures of pokemons are available at the moment. Please try again later.");
             });
     }, []);
-
-
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setValues({...values, [name]: value});
         setErrors({...errors, [name]: ''});
     };
-
+    const register = useRegister();
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
         try {
             schema.parse(values);
-            // If validation passes, proceed with form submission
-            console.log('Form register submitted:', values);
+            values.password = await hashPassword(values.password);
+            const avatarIdNumber = parseInt(values.avatarId);
+            const credentials: RegisterCredentialsDTO = {
+                email: values.email,
+                password: values.password,
+                name: values.name,
+                avatarId: avatarIdNumber
+            };
+
+            console.log('Form register submitted:', credentials);
+            register.mutate(credentials);
+            await console.log(storage.getToken())
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
@@ -77,7 +85,6 @@ export const Register = () => {
 
     return (
         <Layout>
-
             <Form onSubmit={handleSubmit}>
                 <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
                     <div className="sm:mx-auto sm:w-full sm:max-w-sm">
@@ -99,21 +106,16 @@ export const Register = () => {
                                         onChange={handleChange}
                                         error={errors.password}/>
                         </div>
-
-
                         <label
                             className="block my-2 text-base font-normal text-dark"> Choose your avatar:
                         </label>
-
+                        {pokemonError && <p className={"text-red-500"}>{pokemonError}</p>}
                         <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
                                        onSelect={handlePokemonSelect}/>
-
                         <div className={"pt-5"}>
                             <Button text={"Register"} styleType={"info"} className={"w-full justify-center"}
                                     type="submit"/>
                         </div>
-
-
                         <p className="mt-10 text-center text-sm text-gray-500">
                             Already a member?{' '}
                             <Link to={'/auth/login'} className={"text-primaryColor"}>Log in to your account here!</Link>

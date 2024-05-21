@@ -76,6 +76,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode}) => {
         return valid;
     };
 
+
     const handleSubmit = async () => {
         if (validate()) {
             const taskSubmitted:TaskProps = {
@@ -102,6 +103,10 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode}) => {
         setDeadlineTime(dayjs(selectedTask?.deadlineTime)||deadlineTime)
         setDescription(selectedTask?.description||description)
         setCategories(selectedTask?.categories||categories);
+        let nameValue = selectedTask?.name || "";
+        setName(nameValue);
+        let descValue = selectedTask?.description || "";
+        setDescription(descValue);
         loadCategories();
         // eslint-disable-next-line react-hooks/exhaustive-deps
         setStatus(selectedTask?.status||status) }, [mode, selectedTask]);

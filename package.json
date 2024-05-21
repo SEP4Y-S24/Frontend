@@ -24,6 +24,7 @@
     "@types/react": "^18.2.75",
     "@types/react-dom": "^18.2.24",
     "axios": "^1.6.8",
+    "bcryptjs-react": "^2.4.6",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.2",

@@ -4,7 +4,10 @@ export interface AlarmProps {
     isEnabled : boolean;
     onDelete?: () => void;
 }
-
+export interface AlarmModel{
+    clock_id: string;
+    set_of_time:string;
+}
 
 export let dummyDataForAlarms: AlarmProps[] = [
     {

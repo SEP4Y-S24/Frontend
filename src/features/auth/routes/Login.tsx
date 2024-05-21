@@ -7,6 +7,7 @@ import Button from "../../../components/Elements/Button";
 import * as z from 'zod';
 import React, {useState} from "react";
 import {useLogin} from "../../../lib/auth";
+import {hashPassword} from "./index";
 
 
 const schema = z.object({
@@ -34,6 +35,7 @@ export const Login = () => {
 
         try {
             schema.parse(values);
+            values.password = await hashPassword(values.password);
             // If validation passes, proceed with form submission
             //console.log('Form login submitted:', values);
             login.mutate(values);

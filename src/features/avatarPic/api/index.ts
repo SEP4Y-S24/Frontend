@@ -4,7 +4,6 @@ export const fetchPokemon = async () => {
     try {
         const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=10");
         const { results } = response.data;
-
         const pokemonData: Pokemon[] = await Promise.all(
             results.map(async (pokemon: any) => {
                 const pokemonResponse = await axios.get(pokemon.url);
@@ -17,7 +16,6 @@ export const fetchPokemon = async () => {
 
         return pokemonData;
     } catch (error) {
-        console.error("Error fetching Pokemon data:", error);
         throw error; // Re-throw the error to handle it outside if needed
     }
 };

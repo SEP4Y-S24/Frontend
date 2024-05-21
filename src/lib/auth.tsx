@@ -1,4 +1,4 @@
-import { configureAuth } from 'react-query-auth';
+import {configureAuth} from 'react-query-auth';
 import {UserResponse} from "../features/auth/types";
 import storage from "../utils/storage";
 import {getUser} from "../features/auth/api/getUser";
@@ -15,6 +15,7 @@ export type RegisterCredentials = {
     email: string;
     name: string;
     password: string;
+    avatarId?: number;
 };
 
 async function handleUserResponse(data: UserResponse) {
@@ -33,14 +34,12 @@ async function userFn() {
 
 async function loginFn(data: LoginCredentials) {
     const response = await loginWithEmailAndPassword(data);
-    const user = await handleUserResponse(response);
-    return user;
+    return await handleUserResponse(response);
 }
 
 async function registerFn(data: RegisterCredentials) {
     const response = await registerWithEmailAndPassword(data);
-    const user = await handleUserResponse(response);
-    return user;
+    return await handleUserResponse(response);
 }
 
 async function logoutFn() {
