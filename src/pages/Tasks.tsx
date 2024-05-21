@@ -3,8 +3,8 @@ import { ContentLayout } from "../components/Layout/ContentLayout";
 
 import * as React from "react";
 
-import {TaskOverview} from "../features/calendar/components/TaskOverview";
-import {TaskForm} from "../features/calendar/components/TaskForm";
+import {TaskOverview} from "../features/calendar/components/task/TaskOverview";
+import {TaskForm} from "../features/calendar/components/task/TaskForm";
 import {useEffect, useState} from "react";
 import {dummyDataForTasks, TaskProps} from "../features/calendar/types";
 
