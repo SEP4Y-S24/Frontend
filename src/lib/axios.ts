@@ -2,7 +2,7 @@ import {AxiosRequestConfig} from "axios";
 
 export const baseURL = "https://sep4coupledclock.azure-api.net";
 
-const functionKey = 'Lz92qDBJnC6aBUlTFmHVDRvumlcNhqkXQWkQ3b7rmBeo+IRcl0J77A==';
+const functionKey = '95029b2c630d4b50bccbc3a777e952c6';
 
 export const axiosConfig: AxiosRequestConfig = {
     headers: {
