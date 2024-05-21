@@ -15,6 +15,7 @@ export const Calendar = () => {
     return (
         <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 ">
             <ContentInnerContainer className=" flex-1 bg-white">
+                <div className={"flex justify-center"}>
                     <FullCalendar
                         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
                         initialView="dayGridMonth"
@@ -24,6 +25,8 @@ export const Calendar = () => {
                             end: "dayGridMonth,timeGridWeek,timeGridDay",
                         }}
                     />
+                </div>
+
             </ContentInnerContainer>
         </ContentLayout>
     );

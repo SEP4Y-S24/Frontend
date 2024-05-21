@@ -1,13 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
-import Heading from "../../../components/Elements/Headings/Heading";
-import Badge from "../../../components/Elements/Badge/Badge";
-import PaginationRounded from "../../../components/Elements/Pagination/pagination";
+import { ContentInnerContainer } from "../../../../components/Layout/ContentInnerContainer";
+import Heading from "../../../../components/Elements/Headings/Heading";
+import Badge from "../../../../components/Elements/Badge/Badge";
+import PaginationRounded from "../../../../components/Elements/Pagination/pagination";
 import * as React from "react";
-import {TaskProps, dummyCategories} from "../types";
+import {EventProps, dummyCategories} from "../../types";
 import { EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
-const Task: React.FC<TaskProps> = ({
+const Event: React.FC<EventProps> = ({
                                        name,
                                        deadlineDate,
                                        deadlineTime,
@@ -54,30 +54,39 @@ const Task: React.FC<TaskProps> = ({
     );
 };
 
-interface TaskOverviewProps {
-    setSelectedTask: React.Dispatch<React.SetStateAction<TaskProps | null>>;
-    tasks: TaskProps[] | null;
-    setTasks: React.Dispatch<React.SetStateAction<TaskProps[]>>;
+interface EventOverviewProps {
+    setSelectedEvent: React.Dispatch<React.SetStateAction<EventProps | null>>;
+    events: EventProps[] | null;
+    setEvents: React.Dispatch<React.SetStateAction<EventProps[]>>;
     setMode: React.Dispatch<React.SetStateAction<"create" | "edit" | "view">>;
 }
 
-export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tasks, setTasks, setMode }) => {
+export const EventOverview: React.FC<EventOverviewProps> = ({ setSelectedEvent, events, setEvents, setMode }) => {
     const [statusFilters, setStatusFilters] = useState<{ [key: string]: boolean }>({
         "Not started": false,
         "In progress": false,
         "Done": false
     });
+    const handleChangeOfPage = (
+        event: React.ChangeEvent<unknown>,
+        value: number
+    ) => {
+        setCurrentPage(value);
+    };
+
+    const eventsPerPage = 6;
+    const [currentPage, setCurrentPage] = useState<number>(1);
     const categories = dummyCategories;
     const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
-    const filteredTasks = useMemo(() => {
-        if (!tasks) return [];
-        return tasks.filter(task => {
-            const statusMatch = statusFilters[task.status.name] || !Object.values(statusFilters).some(value => value);
-            const categoryMatch = selectedCategory === "All" || task.categories?.some(category => category.name === selectedCategory);
+    const filteredEvents = useMemo(() => {
+        if (!events) return [];
+        return events.filter(event => {
+            const statusMatch = statusFilters[event.status.name] || !Object.values(statusFilters).some(value => value);
+            const categoryMatch = selectedCategory === "All" || event.categories?.some(category => category.name === selectedCategory);
             return statusMatch && categoryMatch;
         });
-    }, [tasks, statusFilters, selectedCategory]);
+    }, [events, statusFilters, selectedCategory]);
 
     const handleStatusFilterChange = (filter: string) => {
         setStatusFilters(prevFilters => ({
@@ -90,51 +99,51 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
         setSelectedCategory(event.target.value);
     };
 
-    const renderTasks = () => {
-        if (filteredTasks.length === 0) {
-            return <p>No tasks</p>;
+    const renderEvents = () => {
+        if (filteredEvents.length === 0) {
+            return <p>No events</p>;
         }
-        return filteredTasks.map((task, index) => (
-            <Task
+        return filteredEvents.slice((currentPage - 1) * eventsPerPage, currentPage * eventsPerPage).map((event, index) => (
+            <Event
                 key={index}
-                name={task.name}
-                deadlineDate={task.deadlineDate}
-                onDelete={() => handleTaskDelete(task)}
-                deadlineTime={task.deadlineTime}
-                onEdit={() => handleTaskEdit(task)}
-                status={task.status}
-                onClick={() => handleTaskClick(task)}
+                name={event.name}
+                deadlineDate={event.deadlineDate}
+                onDelete={() => handleEventDelete(event)}
+                deadlineTime={event.deadlineTime}
+                onEdit={() => handleEventEdit(event)}
+                status={event.status}
+                onClick={() => handleEventClick(event)}
 
             />
         ));
     };
 
-    const handleTaskClick = (task: TaskProps) => {
-        setSelectedTask(task);
+    const handleEventClick = (event: EventProps) => {
+        setSelectedEvent(event);
         setMode("view");
-        console.log("Selected task", task)
+        console.log("Selected event", event)
     };
 
-    const handleTaskEdit = (task: TaskProps) => {
-        setSelectedTask(task);
+    const handleEventEdit = (event: EventProps) => {
+        setSelectedEvent(event);
         setMode("edit");
-        console.log("Selected task for editing", task)
+        console.log("Selected event for editing", event)
     };
 
-    const handleTaskDelete = (taskToDelete: TaskProps) => {
-        const updatedTasks = tasks ? tasks.filter(task => task !== taskToDelete) : [];
-        setTasks(updatedTasks);
+    const handleEventDelete = (eventToDelete: EventProps) => {
+        const updatedEvents = events ? events.filter(event => event !== eventToDelete) : [];
+        setEvents(updatedEvents);
         setMode("create");
-        console.log("Deleted task", taskToDelete)
+        console.log("Deleted event", eventToDelete)
     };
 
-    const handleTaskAdd = () => {
+    const handleEventAdd = () => {
         setMode("create");
-        setSelectedTask(null);
+        setSelectedEvent(null);
     };
 
     useEffect(() => {
-    }, [tasks]);
+    }, [events]);
 
     function getStyleTypeByStatus(status: string) {
         switch (status) {
@@ -151,9 +160,9 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
     return (
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
             <div className="flex justify-between items-center">
-                <Heading text={"Tasks"} type={"heading1"} />
+                <Heading text={"Events"} type={"heading1"} />
                 <div>
-                    <PlusIcon className="text-dark h-5 w-5 cursor-pointer" onClick={handleTaskAdd} />
+                    <PlusIcon className="text-dark h-5 w-5 cursor-pointer" onClick={handleEventAdd} />
                 </div>
             </div>
             <div>
@@ -177,12 +186,12 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
                     ))}
                 </select>
             </div>
-            {renderTasks()}
+            {renderEvents()}
             <PaginationRounded
-                page={1}
-                onChange={() => {}} // handle page
+                page={Number(currentPage)}
+                onChange={handleChangeOfPage} // handle page
                 className="flex flex-col items-center"
-                pages={Math.ceil(filteredTasks.length / 7)} // adjust tasksPerPage accordingly
+                pages={Math.ceil(filteredEvents.length / eventsPerPage)} // adjust eventsPerPage accordingly
             />
         </ContentInnerContainer>
     );

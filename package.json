@@ -24,6 +24,7 @@
     "@types/react": "^18.2.75",
     "@types/react-dom": "^18.2.24",
     "axios": "^1.6.8",
+    "bcryptjs-react": "^2.4.6",
     "clsx": "^2.1.0",
     "dayjs": "^1.11.11",
     "embla-carousel-react": "^8.0.2",
@@ -72,5 +73,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "react-router-dom": "^6.22.3"
-  }
+  },
+  "proxy": "https://sep4coupledclock.azure-api.net/"
 }

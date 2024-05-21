@@ -9,6 +9,7 @@ const { Dashboard } = lazyImport(
 const { Messages } = lazyImport(() => import("../pages/Messages"), "Messages");
 const { Settings } = lazyImport(() => import("../pages/Settings"), "Settings");
 const { Contacts } = lazyImport(() => import("../pages/Contacts"), "Contacts");
+const { Events } = lazyImport(() => import("../pages/Events"), "Events");
 const { Tasks } = lazyImport(() => import("../pages/Tasks"), "Tasks");
 const { Calendar } = lazyImport(() => import("../pages/Calendar"), "Calendar");
 const {Statistics} = lazyImport(()=> import("../pages/Statistics"),"Statistics")
@@ -37,6 +38,7 @@ export const protectedRoutes = [
       { path: "/messages", element: <Messages /> },
       { path: "/settings", element: <Settings /> },
       { path: "/contacts", element: <Contacts /> },
+      { path: "/events", element: <Events /> },
       { path: "/tasks", element: <Tasks /> },
       { path: "/categories", element: <Categories /> },
       { path: "/alarm", element: <Alarm /> },

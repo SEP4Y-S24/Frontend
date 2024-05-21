@@ -6,6 +6,7 @@ export type RegisterCredentialsDTO = {
     email: string;
     password: string;
     name: string;
+    avatarId?: number;
 };
 
 const hardcodedUserData: UserResponse = {
@@ -22,7 +23,6 @@ export const registerWithEmailAndPassword = (
     // Return a Promise that immediately resolves with the hardcoded user data
     return Promise.resolve(hardcodedUserData);
 };
-
 
 /*export const registerWithEmailAndPassword = (
     data: RegisterCredentialsDTO
