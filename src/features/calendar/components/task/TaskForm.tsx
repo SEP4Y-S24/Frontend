@@ -1,15 +1,15 @@
 import {useEffect, useState} from "react";
-import {CategoriesType, dummyCategories, dummyDataForTasks, TaskProps} from "../types";
+import {CategoriesType, dummyCategories, dummyDataForTasks, TaskProps} from "../../types";
 import * as React from "react";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as z from "zod";
-import {ContentInnerContainer} from "../../../components/Layout/ContentInnerContainer";
+import {ContentInnerContainer} from "../../../../components/Layout/ContentInnerContainer";
 import {Form} from "react-router-dom";
-import Heading from "../../../components/Elements/Headings/Heading";
-import InputField from "../../../components/Form/InputField";
-import TextArea from "../../../components/Form/TextArea";
-import SelectForm from "../../../components/Form/selectForm";
-import Button from "../../../components/Elements/Button";
+import Heading from "../../../../components/Elements/Headings/Heading";
+import InputField from "../../../../components/Form/InputField";
+import TextArea from "../../../../components/Form/TextArea";
+import SelectForm from "../../../../components/Form/selectForm";
+import Button from "../../../../components/Elements/Button";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -17,7 +17,7 @@ import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, {Dayjs} from "dayjs";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import {DateTimePicker} from "@mui/x-date-pickers";
-import CategoryTag from "./CategoryTag";
+import CategoryTag from "../CategoryTag";
 interface TaskFormProps {
     selectedTask: TaskProps | null;
     mode: "create" | "edit" | "view";

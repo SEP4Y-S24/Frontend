@@ -29,9 +29,7 @@ const SideNavigation = () => {
         {name: 'Categories', to: './categories'},
         {name: 'Statistics', to: './statistics'},
         {name: 'Alarm', to: './alarm'},
-        {name: 'Timer', to: './timer'},
         {name: 'Contacts', to: './contacts'},
-        {name: 'About us', to: './about'},
         {name: 'Clock settings', to: './settings'},
     ].filter(Boolean) as SideNavigationItem[];
     const [active, setActive] = React.useState(0);
