@@ -172,7 +172,7 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode}) => {
                                 {dateError && <span className="text-danger text-sm">{dateError}</span>}
                             </div>
                             <div className={"flex-1"}>
-                                <TimePicker className={"w-full"} disabled={mode==="view"}  label="Basic time picker"
+                                <TimePicker className={"w-full"} disabled={mode==="view"}  label="Deadline time"
                                             value={deadlineTime}
                                             onChange={(newValue) => setDeadlineTime(newValue)} />
                                 {timeError && <span className="text-danger text-sm">{timeError}</span>}
