@@ -1,8 +1,14 @@
 import {ContentInnerContainer} from "../../../components/Layout/ContentInnerContainer";
 import Heading from "../../../components/Elements/Headings/Heading";
-import {MeasuredData} from "../types";
+interface MeasuredDataProps{
+    name: string;
+    day: string;
+    value: string;
+    icon: JSX.Element;
+    colorBackground: string;
+}
 
-const MeasuredDataBox = ({name, day, value, icon, colorBackground, colorText}:MeasuredData) => {
+const MeasuredDataBox = ({ name, day, value, icon, colorBackground}:MeasuredDataProps) => {
     return (
 
         <ContentInnerContainer className="flex-1 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 bg-white m-1">

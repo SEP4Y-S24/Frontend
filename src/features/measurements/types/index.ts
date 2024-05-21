@@ -1,10 +1,9 @@
 import React from "react";
 
-export type MeasuredData = {
+
+
+export type MeasuredDataResponse = {
     name: string;
     day: string;
     value: string;
-    icon: React.ReactNode;
-    colorText: string;
-    colorBackground: string;
 }

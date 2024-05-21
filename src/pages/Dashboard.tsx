@@ -6,61 +6,70 @@ import Heading from "../components/Elements/Headings/Heading";
 import {useUser} from "../lib/auth";
 import storage from "../utils/storage";
 import MeasuredDataBox from "../features/measurements/components/MeasuredDataBox";
-import {MeasuredData} from "../features/measurements/types";
+import { MeasuredDataResponse} from "../features/measurements/types";
 import {
     AdjustmentsHorizontalIcon,
     CloudIcon,
     FireIcon,
     PresentationChartLineIcon
 } from "@heroicons/react/24/outline";
+     import {useQuery} from "@tanstack/react-query";
+     import {getMeasurements} from "../features/measurements/api/getMeasurements";
+     import SpinnerComponent from "../features/spinner/SpinnerComponent";
+     import {NoClockPage} from "../components/Elements/NoClockPage/NoClockPage";
 
-const dummyData: MeasuredData[] = [
-    {
-        name: "Air condition",
-        day: "Monday",
-        value: "Good",
-        icon:  <PresentationChartLineIcon className="h-6 w-6 text-primaryColor"/>,
-        colorText:  "text-primary",
-        colorBackground:  "bg-primaryColorOpacity",
-    },
-    {
-        name: "Temperature",
-        day: "Tuesday",
-        value: "$70",
-        icon: <FireIcon className="h-6 w-6 text-green"/>,
-        colorText:  "text-green",
-        colorBackground:  "bg-greenOpacity"
-    },
-    {
-        name: "Humidity",
-        day: "Wednesday",
-        value: "20 °C",
-        icon:  <CloudIcon className="h-6 w-6 text-warning"/>,
-        colorText:  "text-warning",
-        colorBackground:  "bg-warningOpacity",
-    },
-    {
-        name: "CO2 level",
-        day: "Thursday",
-        value: "Amazing",
-        icon: <AdjustmentsHorizontalIcon className="h-6 w-6 text-purple"/>,
-        colorText:  "text-purple",
-        colorBackground:  "bg-purpleOpacity",
-    },
-];
 export const Dashboard = () => {
+    const [airCondition, setAirCondition] = useState<MeasuredDataResponse>();
+    const [temperature, setTemperature] = useState<MeasuredDataResponse>();
+    const [co2, setCo2] = useState<MeasuredDataResponse>();
+    const [humidity, setHumidity] = useState<MeasuredDataResponse>();
+    const [clock, setClock] = useState(storage.getClock());
 
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['measuredData'],
+        queryFn: getMeasurements,
+    });
+
+    useEffect(() => {
+        if (data) {
+            setAirCondition(data[0]);
+            setTemperature(data[1]);
+            setHumidity(data[3]);
+            setCo2(data[2]);
+        }
+    }, [data]);
     return (
 
-            <ContentLayout className="">
 
-                <div className="flex flex-wrap mb-3">
-                    {dummyData.map((item) => (
-                        <MeasuredDataBox key={item.name} colorBackground={item.colorBackground} colorText={item.colorText} day={item.day} icon={item.icon} name={item.name} value={item.value}/>
-                    ))}
-                </div>
-                <CurrentTime/>
+            <ContentLayout className="">
+                {clock ?(
+                <>
+                    {isLoading && <SpinnerComponent/>}
+                    {error && <p className={"text-red-500"}>{"No Clock connected"}</p>}
+                    {airCondition && temperature && co2 && humidity &&
+                    <div className="flex flex-wrap mb-3">
+                        <MeasuredDataBox colorBackground={"bg-primaryColorOpacity"}
+                                         day={airCondition.day} icon={ <PresentationChartLineIcon className="h-6 w-6 text-primaryColor"/>}
+                                         name={"Air condition"} value={airCondition.value}/>
+                        <MeasuredDataBox colorBackground={"bg-greenOpacity"}
+                                         day={temperature.day} icon={ <FireIcon className="h-6 w-6 text-green"/>}
+                                         name={"Temperature"} value={temperature.value}/>
+                        <MeasuredDataBox colorBackground={"bg-warningOpacity"}
+                                         day={humidity.day} icon={ <CloudIcon className="h-6 w-6 text-warning"/>}
+                                         name={"Humidity"} value={humidity.value}/>
+                        <MeasuredDataBox colorBackground={"bg-purpleOpacity"}
+                                         day={co2.day} icon={<AdjustmentsHorizontalIcon className="h-6 w-6 text-purple"/>}
+                                         name={"CO2 level"} value={co2.value}/>
+                    </div>}
+                    <CurrentTime/>
+                </>):(
+                    <NoClockPage/>
+                )
+                }
+
+
             </ContentLayout>
+
     );
 };
 const CurrentTime = () => {
