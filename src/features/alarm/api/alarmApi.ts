@@ -30,7 +30,7 @@ export const getAlarmById = (alarmId: string): Promise<AlarmPropsResponse> => {
 };
 
 export const updateAlarm = ( alarmId: string, state: boolean): Promise<AlarmProps> => {
-    return axios.put(`${baseURL}/AlarmService/alarm/${alarmId}/state`, state, axiosConfig)
+    return axios.patch(`${baseURL}/AlarmService/alarm/${alarmId}/state`, state, axiosConfig)
         .then(response => response.data)
         .catch(error => {
             throw error.response.data;
