@@ -61,7 +61,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     deleteAlarm(alarmToDelete.id).then(async () => {
       const response = getAllAlarmsByClockId(clockId);
       await setAllAlarms(await response);
-      console.error('Response', response);
+      console.log('Response', response);
     }).catch((error) => {
       console.error('Failed to delete alarm:', error);
     });
@@ -79,6 +79,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
             )
             .map((alarm, index) => (
               <Alarm
+                  alarm_id={alarm.id}
                 key={alarm.id}
                 name={alarm.name}
                 hours={alarm.hours}

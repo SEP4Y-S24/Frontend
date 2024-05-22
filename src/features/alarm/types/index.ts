@@ -1,4 +1,5 @@
 export interface AlarmProps {
+    alarm_id: string;
     name?: string;
     hours: number,
     minutes: number,
