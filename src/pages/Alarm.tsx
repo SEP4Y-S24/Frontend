@@ -1,9 +1,9 @@
-import { useState } from "react";
+
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import AddAlarm from "../features/alarm/components/AddAlarm";
 import AlarmsList from "../features/alarm/components/AlarmsList";
-import { AlarmProps, AlarmPropsResponse} from "../features/alarm/types";
+
 
 export const Alarm = () => {
 

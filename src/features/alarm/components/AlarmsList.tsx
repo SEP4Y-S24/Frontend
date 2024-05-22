@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
 import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
-import storage from "../../../utils/storage";
+
 
 
 
@@ -30,12 +30,15 @@ const AlarmsList: React.FC = () => {
 
 
 
+  const setAllAlarms = async (response: AlarmPropsResponse[]) => {
+    setAlarms(response);
+  };
   useEffect(() => {
     const fetchAlarms = async () => {
       try {
         const response = await getAllAlarmsByClockId(clockId);
-        setAlarms(response);
-        console.error('Response', response);
+        await setAllAlarms(response);
+        console.log('Response', response);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
       }
@@ -43,7 +46,7 @@ const AlarmsList: React.FC = () => {
 
     fetchAlarms();
   }, [clockId,setAlarms]);
-  //helo
+
 
 
 
