@@ -1,5 +1,5 @@
 export interface AlarmProps {
-    name: string
+    name?: string;
     time: any;
     isEnabled : boolean;
     onDelete?: () => void;
@@ -12,7 +12,7 @@ export interface CreateAlarmProps {
 export interface AlarmPropsResponse {
     id: string,
     clockId: string,
-    name: string | null,
+    name?: string,
     setOffTime: string,
     isActive: boolean,
     isSnoozed: boolean
