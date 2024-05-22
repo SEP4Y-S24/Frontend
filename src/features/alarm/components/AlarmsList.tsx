@@ -31,7 +31,7 @@ const AlarmsList: React.FC = () => {
 
 
   const setAllAlarms = async (response: AlarmPropsResponse[]) => {
-    setAlarms(response);
+    await setAlarms(response);
     console.log('Alarms', alarms);
   };
   useEffect(() => {
