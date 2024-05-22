@@ -16,7 +16,7 @@ const Alarm: React.FC<AlarmProps> = ({ name, time, isEnabled, onDelete }) => {
     <div className="flex items-center space-x-3 p-3 bg-whiteHover hover:bg-background rounded mb-2">
       <div className="flex-grow">
         <Heading text={time} type={"heading2"} />
-        <Heading text={name} type={"heading4"} />
+        <Heading text={name || ""} type={"heading4"} />
       </div>
       <div>
         <Switcher isChecked={checked} onChange={handleSwitchChange} />

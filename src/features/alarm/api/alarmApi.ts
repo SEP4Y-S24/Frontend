@@ -1,5 +1,5 @@
 import {AlarmProps, AlarmPropsResponse, CreateAlarmProps} from "../types";
-import axios, {HttpStatusCode} from "axios";
+import axios from "axios";
 import {axiosConfig, baseURL} from "../../../lib/axios";
 
 
