@@ -44,6 +44,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
         await setAllAlarms(response);
         console.log('Response', response);
         console.log('alarmsVar', response);
+        console.log('changestat', change);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
       }
