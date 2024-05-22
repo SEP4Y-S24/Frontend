@@ -33,16 +33,12 @@ const AddAlarm: React.FC<Props> = (change, setChange) => {
         { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
         { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
     ];
-    /*const handleUpdate= ()=>{
-        console.log("handleUpdate called");
-        setChange(!change);
-    }*/
+
   const handleAddAlarm = () => {
     if (!alarmTime) {
       setTimeError("Please select a time.");
       return;
     }
-
     if (!alarmName) {
         setNameError("Please enter a name.");
         return;
@@ -58,7 +54,7 @@ const AddAlarm: React.FC<Props> = (change, setChange) => {
             minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
-        //handleUpdate();
+        setChange(!change);
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
