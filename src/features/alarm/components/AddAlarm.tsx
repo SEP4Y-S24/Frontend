@@ -33,10 +33,10 @@ const AddAlarm: React.FC<Props> = (change, setChange) => {
         { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
         { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
     ];
-    const handleUpdate= ()=>{
+    /*const handleUpdate= ()=>{
         console.log("handleUpdate called");
         setChange(!change);
-    }
+    }*/
   const handleAddAlarm = () => {
     if (!alarmTime) {
       setTimeError("Please select a time.");
@@ -52,15 +52,13 @@ const AddAlarm: React.FC<Props> = (change, setChange) => {
         return;
     }
     else{
-        //when implemented, replace the following code with the actual API call
-
         let createAlarmData: CreateAlarmProps = {
             clock_id: selectedClock.id.toString(),
             hours: Number(alarmTime.format("HH")),
             minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
-        handleUpdate();
+        //handleUpdate();
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
