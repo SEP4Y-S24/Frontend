@@ -10,10 +10,15 @@ import {CreateAlarmProps} from "../types";
 import { createAlarm} from "../api/alarmApi";
 import SelectForm from "../../../components/Form/selectForm";
 import {SimpleClockProps} from "../../clockSettings/types";
+import {TaskProps} from "../../calendar/types";
+
+interface Props {
+    change: boolean;
+    setChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
 
-
-const AddAlarm: React.FC = () => {
+const AddAlarm: React.FC<Props> = (change, setChange) => {
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
@@ -28,6 +33,9 @@ const AddAlarm: React.FC = () => {
         { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
         { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
     ];
+    const handleUpdate= ()=>{
+        setChange(!change);
+    }
   const handleAddAlarm = () => {
     if (!alarmTime) {
       setTimeError("Please select a time.");
@@ -51,6 +59,7 @@ const AddAlarm: React.FC = () => {
             minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
+        handleUpdate();
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
@@ -67,6 +76,7 @@ const AddAlarm: React.FC = () => {
     setNameError("");
     setClockError("");
   };
+
 
   return (
     <>
