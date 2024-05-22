@@ -5,7 +5,6 @@ import PaginationRounded from "../../../components/Elements/Pagination/paginatio
 import Alarm from "./Alarm";
 import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
 
-
 interface AlarmsListProps {
   change: boolean;
 }
@@ -29,8 +28,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     setAlarms(updatedAlarms);
   };
   */
-
-
 
   const setAllAlarms =  (response: AlarmsPropsResponse) => {
      setAlarms(response.alarms);

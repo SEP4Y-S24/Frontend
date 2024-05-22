@@ -10,15 +10,15 @@ import {CreateAlarmProps} from "../types";
 import { createAlarm} from "../api/alarmApi";
 import SelectForm from "../../../components/Form/selectForm";
 import {SimpleClockProps} from "../../clockSettings/types";
-import {TaskProps} from "../../calendar/types";
 
-interface Props {
+
+interface AddAlarmProps {
     change: boolean;
     setChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 
-const AddAlarm: React.FC<Props> = (change, setChange) => {
+const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
