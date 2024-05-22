@@ -34,6 +34,7 @@ const AddAlarm: React.FC<Props> = (change, setChange) => {
         { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
     ];
     const handleUpdate= ()=>{
+        console.log("handleUpdate called");
         setChange(!change);
     }
   const handleAddAlarm = () => {
