@@ -1,5 +1,5 @@
 import Heading from "../../../components/Elements/Headings/Heading";
-import { AlarmPropsResponse } from "../types";
+import {AlarmPropsResponse, AlarmsPropsResponse} from "../types";
 import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
@@ -10,9 +10,8 @@ import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
 
 const AlarmsList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
+  const [alarms, setAlarms] = useState<AlarmPropsResponse[]>();
   const alarmsPerPage = 5;
-  let alarmsVar:AlarmPropsResponse[] = [];
   //const clockId = storage.getClock() for now needs to be hardcoded
   //com
   const clockId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
@@ -31,8 +30,8 @@ const AlarmsList: React.FC = () => {
 
 
 
-  const setAllAlarms =  (response: AlarmPropsResponse[]) => {
-     setAlarms(response);
+  const setAllAlarms =  (response: AlarmsPropsResponse) => {
+     setAlarms(response.alarms);
     console.log('Alarms', alarms);
   };
   useEffect(() => {
@@ -42,14 +41,13 @@ const AlarmsList: React.FC = () => {
         //const response = await getDummyAlarms();
         await setAllAlarms(response);
         console.log('Response', response);
-        alarmsVar = response;
         console.log('alarmsVar', response);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
       }
     };
 
-    fetchAlarms().then(r => console.log('Alarms fetched' + alarms + " " + alarmsVar));
+    fetchAlarms().then(r => console.log('Alarms fetched'));
   }, []);
 
   const handleChangeOfPage = (
@@ -62,7 +60,7 @@ const AlarmsList: React.FC = () => {
   const handleAlarmDelete = (alarmToDelete: AlarmPropsResponse) => {
     deleteAlarm(alarmToDelete.id).then(async () => {
       const response = getAllAlarmsByClockId(clockId);
-      setAlarms(await response);
+      await setAllAlarms(await response);
       console.error('Response', response);
     }).catch((error) => {
       console.error('Failed to delete alarm:', error);
@@ -72,7 +70,7 @@ const AlarmsList: React.FC = () => {
   return (
     <>
       <Heading text={"Alarms"} type={"heading1"} className="mb-3" />
-      {alarms.length > 0 ? (
+      {alarms&& (
         <>
           {alarms
             .slice(
@@ -98,12 +96,13 @@ const AlarmsList: React.FC = () => {
             />
           )}
         </>
-      ) : (
-        <Heading
+      ) }
+      {!alarms && (
+      <Heading
           text={"You don't have any alarms."}
           type={"heading4"}
           className="mb-3"
-        />
+      />
       )}
     </>
   );
