@@ -32,6 +32,7 @@ const AlarmsList: React.FC = () => {
 
   const setAllAlarms = async (response: AlarmPropsResponse[]) => {
     setAlarms(response);
+    console.log('Alarms', alarms);
   };
   useEffect(() => {
     const fetchAlarms = async () => {
@@ -44,7 +45,7 @@ const AlarmsList: React.FC = () => {
       }
     };
 
-    fetchAlarms();
+    fetchAlarms().then(r => console.log('Alarms fetched'));
   }, [clockId,setAlarms]);
 
 
