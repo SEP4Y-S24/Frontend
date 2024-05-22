@@ -11,11 +11,9 @@ import { createAlarm} from "../api/alarmApi";
 import SelectForm from "../../../components/Form/selectForm";
 import {SimpleClockProps} from "../../clockSettings/types";
 
-interface AddAlarmProps {
-  addAlarm: (newAlarm: AlarmProps) => void;
-}
 
-const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
+
+const AddAlarm: React.FC = () => {
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
@@ -45,16 +43,14 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
     }
     else{
         //when implemented, replace the following code with the actual API call
-        addAlarm({
-            name: alarmName,
-            time: alarmTime.format("HH:mm"),
-            isEnabled: true, // new alarm is enabled by default
-        });
+
         let createAlarmData: CreateAlarmProps = {
             clock_id: selectedClock.id.toString(),
-            set_of_time: "2024-05-20T14:30:45Z",
+            hours: Number(alarmTime.format("HH")),
+            minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
+        console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
         }).catch(
@@ -63,7 +59,6 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
             }
         )
     }
-
     // Reset fields
     setAlarmName("");
     setAlarmTime(null);
