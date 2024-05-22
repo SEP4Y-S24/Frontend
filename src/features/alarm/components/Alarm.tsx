@@ -9,7 +9,7 @@ const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled
   const [checked, setChecked] = useState<boolean>(isEnabled);
 
     const handleSwitchChange = async () => {
-        updateAlarm(alarm_id, !checked).then(async () => {
+        updateAlarm(alarm_id, !checked).then(() => {
             setChecked(!checked);
             console.log('Updated', checked);
         }).catch((error) => {
