@@ -13,6 +13,7 @@ const AlarmsList: React.FC = () => {
   const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
   const alarmsPerPage = 5;
   //const clockId = storage.getClock() for now needs to be hardcoded
+  //com
   const clockId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
 
 /*
