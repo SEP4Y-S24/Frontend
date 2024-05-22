@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import AddAlarm from "../features/alarm/components/AddAlarm";
 import AlarmsList from "../features/alarm/components/AlarmsList";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AlarmProps, AlarmPropsResponse} from "../features/alarm/types";
 
 export const Alarm = () => {
 
     const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const addAlarm = (newAlarm: AlarmPropsResponse) => {
       setAlarms([...alarms, newAlarm]);
     };

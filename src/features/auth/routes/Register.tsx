@@ -36,6 +36,7 @@ export const Register = () => {
     //for register form
     const [values, setValues] = useState<RegisterValues>({email: '', password: '', name: '', avatarId: '1'});
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [pokemonError, setPokemonError] = useState<string>('');
 
 

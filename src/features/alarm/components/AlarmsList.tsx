@@ -1,4 +1,5 @@
 import Heading from "../../../components/Elements/Headings/Heading";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { AlarmProps, AlarmPropsResponse } from "../types";
 import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
