@@ -4,7 +4,7 @@ import Switcher from "../../../components/Elements/Switcher/Switcher";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { AlarmProps } from "../types";
 
-const Alarm: React.FC<AlarmProps> = ({ name, time, isEnabled, onDelete }) => {
+const Alarm: React.FC<AlarmProps> = ({ name, hours, minutes, isEnabled, onDelete }) => {
   const [checked, setChecked] = useState<boolean>(isEnabled);
 
   const handleSwitchChange = () => {
@@ -15,7 +15,7 @@ const Alarm: React.FC<AlarmProps> = ({ name, time, isEnabled, onDelete }) => {
   return (
     <div className="flex items-center space-x-3 p-3 bg-whiteHover hover:bg-background rounded mb-2">
       <div className="flex-grow">
-        <Heading text={time} type={"heading2"} />
+        <Heading text={hours + ":" + minutes} type={"heading2"} />
         <Heading text={name || ""} type={"heading4"} />
       </div>
       <div>

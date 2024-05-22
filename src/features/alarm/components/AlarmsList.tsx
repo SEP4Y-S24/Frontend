@@ -1,28 +1,41 @@
 import Heading from "../../../components/Elements/Headings/Heading";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { AlarmProps, AlarmPropsResponse } from "../types";
+import { AlarmPropsResponse } from "../types";
 import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
-import { getAllAlarmsByClockId } from "../api/alarmApi";
+import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
 import storage from "../../../utils/storage";
 
-interface AlarmsListProps {
-  alarms: AlarmPropsResponse[];
-  setAlarms: React.Dispatch<React.SetStateAction<AlarmPropsResponse[]>>;
-}
 
-const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
+
+const AlarmsList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
   const alarmsPerPage = 5;
-  const clockId = storage.getClock()
+  //const clockId = storage.getClock() for now needs to be hardcoded
+  //com
+  const clockId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
+
+/*
+  const toggleEnabled = (name: string, time: string) => {
+    const updatedAlarms = alarms.map(alarm => {
+      if (alarm.name === name && alarm.setOffTime === time) {
+        return { ...alarm, isEnabled: !alarm.isActive };
+      }
+      return alarm;
+    });
+    setAlarms(updatedAlarms);
+  };
+  */
+
 
 
   useEffect(() => {
     const fetchAlarms = async () => {
       try {
-        const response = await getAllAlarmsByClockId("f656d97d-63b7-451a-91ee-0e620e652c9e");
+        const response = await getAllAlarmsByClockId(clockId);
         setAlarms(response);
+        console.error('Response', response);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
       }
@@ -30,6 +43,9 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
 
     fetchAlarms();
   }, [clockId,setAlarms]);
+  //helo
+
+
 
 
 
@@ -41,11 +57,13 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
   };
 
   const handleAlarmDelete = (alarmToDelete: AlarmPropsResponse) => {
-    const updatedAlarms = alarms
-      ? alarms.filter((task) => task !== alarmToDelete)
-      : [];
-    setAlarms(updatedAlarms);
-    console.log("Deleted alarm", alarmToDelete);
+    deleteAlarm(alarmToDelete.id).then(async () => {
+      const response = getAllAlarmsByClockId(clockId);
+      setAlarms(await response);
+      console.error('Response', response);
+    }).catch((error) => {
+      console.error('Failed to delete alarm:', error);
+    });
   };
 
   return (
@@ -62,7 +80,8 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
               <Alarm
                 key={alarm.id}
                 name={alarm.name}
-                time={alarm.setOffTime}
+                hours={alarm.hours}
+                minutes={alarm.minutes}
                 isEnabled={alarm.isActive}
                 onDelete={() => handleAlarmDelete(alarm)}
               />
