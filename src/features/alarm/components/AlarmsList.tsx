@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
 import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
-import storage from "../../../utils/storage";
+
 
 
 

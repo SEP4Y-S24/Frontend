@@ -6,7 +6,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
 import { Dayjs } from "dayjs";
 import Button from "../../../components/Elements/Button";
-import {CreateAlarmProps, AlarmProps} from "../types";
+import {CreateAlarmProps} from "../types";
 import { createAlarm} from "../api/alarmApi";
 import SelectForm from "../../../components/Form/selectForm";
 import {SimpleClockProps} from "../../clockSettings/types";
