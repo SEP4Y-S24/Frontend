@@ -6,7 +6,7 @@ export interface AlarmProps {
 }
 export interface CreateAlarmProps {
     clock_id: string;
-    set_of_time:string;
+    set_of_time: string;
     name: string;
 }
 export interface AlarmPropsResponse {
