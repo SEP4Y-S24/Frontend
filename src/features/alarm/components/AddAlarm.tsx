@@ -6,8 +6,9 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import React from "react";
 import { Dayjs } from "dayjs";
 import Button from "../../../components/Elements/Button";
-import {AlarmModel, AlarmProps} from "../types";
-import {createAlarm} from "../api/createAlarm";
+import {CreateAlarmProps, AlarmProps} from "../types";
+import { createAlarm} from "../api/alarmApi";
+import SelectForm from "../../../components/Form/selectForm";
 
 interface AddAlarmProps {
   addAlarm: (newAlarm: AlarmProps) => void;
@@ -24,7 +25,7 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
       return;
     }
     else{
-        let createAlarmData: AlarmModel = {
+        let createAlarmData: CreateAlarmProps = {
             clock_id: "f656d97d-63b7-451a-91ee-0e620e652c9e",
             set_of_time: "2024-05-20T14:30:45Z",
             name: "string",
@@ -62,6 +63,14 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ addAlarm }) => {
           setAlarmName(e.target.value)
         }
       />
+        <SelectForm
+            dropdownLabel="Select clocks of receiver"
+            options={[{id:1,name: "gvhbj"}, {id:1,name: "vhbj"}]}
+            className="mb-5"
+            value={{id:1,name: "cgvhbj"} }
+            onChange={()=>(console.log("Message:", ))}
+            error={timeError}
+        />
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <div className="mt-2">
           <TimePicker
