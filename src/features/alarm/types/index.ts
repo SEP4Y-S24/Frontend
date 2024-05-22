@@ -1,14 +1,23 @@
 export interface AlarmProps {
-    name: string
+    name?: string;
     time: any;
     isEnabled : boolean;
     onDelete?: () => void;
 }
-export interface AlarmModel{
+export interface CreateAlarmProps {
     clock_id: string;
     set_of_time:string;
     name: string;
 }
+export interface AlarmPropsResponse {
+    id: string,
+    clockId: string,
+    name?: string,
+    setOffTime: string,
+    isActive: boolean,
+    isSnoozed: boolean
+}
+
 
 export let dummyDataForAlarms: AlarmProps[] = [
     {

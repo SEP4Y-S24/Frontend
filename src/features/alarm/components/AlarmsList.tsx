@@ -1,17 +1,37 @@
 import Heading from "../../../components/Elements/Headings/Heading";
-import { AlarmProps } from "../types";
-import { useState } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AlarmProps, AlarmPropsResponse } from "../types";
+import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
+import { getAllAlarmsByClockId } from "../api/alarmApi";
+import storage from "../../../utils/storage";
 
 interface AlarmsListProps {
-  alarms: AlarmProps[];
-  setAlarms: React.Dispatch<React.SetStateAction<AlarmProps[]>>;
+  alarms: AlarmPropsResponse[];
+  setAlarms: React.Dispatch<React.SetStateAction<AlarmPropsResponse[]>>;
 }
 
 const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const alarmsPerPage = 5;
+  const clockId = storage.getClock()
+
+
+  useEffect(() => {
+    const fetchAlarms = async () => {
+      try {
+        const response = await getAllAlarmsByClockId("f656d97d-63b7-451a-91ee-0e620e652c9e");
+        setAlarms(response);
+      } catch (error) {
+        console.error('Failed to fetch alarms:', error);
+      }
+    };
+
+    fetchAlarms();
+  }, [clockId,setAlarms]);
+
+
 
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
@@ -20,7 +40,7 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
     setCurrentPage(value);
   };
 
-  const handleAlarmDelete = (alarmToDelete: AlarmProps) => {
+  const handleAlarmDelete = (alarmToDelete: AlarmPropsResponse) => {
     const updatedAlarms = alarms
       ? alarms.filter((task) => task !== alarmToDelete)
       : [];
@@ -40,10 +60,10 @@ const AlarmsList: React.FC<AlarmsListProps> = ({ alarms, setAlarms }) => {
             )
             .map((alarm, index) => (
               <Alarm
-                key={index}
+                key={alarm.id}
                 name={alarm.name}
-                time={alarm.time}
-                isEnabled={alarm.isEnabled}
+                time={alarm.setOffTime}
+                isEnabled={alarm.isActive}
                 onDelete={() => handleAlarmDelete(alarm)}
               />
             ))}

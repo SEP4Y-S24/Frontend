@@ -12,6 +12,9 @@ import {hashPassword} from "./index";
 import {RegisterCredentialsDTO} from "../api/register";
 import {useRegister} from "../../../lib/auth";
 import storage from "../../../utils/storage";
+import {useQuery} from "@tanstack/react-query";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
+
 
 
 const schema = z.object({
@@ -33,6 +36,7 @@ export const Register = () => {
     //for register form
     const [values, setValues] = useState<RegisterValues>({email: '', password: '', name: '', avatarId: '1'});
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [pokemonError, setPokemonError] = useState<string>('');
 
 
@@ -41,13 +45,18 @@ export const Register = () => {
     const handlePokemonSelect = (pokemonId: string) => {
         handleChange({target: {name: 'avatarId', value: pokemonId}} as React.ChangeEvent<HTMLInputElement>)
     };
-//getting pokemon data from api
+
+    const { isLoading, error, data } = useQuery({
+        queryKey: ['pokemonList'],
+        queryFn: fetchPokemon,
+    });
+
     useEffect(() => {
-        fetchPokemon().then(pokemonList => setPokemonList(pokemonList))
-            .catch(() => {
-                setPokemonError("No pictures of pokemons are available at the moment. Please try again later.");
-            });
-    }, []);
+        if (data) {
+            setPokemonList(data);
+        }
+    }, [data]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
         setValues({...values, [name]: value});
@@ -83,6 +92,7 @@ export const Register = () => {
     };
 
 
+
     return (
         <Layout>
             <Form onSubmit={handleSubmit}>
@@ -109,9 +119,12 @@ export const Register = () => {
                         <label
                             className="block my-2 text-base font-normal text-dark"> Choose your avatar:
                         </label>
+                        {isLoading && <SpinnerComponent/>}
+                        {error && <p className={"text-red-500"}>{"Error loading pokemons"}</p>}
                         {pokemonError && <p className={"text-red-500"}>{pokemonError}</p>}
-                        <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
-                                       onSelect={handlePokemonSelect}/>
+                        {data && <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
+                                                                                 onSelect={handlePokemonSelect}/>   }
+
                         <div className={"pt-5"}>
                             <Button text={"Register"} styleType={"info"} className={"w-full justify-center"}
                                     type="submit"/>

@@ -1,22 +1,25 @@
 import { useState } from "react";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import AddAlarm from "../features/alarm/components/AddAlarm";
 import AlarmsList from "../features/alarm/components/AlarmsList";
-import { AlarmProps, dummyDataForAlarms } from "../features/alarm/types";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { AlarmProps, AlarmPropsResponse} from "../features/alarm/types";
 
 export const Alarm = () => {
 
-    const [alarms, setAlarms] = useState<AlarmProps[]>(dummyDataForAlarms);
-    const addAlarm = (newAlarm: AlarmProps) => {
+    const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const addAlarm = (newAlarm: AlarmPropsResponse) => {
       setAlarms([...alarms, newAlarm]);
     };
 
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const toggleEnabled = (name: string, time: string) => {
       const updatedAlarms = alarms.map(alarm => {
-        if (alarm.name === name && alarm.time === time) {
-          return { ...alarm, isEnabled: !alarm.isEnabled };
+        if (alarm.name === name && alarm.setOffTime === time) {
+          return { ...alarm, isEnabled: !alarm.isActive };
         }
         return alarm;
       });
@@ -30,9 +33,9 @@ export const Alarm = () => {
           <AlarmsList alarms={alarms} setAlarms={setAlarms}/>
         </ContentInnerContainer>
 
-        <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+        {/* <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
         <AddAlarm addAlarm={addAlarm} />
-        </ContentInnerContainer>
+        </ContentInnerContainer> */}
       </ContentLayout>
     </>
   );
