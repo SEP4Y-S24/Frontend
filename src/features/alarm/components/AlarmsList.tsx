@@ -46,7 +46,7 @@ const AlarmsList: React.FC = () => {
     };
 
     fetchAlarms().then(r => console.log('Alarms fetched'));
-  }, [clockId,setAlarms]);
+  }, []);
 
 
 
