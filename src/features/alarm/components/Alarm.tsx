@@ -8,18 +8,16 @@ import {updateAlarm} from "../api/alarmApi";
 const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled, onDelete }) => {
   const [checked, setChecked] = useState<boolean>(isEnabled);
 
-  const handleSwitchChange = () => {
+  const handleSwitchChange = async () => {
 
-    setChecked(!checked);
-    try {
-        updateAlarm(alarm_id, checked).then((response) => {
-            console.log(response);
-        });
-    }
-    catch (error) {
-        console.error('Failed to update alarm:', error);
-    }
 
+      try {
+          await updateAlarm(alarm_id, !checked);
+
+      } catch (error) {
+          console.error('Failed to update alarm:', error);
+      }
+      setChecked(!checked);
   };
 
   return (
