@@ -6,9 +6,11 @@ import Alarm from "./Alarm";
 import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
 
 
+interface AlarmsListProps {
+  change: boolean;
+}
 
-
-const AlarmsList: React.FC = () => {
+const AlarmsList: React.FC<AlarmsListProps> = (change) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [alarms, setAlarms] = useState<AlarmPropsResponse[]>();
   const alarmsPerPage = 5;
@@ -48,7 +50,7 @@ const AlarmsList: React.FC = () => {
     };
 
     fetchAlarms().then(r => console.log('Alarms fetched'));
-  }, []);
+  }, [change]);
 
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
