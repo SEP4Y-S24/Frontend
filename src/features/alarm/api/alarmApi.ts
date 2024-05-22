@@ -1,4 +1,4 @@
-import {AlarmProps, AlarmPropsResponse, CreateAlarmProps} from "../types";
+import {AlarmProps, AlarmPropsResponse, AlarmsPropsResponse, CreateAlarmProps} from "../types";
 import axios from "axios";
 import {axiosConfig, baseURL} from "../../../lib/axios";
 
@@ -13,7 +13,7 @@ export const createAlarm = (data: CreateAlarmProps): Promise<AlarmPropsResponse>
 };
 
 // done ready for testing
-export const getAllAlarmsByClockId = (clockId: string): Promise<AlarmPropsResponse[]> => {
+export const getAllAlarmsByClockId = (clockId: string): Promise<AlarmsPropsResponse> => {
     return axios.get(`${baseURL}/AlarmService/alarms/clocks/${clockId}`, axiosConfig)
         .then(response => response.data)
         .catch(error => {

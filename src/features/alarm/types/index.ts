@@ -20,6 +20,10 @@ export interface AlarmPropsResponse {
     isActive: boolean,
     isSnoozed: boolean
 }
+export interface AlarmsPropsResponse {
+    alarms: AlarmPropsResponse[]
+}
+
 /*
 export const dummyAlarms: AlarmPropsResponse[] = [
     {
