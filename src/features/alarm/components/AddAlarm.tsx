@@ -33,6 +33,7 @@ const AddAlarm: React.FC = () => {
       setTimeError("Please select a time.");
       return;
     }
+
     if (!alarmName) {
         setNameError("Please enter a name.");
         return;
