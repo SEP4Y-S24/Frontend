@@ -30,8 +30,8 @@ const AlarmsList: React.FC = () => {
 
 
 
-  const setAllAlarms = async (response: AlarmPropsResponse[]) => {
-    await setAlarms(response);
+  const setAllAlarms =  (response: AlarmPropsResponse[]) => {
+     setAlarms(response);
     console.log('Alarms', alarms);
   };
   useEffect(() => {
@@ -39,6 +39,7 @@ const AlarmsList: React.FC = () => {
       try {
         const response = await getAllAlarmsByClockId(clockId);
         await setAllAlarms(response);
+
         console.log('Response', response);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
