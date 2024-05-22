@@ -11,9 +11,15 @@ const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled
   const handleSwitchChange = () => {
 
     setChecked(!checked);
-    updateAlarm(alarm_id, checked).then((response) => {
-        console.log(response);
-    });
+    try {
+        updateAlarm(alarm_id, checked).then((response) => {
+            console.log(response);
+        });
+    }
+    catch (error) {
+        console.error('Failed to update alarm:', error);
+    }
+
   };
 
   return (
