@@ -12,6 +12,7 @@ const AlarmsList: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [alarms, setAlarms] = useState<AlarmPropsResponse[]>([]);
   const alarmsPerPage = 5;
+  let alarmsVar:AlarmPropsResponse[] = [];
   //const clockId = storage.getClock() for now needs to be hardcoded
   //com
   const clockId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
@@ -38,21 +39,18 @@ const AlarmsList: React.FC = () => {
     const fetchAlarms = async () => {
       try {
         const response = await getAllAlarmsByClockId(clockId);
+        //const response = await getDummyAlarms();
         await setAllAlarms(response);
-
         console.log('Response', response);
+        alarmsVar = response;
+        console.log('alarmsVar', response);
       } catch (error) {
         console.error('Failed to fetch alarms:', error);
       }
     };
 
-    fetchAlarms().then(r => console.log('Alarms fetched'));
+    fetchAlarms().then(r => console.log('Alarms fetched' + alarms + " " + alarmsVar));
   }, []);
-
-
-
-
-
 
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
