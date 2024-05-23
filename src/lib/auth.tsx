@@ -46,6 +46,7 @@ async function registerFn(data: CreateUserPropsRequest) {
 
 async function logoutFn() {
     storage.clearToken();
+    storage.clearUser();
     window.location.assign(window.location.origin as unknown as string);
 }
 
