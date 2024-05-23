@@ -49,6 +49,7 @@ export const Login = () => {
                 });
                 setErrors(fieldErrors);
             }
+            console.log("Error: "+error)
         }
     };
 
