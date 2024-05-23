@@ -25,10 +25,14 @@ const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled
         // You might want to update the alarm state here, if necessary
     };*/
 
+
+    const formattedHours = String(hours).padStart(2, '0');
+    const formattedMinutes = String(minutes).padStart(2, '0');
+
   return (
     <div className="flex items-center space-x-3 p-3 bg-whiteHover hover:bg-background rounded mb-2">
       <div className="flex-grow">
-        <Heading text={hours + ":" + minutes} type={"heading2"} />
+      <Heading text={`${formattedHours}:${formattedMinutes}`} type={"heading2"} />
         <Heading text={name || ""} type={"heading4"} />
       </div>
       <div>
