@@ -8,7 +8,7 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
-import storage from "../utils/storage";
+import {useUser} from "../lib/auth";
 
 
 const ErrorFallback = () => {
@@ -28,10 +28,10 @@ const ErrorFallback = () => {
 const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
-//com
+
 export const AppProvider =  () => {
-    //const user =  useUser();
-    const user =  storage.getUser();
+    const user =  useUser();
+    //const user =  storage.getUser();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
@@ -39,7 +39,6 @@ export const AppProvider =  () => {
     const router = createBrowserRouter(routes);
 
     return (
-
         <React.Suspense
             fallback={
                 <div className="flex items-center justify-center w-screen h-screen">
@@ -47,7 +46,7 @@ export const AppProvider =  () => {
                 </div>
             }>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <RouterProvider router={router} />
+                    <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
 
