@@ -36,7 +36,7 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
     const toggleChangeAfterTwoSeconds = () => {
         setTimeout(() => {
             setChange(prevChange => !prevChange);
-        }, 2000); // 2000 milliseconds = 2 seconds
+        }, 500); // 2000 milliseconds = 2 seconds
     };
 
   const handleAddAlarm = () => {
