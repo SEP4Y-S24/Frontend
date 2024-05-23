@@ -22,7 +22,7 @@ async function handleUserResponse(data: UserPropsResponse) {
 async function userFn() {
     if (storage.getToken()) {
         const {user} = storage.getUser();
-        console.log("Token Exists " + user);
+        console.log("Token Exists " + storage.getUser());
         return user;
     }
     if(storage.getUser()){
@@ -44,6 +44,8 @@ async function registerFn(data: CreateUserPropsRequest) {
 
 async function logoutFn() {
     storage.clearToken();
+    storage.clearUser();
+    storage.clearClock()
     window.location.assign(window.location.origin as unknown as string);
 }
 
