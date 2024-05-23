@@ -14,7 +14,7 @@ const ChangeClockSettings = ({
   setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>>;
 }) => {
   const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: 0,
+    id: "0",
     name: "Select",
     timezone: { id: -13, name: "Select" },
   });
@@ -38,7 +38,7 @@ const ChangeClockSettings = ({
       );
       setClocks(updatedClocks);
       setSelectedClock({
-        id: 0,
+        id: "0",
         name: "Select",
         timezone: { id: -13, name: "Select" },
       });
