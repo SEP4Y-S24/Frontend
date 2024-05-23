@@ -5,8 +5,10 @@ import InputField from "../../../components/Form/InputField";
 import SelectForm from "../../../components/Form/selectForm";
 import { useState } from "react";
 import { utcTimezones } from "../data/timezones";
-import { ClockProps, TimeProps } from "../types";
+import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
+import { createClock } from "../api/clockApi";
+import storage from "../../../utils/storage";
 
 const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>> }) => {
   const [clockName, setClockName] = useState("");
@@ -37,10 +39,20 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
       timezone: selectedTimezone, // Use the selected timezone value
     };
 
+    //Sending only relevant data to the backend
+    const userFromStorage = storage.getUser()
+    const clockToBeSend :ClockPropsResquest = {
+      userId: userFromStorage,
+      name : newClock.name,
+      timeOffset: newClock.timezone.id*60
+    }
+    const request= createClock(clockToBeSend) // sending the data to the backend
+    if(request)
     setClocks([...clocks, newClock]); // Add the new clock to the clocks array
     setClockName(""); // Reset the clock name field
     setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
 
+    
     console.log("Clock added:", newClock);
   };
 
