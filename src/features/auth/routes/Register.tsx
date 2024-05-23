@@ -69,7 +69,7 @@ export const Register = () => {
         e.preventDefault();
         try {
             schema.parse(values);
-            values.password = await hashPassword(values.password);
+            //values.password = await hashPassword(values.password);
             const avatarIdNumber = parseInt(values.avatarId);
             const credentials: CreateUserPropsRequest = {
                 email: values.email,
