@@ -1,4 +1,4 @@
-import {AlarmProps, AlarmPropsResponse, AlarmsPropsResponse, CreateAlarmProps} from "../types";
+import {AlarmProps, AlarmPropsResponse, AlarmsPropsResponse, AlarmUpdateProps, CreateAlarmProps} from "../types";
 import axios from "axios";
 import {axiosConfig, baseURL} from "../../../lib/axios";
 
@@ -29,7 +29,7 @@ export const getAlarmById = (alarmId: string): Promise<AlarmPropsResponse> => {
         });
 };
 
-export const updateAlarm = ( alarmId: string, state: boolean): Promise<AlarmProps> => {
+export const updateAlarm = ( alarmId: string, state: AlarmUpdateProps): Promise<AlarmProps> => {
     return axios.patch(`${baseURL}/AlarmService/alarm/${alarmId}/state`, state, axiosConfig)
         .then(response => response.data)
         .catch(error => {

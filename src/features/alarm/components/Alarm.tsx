@@ -2,24 +2,28 @@ import React, { useState } from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import Switcher from "../../../components/Elements/Switcher/Switcher";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import {AlarmProps, AlarmPropsResponse} from "../types";
+import {AlarmProps, AlarmPropsResponse, AlarmUpdateProps} from "../types";
 import {deleteAlarm, getAllAlarmsByClockId, updateAlarm} from "../api/alarmApi";
 
 const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled, onDelete }) => {
   const [checked, setChecked] = useState<boolean>(isEnabled);
 
-    /*const handleSwitchChange = async () => {
-        updateAlarm(alarm_id, !checked).then(() => {
+
+    const handleSwitchChange = async () => {
+        const checkedAlarm:AlarmUpdateProps={
+            state: !checked+""
+        }
+        updateAlarm(alarm_id, checkedAlarm).then(() => {
             setChecked(!checked);
             console.log('Updated', checked);
         }).catch((error) => {
             console.error('Failed to update alarm:', error);
         });
-    };*/
-    const handleSwitchChange = () => {
+    };
+    /*const handleSwitchChange = () => {
         setChecked(!checked); // Toggle the switch state
         // You might want to update the alarm state here, if necessary
-    };
+    };*/
 
   return (
     <div className="flex items-center space-x-3 p-3 bg-whiteHover hover:bg-background rounded mb-2">

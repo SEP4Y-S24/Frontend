@@ -24,6 +24,9 @@ export interface AlarmPropsResponse {
 export interface AlarmsPropsResponse {
     alarms: AlarmPropsResponse[]
 }
+export interface AlarmUpdateProps {
+    state: string
+}
 
 /*
 export const dummyAlarms: AlarmPropsResponse[] = [
