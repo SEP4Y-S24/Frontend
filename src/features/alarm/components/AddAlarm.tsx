@@ -33,6 +33,11 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
         { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
         { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
     ];
+    const toggleChangeAfterTwoSeconds = () => {
+        setTimeout(() => {
+            setChange(prevChange => !prevChange);
+        }, 2000); // 2000 milliseconds = 2 seconds
+    };
 
   const handleAddAlarm = () => {
     if (!alarmTime) {
@@ -54,11 +59,10 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
             minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
-        setChange(!change);
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
-            setChange(!change)
+            toggleChangeAfterTwoSeconds()
         }).catch(
             (error) => {
                 console.log(error);
