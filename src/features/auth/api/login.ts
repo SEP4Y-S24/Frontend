@@ -9,6 +9,7 @@ export type LoginCredentialsDTO = {
 };
 
 export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<UserPropsResponse> => {
+    console.log("api call "+data)
 
     return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfig)
         .then(response => response.data)

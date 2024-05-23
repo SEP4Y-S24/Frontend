@@ -28,6 +28,7 @@ async function userFn() {
 }
 
 async function loginFn(data: LoginPropsRequest) {
+    console.log("before api " + data);
     const response = await loginWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }
