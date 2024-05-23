@@ -8,18 +8,7 @@ import {useState} from "react";
 
 export const Alarm = () => {
 
-    const [change, setChange] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    /*const toggleEnabled = (name: string, time: string) => {
-      const updatedAlarms = alarms.map(alarm => {
-        if (alarm.name === name && alarm.setOffTime === time) {
-          return { ...alarm, isEnabled: !alarm.isActive };
-        }
-        return alarm;
-      });
-      setAlarms(updatedAlarms);
-    };*/
-//com
+    const [change, setChange] = useState<boolean>(false);
   return (
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">

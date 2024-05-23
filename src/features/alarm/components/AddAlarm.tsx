@@ -15,7 +15,7 @@ import {SimpleClockProps} from "../../clockSettings/types";
 interface AddAlarmProps {
     change: boolean;
     setChange: React.Dispatch<React.SetStateAction<boolean>>;
-}
+} 
 
 
 const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
@@ -58,6 +58,7 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
+            setChange(!change)
         }).catch(
             (error) => {
                 console.log(error);
