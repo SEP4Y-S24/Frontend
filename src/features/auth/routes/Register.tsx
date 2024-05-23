@@ -17,11 +17,13 @@ import {CreateUserPropsRequest} from "../types";
 
 
 
+
 const schema = z.object({
     email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
     password: z.string().min(1, 'Password needs to be at least 5 characters long.'),
     name: z.string().min(1, 'Name is required.')
 });
+
 type RegisterValues = {
     email: string;
     password: string;
