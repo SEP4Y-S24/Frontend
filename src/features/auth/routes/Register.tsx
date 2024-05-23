@@ -121,7 +121,6 @@ export const Register = () => {
                         </label>
                         {isLoading && <SpinnerComponent/>}
                         {error && <p className={"text-red-500"}>{"Error loading pokemons"}</p>}
-                        {pokemonError && <p className={"text-red-500"}>{pokemonError}</p>}
                         {data && <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
                                                                                  onSelect={handlePokemonSelect}/>   }
 

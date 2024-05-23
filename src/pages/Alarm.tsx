@@ -8,7 +8,7 @@ import {useState} from "react";
 
 export const Alarm = () => {
 
-    const [change, setChange] = useState(false);
+    const [change, setChange] = useState<boolean>(false);
   return (
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
