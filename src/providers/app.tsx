@@ -1,5 +1,5 @@
 import Button from "../components/Elements/Button";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
@@ -9,6 +9,7 @@ import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
 import {useUser} from "../lib/auth";
+import { AuthLoader } from "../lib/auth";
 
 
 const ErrorFallback = () => {
@@ -29,14 +30,25 @@ const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
 
-export const AppProvider =  () => {
-    const user =  useUser();
-    //const user =  storage.getUser();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const AppProvider = () => {
+    const [loading, setLoading] = useState(true);
+    const user = useUser();
+
+    useEffect(() => {
+        setLoading(false); // Simulate loading completion
+    }, []);
+
     const route = user.data ? protectedRoutes : publicRoutes;
-    //console.log(route);
-    const routes =  [...route, ...commonRoutes];
+    const routes = [...route, ...commonRoutes];
     const router = createBrowserRouter(routes);
+
+    if (loading) {
+        return (
+            <div className="w-screen h-screen flex justify-center items-center">
+                <span>Loading...</span>
+            </div>
+        );
+    }
 
     return (
         <React.Suspense
@@ -44,11 +56,11 @@ export const AppProvider =  () => {
                 <div className="flex items-center justify-center w-screen h-screen">
                     <span>loading</span>
                 </div>
-            }>
+            }
+        >
             <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
-
     );
 };
