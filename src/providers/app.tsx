@@ -1,5 +1,5 @@
 import Button from "../components/Elements/Button";
-import React from "react";
+import React, {useEffect} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
@@ -9,6 +9,7 @@ import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
 import {useUser} from "../lib/auth";
+import storage from "../utils/storage";
 
 
 const ErrorFallback = () => {
@@ -30,8 +31,8 @@ const commonRoutes = [
 ];
 
 export const AppProvider =  () => {
-    const user =  useUser();
-    //const user =  storage.getUser();
+    //const user =  useUser();
+    const user =  storage.getUser();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
