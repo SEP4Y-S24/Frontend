@@ -1,6 +1,7 @@
 import {configureAuth} from 'react-query-auth';
 
 import storage from "../utils/storage";
+import {getUser} from "../features/auth/api/getUser";
 import {loginWithEmailAndPassword} from "../features/auth/api/login";
 import {registerWithEmailAndPassword} from "../features/auth/api/register";
 import {
@@ -8,6 +9,9 @@ import {
     LoginPropsRequest,
     UserPropsResponse
 } from "../features/auth/types";
+
+
+
 
 async function handleUserResponse(data: UserPropsResponse) {
     const { token, user } = data;
@@ -18,8 +22,8 @@ async function handleUserResponse(data: UserPropsResponse) {
 
 async function userFn() {
     if (storage.getToken()) {
-        const {user} = storage.getUser();
-        console.log("Token Exists " + storage.getUser());
+        const {user} = await getUser();
+        console.log("Token Exists " + user);
         return user;
     }
     if(storage.getUser()){
@@ -28,9 +32,9 @@ async function userFn() {
     console.log("Token Does Not Exist");
     return null;
 }
-//c
 
 async function loginFn(data: LoginPropsRequest) {
+    console.log("before api " + data);
     const response = await loginWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }
@@ -42,8 +46,6 @@ async function registerFn(data: CreateUserPropsRequest) {
 
 async function logoutFn() {
     storage.clearToken();
-    storage.clearUser();
-    storage.clearClock()
     window.location.assign(window.location.origin as unknown as string);
 }
 

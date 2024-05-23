@@ -1,5 +1,5 @@
 import Button from "../components/Elements/Button";
-import React, {useEffect} from "react";
+import React from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
@@ -8,7 +8,6 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
-
 import storage from "../utils/storage";
 
 
