@@ -13,6 +13,7 @@ import storage from "../../../utils/storage";
 import {useQuery} from "@tanstack/react-query";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import {CreateUserPropsRequest} from "../types";
+import {useNavigate} from "react-router";
 
 
 
@@ -46,6 +47,7 @@ export const Register = () => {
     const handlePokemonSelect = (pokemonId: string) => {
         handleChange({target: {name: 'avatarId', value: pokemonId}} as React.ChangeEvent<HTMLInputElement>)
     };
+    const navigate = useNavigate();
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['pokemonList'],
@@ -76,7 +78,7 @@ export const Register = () => {
                 avatarId: avatarIdNumber
             };
             register.mutate(credentials);
-            await console.log(storage.getToken())
+            navigate('/')
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};

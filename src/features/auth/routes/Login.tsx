@@ -8,6 +8,7 @@ import * as z from 'zod';
 import React, {useState} from "react";
 import {useLogin} from "../../../lib/auth";
 import {LoginPropsRequest} from "../types";
+import {useNavigate} from "react-router";
 
 
 const schema = z.object({
@@ -20,6 +21,7 @@ export const Login = () => {
     const login = useLogin();
     const [values, setValues] = useState<LoginPropsRequest>({ email: '', password: '' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const navigate = useNavigate();
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -37,6 +39,7 @@ export const Login = () => {
                 password: values.password
             }
             login.mutate(request);
+            navigate('/')
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
