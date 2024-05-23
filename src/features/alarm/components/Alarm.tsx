@@ -3,7 +3,7 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import Switcher from "../../../components/Elements/Switcher/Switcher";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import {AlarmProps, AlarmUpdateProps} from "../types";
-import { updateAlarm} from "../api/alarmApi";
+import {updateAlarm} from "../api/alarmApi";
 
 const Alarm: React.FC<AlarmProps> = ({ alarm_id, name, hours, minutes, isEnabled, onDelete }) => {
   const [checked, setChecked] = useState<boolean>(isEnabled);
