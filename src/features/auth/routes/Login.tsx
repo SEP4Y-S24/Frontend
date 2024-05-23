@@ -38,8 +38,11 @@ export const Login = () => {
                 email: values.email,
                 password: values.password
             }
-            login.mutate(request);
-            navigate('/')
+            login.mutate(request, {
+                onSuccess: () => {
+                    navigate('/');
+                }
+            } );
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
