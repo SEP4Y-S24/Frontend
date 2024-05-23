@@ -16,14 +16,20 @@ import {
 async function handleUserResponse(data: UserPropsResponse) {
     const { token, user } = data;
     storage.setToken(token);
+    storage.setUser(user);
     return user;
 }
 
 async function userFn() {
     if (storage.getToken()) {
         const {user} = await getUser();
+        console.log("Token Exists " + user);
         return user;
     }
+    if(storage.getUser()){
+        return storage.getUser();
+    }
+    console.log("Token Does Not Exist");
     return null;
 }
 
