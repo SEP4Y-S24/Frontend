@@ -8,6 +8,7 @@ import {axiosConfig, baseURL} from "../../../lib/axios";
 
 export const registerWithEmailAndPassword = (data: CreateUserPropsRequest): Promise<UserPropsResponse> => {
 
+    console.log("Register api "+data);
     return axios.post(`${baseURL}/UserService/users`, data, axiosConfig)
         .then(response => response.data)
         .catch(error => {
