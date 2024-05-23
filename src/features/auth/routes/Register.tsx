@@ -14,6 +14,7 @@ import storage from "../../../utils/storage";
 import {useQuery} from "@tanstack/react-query";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import {CreateUserPropsRequest} from "../types";
+import {useNavigate} from "react-router";
 
 
 
@@ -22,6 +23,7 @@ const schema = z.object({
     password: z.string().min(1, 'Password needs to be at least 5 characters long.'),
     name: z.string().min(1, 'Name is required.')
 });
+
 type RegisterValues = {
     email: string;
     password: string;
