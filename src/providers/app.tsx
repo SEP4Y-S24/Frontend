@@ -33,7 +33,7 @@ export const AppProvider = () => {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
-    const routes =  [...protectedRoutes, ...commonRoutes];
+    const routes =  [...publicRoutes, ...commonRoutes];
     const router = createBrowserRouter(routes);
 
     return (

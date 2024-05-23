@@ -9,11 +9,11 @@ import {EmblaOptionsType} from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 import {fetchPokemon, Pokemon} from "../../avatarPic/api";
 import {hashPassword} from "./index";
-import {RegisterCredentialsDTO} from "../api/register";
 import {useRegister} from "../../../lib/auth";
 import storage from "../../../utils/storage";
 import {useQuery} from "@tanstack/react-query";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
+import {CreateUserPropsRequest} from "../types";
 
 
 
@@ -69,7 +69,7 @@ export const Register = () => {
             schema.parse(values);
             values.password = await hashPassword(values.password);
             const avatarIdNumber = parseInt(values.avatarId);
-            const credentials: RegisterCredentialsDTO = {
+            const credentials: CreateUserPropsRequest = {
                 email: values.email,
                 password: values.password,
                 name: values.name,

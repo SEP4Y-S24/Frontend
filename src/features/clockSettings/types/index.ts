@@ -15,3 +15,16 @@ export interface ClockProps {
     name: string;
     timezone: TimeProps;
   }
+
+export interface ClockPropsResponse{
+    userId: string
+    id: string
+    name: string
+    timeOffset: number
+}
+
+export interface ClockPropsResquest{
+  userId: string
+  name?: string
+  timeOffset: number
+}

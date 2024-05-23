@@ -1,26 +1,21 @@
 import {configureAuth} from 'react-query-auth';
-import {UserResponse} from "../features/auth/types";
+
 import storage from "../utils/storage";
 import {getUser} from "../features/auth/api/getUser";
 import {loginWithEmailAndPassword} from "../features/auth/api/login";
 import {registerWithEmailAndPassword} from "../features/auth/api/register";
+import {
+    CreateUserPropsRequest,
+    LoginPropsRequest,
+    UserPropsResponse
+} from "../features/auth/types";
 
 
-export type LoginCredentials = {
-    email: string;
-    password: string;
-};
 
-export type RegisterCredentials = {
-    email: string;
-    name: string;
-    password: string;
-    avatarId?: number;
-};
 
-async function handleUserResponse(data: UserResponse) {
-    const { jwt, user } = data;
-    storage.setToken(jwt);
+async function handleUserResponse(data: UserPropsResponse) {
+    const { token, user } = data;
+    storage.setToken(token);
     return user;
 }
 
@@ -32,12 +27,12 @@ async function userFn() {
     return null;
 }
 
-async function loginFn(data: LoginCredentials) {
+async function loginFn(data: LoginPropsRequest) {
     const response = await loginWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }
 
-async function registerFn(data: RegisterCredentials) {
+async function registerFn(data: CreateUserPropsRequest) {
     const response = await registerWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }

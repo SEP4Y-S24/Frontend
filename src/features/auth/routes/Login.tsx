@@ -8,20 +8,18 @@ import * as z from 'zod';
 import React, {useState} from "react";
 import {useLogin} from "../../../lib/auth";
 import {hashPassword} from "./index";
+import {LoginPropsRequest} from "../types";
 
 
 const schema = z.object({
     email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
     password: z.string().min(1, 'Password is required'),
 });
-type LoginValues = {
-    email: string;
-    password: string;
-};
+
 
 export const Login = () => {
     const login = useLogin();
-    const [values, setValues] = useState<LoginValues>({ email: '', password: '' });
+    const [values, setValues] = useState<LoginPropsRequest>({ email: '', password: '' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
