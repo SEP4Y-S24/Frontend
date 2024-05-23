@@ -31,6 +31,7 @@ const commonRoutes = [
 
 export const AppProvider =  () => {
     const user =  useUser();
+    //const user =  storage.getUser();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
@@ -38,14 +39,12 @@ export const AppProvider =  () => {
     const router = createBrowserRouter(routes);
 
     return (
-
         <React.Suspense
             fallback={
                 <div className="flex items-center justify-center w-screen h-screen">
                     <span>loading</span>
                 </div>
-            }
-        >
+            }>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
                     <RouterProvider router={router} />
             </ErrorBoundary>
