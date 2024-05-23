@@ -8,7 +8,6 @@ import Button from "../../../components/Elements/Button";
 import {EmblaOptionsType} from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 import {fetchPokemon, Pokemon} from "../../avatarPic/api";
-import {hashPassword} from "./index";
 import {useRegister} from "../../../lib/auth";
 import storage from "../../../utils/storage";
 import {useQuery} from "@tanstack/react-query";
@@ -69,7 +68,6 @@ export const Register = () => {
         e.preventDefault();
         try {
             schema.parse(values);
-            //values.password = await hashPassword(values.password);
             const avatarIdNumber = parseInt(values.avatarId);
             const credentials: CreateUserPropsRequest = {
                 email: values.email,
@@ -77,7 +75,6 @@ export const Register = () => {
                 name: values.name,
                 avatarId: avatarIdNumber
             };
-            console.log('Form register submitted:', credentials);
             register.mutate(credentials);
             await console.log(storage.getToken())
         } catch (error) {

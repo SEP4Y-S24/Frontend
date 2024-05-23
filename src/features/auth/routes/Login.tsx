@@ -7,7 +7,6 @@ import Button from "../../../components/Elements/Button";
 import * as z from 'zod';
 import React, {useState} from "react";
 import {useLogin} from "../../../lib/auth";
-import {hashPassword} from "./index";
 import {LoginPropsRequest} from "../types";
 
 
@@ -33,8 +32,6 @@ export const Login = () => {
 
         try {
             schema.parse(values);
-            //values.password = await hashPassword(values.password);
-            console.log("Values before api is called "+ values.password);
             const request:LoginPropsRequest = {
                 email: values.email,
                 password: values.password
