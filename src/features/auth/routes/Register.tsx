@@ -77,8 +77,11 @@ export const Register = () => {
                 name: values.name,
                 avatarId: avatarIdNumber
             };
-            register.mutate(credentials);
-            navigate('/')
+            register.mutate(credentials, {
+                onSuccess: () => {
+                    navigate('/');
+                }
+            } );
         } catch (error) {
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
