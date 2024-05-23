@@ -11,6 +11,7 @@ export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<User
         .then(response => response.data)
         .catch(error => {
             throw error.response.data;
+            console.log("error "+error.response.data)
         });
 };
 
