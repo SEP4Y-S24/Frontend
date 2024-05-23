@@ -25,9 +25,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     timezone: { id: -13, name: "Select" },
   });
 
-  const generateRandomId = () => {
-    return Math.floor(Math.random() * 10000); // Temporary
-  };
+
 
   function handleOnChangeTimezone(value: TimeProps) {
     setSelectedTimezone(value);
