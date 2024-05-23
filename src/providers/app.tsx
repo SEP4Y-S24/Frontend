@@ -33,14 +33,14 @@ const commonRoutes = [
 export const AppProvider = () => {
     const [loading, setLoading] = useState(true);
     const user = useUser();
-
+    console.log(user);
     useEffect(() => {
         setLoading(false); // Simulate loading completion
     }, []);
 
-    const route = user.data ? protectedRoutes : publicRoutes;
+    const route =  [...protectedRoutes, ...publicRoutes];
     const routes = [...route, ...commonRoutes];
-    const router = createBrowserRouter(routes);
+    const router = createBrowserRouter(route);
 
     if (loading) {
         return (
