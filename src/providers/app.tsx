@@ -8,7 +8,7 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
-import {useUser} from "../lib/auth";
+
 import storage from "../utils/storage";
 
 
@@ -40,6 +40,7 @@ export const AppProvider =  () => {
     const router = createBrowserRouter(routes);
 
     return (
+
         <React.Suspense
             fallback={
                 <div className="flex items-center justify-center w-screen h-screen">
