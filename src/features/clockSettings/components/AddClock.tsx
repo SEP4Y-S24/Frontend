@@ -34,7 +34,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     console.log("Time:", value);
   }
 
-  const handleAddClock = () => {
+  const handleAddClock =async () => {
     const newClock: ClockProps = {
       id: clockId,
       name: clockName !== "" ? clockName : "Unnamed Clock",
@@ -61,7 +61,6 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
          console.error('Error adding clock:', error);
      }
  };
-  };
 
   const handleDeleteClock = (id: string) => {
     setShowPopup(true);
