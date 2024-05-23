@@ -5,7 +5,6 @@ import {axiosConfig, baseURL} from "../../../lib/axios";
 
 
 export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<UserPropsResponse> => {
-    console.log("api call "+data.email+" "+data.password)
 
     return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfig)
         .then(response => response.data)

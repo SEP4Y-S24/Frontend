@@ -28,8 +28,9 @@ const ErrorFallback = () => {
 const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
-export const AppProvider = () => {
-    const user = useUser();
+
+export const AppProvider =  () => {
+    const user =  useUser();
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const route = user.data ? protectedRoutes : publicRoutes;
     //console.log(route);
