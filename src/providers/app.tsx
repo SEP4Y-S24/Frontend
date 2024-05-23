@@ -46,7 +46,7 @@ export const AppProvider =  () => {
                 </div>
             }>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <RouterProvider router={router} />
+                <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
 
