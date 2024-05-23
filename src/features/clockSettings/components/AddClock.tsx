@@ -10,13 +10,15 @@ import PopUp from "../../../components/Elements/PopUp/PopUp";
 
 const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>> }) => {
   const [clockName, setClockName] = useState("");
+  const [clockId, setClockId] = useState("");
+  const [clockIdError, setClockIdError] = useState("");
   const [selectedTimezone, setSelectedTimezone] = useState({
     id: -13,
     name: "Select",
   });
   const [showPopup, setShowPopup] = useState(false);
   const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: 0,
+    id: "0",
     name: "Select",
     timezone: { id: -13, name: "Select" },
   });
@@ -31,20 +33,29 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
   }
 
   const handleAddClock = () => {
-    const newClock: ClockProps = {
-      id: generateRandomId(),
-      name: clockName !== "" ? clockName : "Unnamed Clock",
-      timezone: selectedTimezone, // Use the selected timezone value
-    };
+    if(clockId === "") {
+      setClockIdError("Please enter a clock ID");
+    }
+    else{
+      const newClock: ClockProps = {
+        id: clockId,
+        name: clockName !== "" ? clockName : "Unnamed Clock",
+        timezone: selectedTimezone,
 
-    setClocks([...clocks, newClock]); // Add the new clock to the clocks array
-    setClockName(""); // Reset the clock name field
-    setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
+        // Use the selected timezone value
+      };
+      setClocks([...clocks, newClock]); // Add the new clock to the clocks array
+      setClockName(""); // Reset the clock name field
+      setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
 
-    console.log("Clock added:", newClock);
+      console.log("Clock added:", newClock);
+    }
+
+
+
   };
 
-  const handleDeleteClock = (id: number) => {
+  const handleDeleteClock = (id: string) => {
     setShowPopup(true);
     const clockToDelete = clocks.find((clock) => clock.id === id);
     if (clockToDelete) {
@@ -63,7 +74,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     setShowPopup(false);
 
     setSelectedClock({
-      id: 0,
+      id: "0",
       name: "Select",
       timezone: { id: -13, name: "Select" },
     }); // Reset selected clock
@@ -86,6 +97,15 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
           setClockName(e.target.value)
         }
       />
+      <InputField
+        labelText="Insert generated ID"
+        placeholder="12HSUHUIHZBDUZDB"
+        className={"pb-3"}
+        value={clockId}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setClockId(e.target.value)
+        }
+      />
       <SelectForm
         dropdownLabel="Select timezone"
         options={utcTimezones}
@@ -94,7 +114,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
         onChange={handleOnChangeTimezone}
       />
       <Button
-        text="Generate clock id"
+        text="Connect to the clock"
         styleType="info"
         className="mt-3 mb-2"
         onClick={handleAddClock}

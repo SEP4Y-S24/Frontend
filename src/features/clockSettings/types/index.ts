@@ -11,7 +11,7 @@ export interface TimeProps {
 
   
 export interface ClockProps {
-    id: number;
+    id: string;
     name: string;
     timezone: TimeProps;
   }
