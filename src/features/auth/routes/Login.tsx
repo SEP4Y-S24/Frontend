@@ -34,6 +34,7 @@ export const Login = () => {
         try {
             schema.parse(values);
             values.password = await hashPassword(values.password);
+            console.log("Values before api is called "+ values);
             login.mutate(values);
         } catch (error) {
             if (error instanceof z.ZodError) {
