@@ -33,7 +33,7 @@ export const Login = () => {
 
         try {
             schema.parse(values);
-            values.password = await hashPassword(values.password);
+            //values.password = await hashPassword(values.password);
             console.log("Values before api is called "+ values.password);
             const request:LoginPropsRequest = {
                 email: values.email,
@@ -49,6 +49,7 @@ export const Login = () => {
                 });
                 setErrors(fieldErrors);
             }
+            console.log("Error: "+error)
         }
     };
 
