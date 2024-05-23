@@ -22,11 +22,11 @@ async function handleUserResponse(data: UserPropsResponse) {
 
 async function userFn() {
     if (storage.getToken()) {
-        const {user} = storage.getUser();
-        console.log("Token Exists " + user);
+        const user = storage.getUser();
+        console.log("Token Exists " + user + storage.getUser());
         return user;
     }
-    if(storage.getUser()){
+    else if(storage.getUser()){
         return storage.getUser();
     }
     console.log("Token Does Not Exist");
