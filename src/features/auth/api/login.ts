@@ -1,4 +1,4 @@
-import { UserResponse } from '../types';
+import {CreateUserPropsResponse, LoginPropsRequest, UserPropsResponse} from '../types';
 
 //what I send
 export type LoginCredentialsDTO = {
@@ -7,15 +7,16 @@ export type LoginCredentialsDTO = {
 };
 
 export const loginWithEmailAndPassword = (
-    data: LoginCredentialsDTO
-): Promise<UserResponse> => {
+    data: LoginPropsRequest
+): Promise<UserPropsResponse> => {
     //this will be received from backend and stored locally in the client
-    const hardcodedUserData: UserResponse = {
-        jwt: 'mock_jwt_token', // Hardcoded JWT token
+    const hardcodedUserData: UserPropsResponse = {
+        token: 'mock_jwt_token', // Hardcoded JWT token
         user: {
-            id: '1',
+            userId: '1',
             email: data.email,
-            name: 'John Doe'
+            name: 'John Doe',
+            avatarId: 1
         }
     };
     // Return a Promise that immediately resolves with the hardcoded user data
