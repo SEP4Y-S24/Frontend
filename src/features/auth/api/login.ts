@@ -1,4 +1,6 @@
-import {CreateUserPropsResponse, LoginPropsRequest, UserPropsResponse} from '../types';
+import {CreateUserPropsRequest, CreateUserPropsResponse, LoginPropsRequest, UserPropsResponse} from '../types';
+import axios from "axios";
+import {axiosConfig, baseURL} from "../../../lib/axios";
 
 //what I send
 export type LoginCredentialsDTO = {
@@ -6,22 +8,15 @@ export type LoginCredentialsDTO = {
     password: string;
 };
 
-export const loginWithEmailAndPassword = (
-    data: LoginPropsRequest
-): Promise<UserPropsResponse> => {
-    //this will be received from backend and stored locally in the client
-    const hardcodedUserData: UserPropsResponse = {
-        token: 'mock_jwt_token', // Hardcoded JWT token
-        user: {
-            userId: '1',
-            email: data.email,
-            name: 'John Doe',
-            avatarId: 1
-        }
-    };
-    // Return a Promise that immediately resolves with the hardcoded user data
-    return Promise.resolve(hardcodedUserData);
+export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<UserPropsResponse> => {
+
+    return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfig)
+        .then(response => response.data)
+        .catch(error => {
+            throw error.response.data;
+        });
 };
+
 /*export const loginWithEmailAndPassword = (data: LoginCredentialsDTO): Promise<UserResponse> => {
     return axios.post('/auth/login', data);
 };*/

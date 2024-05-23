@@ -16,8 +16,3 @@ export const registerWithEmailAndPassword = (data: CreateUserPropsRequest): Prom
 };
 
 
-/*export const registerWithEmailAndPassword = (
-    data: RegisterCredentialsDTO
-): Promise<UserResponse> => {
-    return axios.post('/auth/register', data);
-};*/
