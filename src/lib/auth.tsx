@@ -9,9 +9,6 @@ import {
     UserPropsResponse
 } from "../features/auth/types";
 
-
-
-
 async function handleUserResponse(data: UserPropsResponse) {
     const { token, user } = data;
     storage.setToken(token);
@@ -31,6 +28,7 @@ async function userFn() {
     console.log("Token Does Not Exist");
     return null;
 }
+//c
 
 async function loginFn(data: LoginPropsRequest) {
     const response = await loginWithEmailAndPassword(data);
