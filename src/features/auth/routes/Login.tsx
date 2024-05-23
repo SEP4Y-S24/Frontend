@@ -34,8 +34,6 @@ export const Login = () => {
         try {
             schema.parse(values);
             values.password = await hashPassword(values.password);
-            // If validation passes, proceed with form submission
-            //console.log('Form login submitted:', values);
             login.mutate(values);
         } catch (error) {
             if (error instanceof z.ZodError) {
