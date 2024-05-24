@@ -4,13 +4,14 @@ import SendMessage from "../features/messages/components/SendMessage";
 
 
 
-
 export const Messages = () => {
-  return (
+    const [change, setChange] = useState<boolean>(false);
+
+    return (
     <>
       <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        <SendMessage/>
-        <MessagesList/>
+        <SendMessage  setChange={setChange} />
+        <MessagesList change={change}/>
       </ContentLayout>
     </>
   );
