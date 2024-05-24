@@ -32,6 +32,7 @@ const ChangeClockSettings = ({
   };
 
   const handleSaveClockChanges =async () => {
+    console.log("is the function being called??")
     try {
       const clockToUpdate  : ClockPropsResquest = {
         name : selectedClock.name,
@@ -58,7 +59,6 @@ const ChangeClockSettings = ({
 
   function handleOnChangeTimezone(value: TimeProps) {
     setSelectedChangedTimezone(value);
-    console.log("Time:", value);
   }
   return (
     <>
