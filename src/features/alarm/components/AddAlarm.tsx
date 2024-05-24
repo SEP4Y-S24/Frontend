@@ -34,7 +34,8 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
     useEffect(() => {
         const fetchClocks = async () => {
             try {
-                const response = await getAllClocks(storage.getUser().id); // Adjust the endpoint to your API
+                console.log("inside try of fetching clocks");
+                const response = await getAllClocks(storage.getUser().userId); // Adjust the endpoint to your API
                 const clocks: SimpleClockProps[] = response.map(clock => ({
                     id: clock.id,
                     name: clock.name
