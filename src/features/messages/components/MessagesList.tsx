@@ -8,6 +8,8 @@ import { getPokemonPicById} from "../../avatarPic/api";
 import {getAllReceivedMessages, getAllSentMessages} from "../api/messageApi";
 import storage from "../../../utils/storage";
 import {getAllAlarmsByClockId} from "../../alarm/api/alarmApi";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
+import Button from "../../../components/Elements/Button";
 
 
 
@@ -29,31 +31,22 @@ const MessagesList = () => {
         setCurrentPage(value);
     };
 
-    const [loading, setLoading] = useState<boolean>(false);
-    const [error, setError] = useState<string | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
     useEffect(() => {
-        const fetchAlarms = async () => {
-            setLoading(true);
-            setError(null);
+        const fetchMessages = async () => {
             try {
-                console.log("messages in try")
                 const responseReceivedMessages = await getAllReceivedMessages(storage.getUser().userId);
                 const responseSentMessages = await getAllSentMessages(storage.getUser().userId);
 
-                console.log("messages after request ", responseReceivedMessages.messages, responseSentMessages.messages);
                 setReceivedMessages(responseReceivedMessages.messages);
                 setSentMessages(responseSentMessages.messages);
 
-                console.log("in set state ", sentMessages, receivedMessages)
-
             } catch (error) {
-                setError('Failed to get messages. Please try again later.');
-            } finally {
-                setLoading(false);
+                console.error('Failed to get messages. Please try again later.');
             }
         };
 
-        fetchAlarms().then(r => console.log('Alarms fetched'));
+        fetchMessages().then(() => setLoading(false));
     }, []);
 
     const messagesToDisplay = activeTab === 'received' ? receivedMessages : sentMessages;
@@ -63,40 +56,49 @@ const MessagesList = () => {
             <div className="flex items-center mb-2">
                 <ToggleMessages activeTab={activeTab} onTabChange={handleTabChange}/>
             </div>
-            {messagesToDisplay.length > 0 ? (
-                <>
-                    {messagesToDisplay
-                        .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage)
-                        .map((message:MessageResponseProps, index) => (
-                            <Message
-                                key={index}
-                                email={message.receiverId}
-                                text={message.message}
-                                //avatarId={message.avatarId}
-                                type={activeTab==="received"?"received":"sent"}
+            <div className={"pt-5"}>
+                {loading ? (
+                    <SpinnerComponent />
+                ) : (
+                    <>{messagesToDisplay.length > 0 ? (
+                            <>
+                                {messagesToDisplay
+                                    .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage)
+                                    .map((message:MessageResponseProps, index) => (
+                                        <Message
+                                            key={index}
+                                            email={message.receiverId}
+                                            text={message.message}
+                                            //avatarId={message.avatarId}
+                                            type={activeTab==="received"?"received":"sent"}
+                                        />
+                                    ))}
+                                {messagesToDisplay.length > messagesPerPage && (
+                                    <PaginationRounded
+                                        page={currentPage}
+                                        onChange={handleChangeOfPage}
+                                        className="flex flex-col items-center"
+                                        pages={Math.ceil(messagesToDisplay.length / messagesPerPage)}
+                                    />
+                                )}
+                            </>
+                        ) : (
+                            <Heading
+                                text={"You don't have any messages."}
+                                type={"heading4"}
+                                className="mb-3"
                             />
-                        ))}
-                    {messagesToDisplay.length > messagesPerPage && (
-                        <PaginationRounded
-                            page={currentPage}
-                            onChange={handleChangeOfPage}
-                            className="flex flex-col items-center"
-                            pages={Math.ceil(messagesToDisplay.length / messagesPerPage)}
-                        />
-                    )}
-                </>
-            ) : (
-                <Heading
-                    text={"You don't have any messages."}
-                    type={"heading4"}
-                    className="mb-3"
-                />
-            )}
+                        )}
+                    </>
+                )}
+            </div>
+
         </ContentInnerContainer>
     );
 
 }
 export default MessagesList;
+//TODO add avatar pic  when backend is ready
 const Message: React.FC<ShowMessageProps> = ({
                                                          email,
                                                          text,

@@ -1,13 +1,14 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import TextArea from "../../../components/Form/TextArea";
 import SelectForm from "../../../components/Form/selectForm";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MessageProps, SendMessageProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 import { sendMessage } from "../api/messageApi";
 import storage from "../../../utils/storage";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
 
 const SendMessage = ({}: any) => {
   const [message, setMessage] = useState<MessageProps>({
@@ -15,6 +16,7 @@ const SendMessage = ({}: any) => {
     receiver: { id: 0, name: "Select" },
     clock: { id: 0, name: "Select" },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 //TODO replace with api call later
   const receiverOptions = [
     { id: 1, name: "Receiver 1" },
@@ -85,6 +87,8 @@ const SendMessage = ({}: any) => {
 
     if (validateFields()) {
 
+      setIsSubmitting(true);
+
       const messageToSend: SendMessageProps = {
         message: message.text,
         receiverId: "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
@@ -93,6 +97,7 @@ const SendMessage = ({}: any) => {
       };
       sendMessage(messageToSend)
         .then((response:any) => {
+
           console.log("Message sent successfully:", response);
           setShowPopup(true);
           setMessage({
@@ -102,10 +107,12 @@ const SendMessage = ({}: any) => {
           });
         })
         .catch((error:any) => {
+
           console.error("Error sending message:", error);
           // Handle error, such as displaying an error message to the user
         });
     }
+    setIsSubmitting(false);
     console.log("Message:", message);
     console.log("Receiver:", message.receiver);
     console.log("Clock:", message.clock);
@@ -164,11 +171,18 @@ const SendMessage = ({}: any) => {
           }
           error={clockError}
         />
-        <Button
-          text="Click me"
-          styleType={"info"}
-          onClick={handleSendMessage}
-        />
+        <div className={"pt-5"}>
+          {isSubmitting ? (
+              <SpinnerComponent />
+          ) : (
+              <Button
+                  text="Click me"
+                  styleType={"info"}
+                  onClick={handleSendMessage}
+              />
+          )}
+        </div>
+
 
         {successMessage && <p className="text-green mt-3">{successMessage}</p>}
 
