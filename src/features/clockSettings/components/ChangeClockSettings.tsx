@@ -33,12 +33,14 @@ const ChangeClockSettings = ({
 
   const handleSaveClockChanges =async () => {
     console.log("is the function being called??")
+    console.log(selectedChangedTimezone.id)
     try {
       const clockToUpdate  : ClockPropsResquest = {
         name : selectedClock.name,
         userId : storage.getUser().userId,
-        timeOffset : selectedClock.timezone.id *60
+        timeOffset : selectedChangedTimezone.id *60
       }
+      console.log(JSON.stringify(clockToUpdate, null, 2))
       console.log(clockToUpdate + ' clocktoupdate')
      const response =  await updateClock(clockToUpdate, selectedClock.id)
      console.log('response in changeclock setting    :   ' + response)
@@ -58,7 +60,9 @@ const ChangeClockSettings = ({
   };
 
   function handleOnChangeTimezone(value: TimeProps) {
-    setSelectedChangedTimezone(value);
+    setSelectedChangedTimezone({id: value.id, name: value.name});
+    // console.log(' handleon change' + value.id + value.name)
+    console.log(' handleon change' + selectedChangedTimezone.id + selectedChangedTimezone.name)
   }
   return (
     <>
