@@ -34,8 +34,10 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
     const [dateError, setDateError] = useState("");
     const [timeError, setTimeError] = useState("");
     const [description, setDescription] = useState("");
-    const [deadlineDate, setDeadlineDate] = React.useState<Dayjs | null>(null);
-    const [deadlineTime, setDeadlineTime] = React.useState<Dayjs | null>(null);
+    const [startingDate, setStartingDate] = React.useState<Dayjs | null>(null);
+    const [startingTime, setStartingTime] = React.useState<Dayjs | null>(null);
+    const [endingDate, setEndingDate] = React.useState<Dayjs | null>(null);
+    const [endingTime, setEndingTime] = React.useState<Dayjs | null>(null);
     const [name, setName] = useState("");
     const [status, setStatus] = useState<{ id: number; name: string }>({
         id: 1,
@@ -66,10 +68,16 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
         if (!name.trim() && selectedEvent===null) {
             setNameError("Please enter a name");
             valid = false;
-        } if (!deadlineDate && selectedEvent===null) {
+        } if (!startingDate && selectedEvent===null) {
             setDateError("Select date");
             valid = false;
-        } if (!deadlineTime && selectedEvent===null) {
+        } if (!startingTime && selectedEvent===null) {
+            setTimeError("Select time");
+            valid = false;
+        } if (!endingDate && selectedEvent===null) {
+            setDateError("Select date");
+            valid = false;
+        } if (!endingTime && selectedEvent===null) {
             setTimeError("Select time");
             valid = false;
         }
@@ -82,8 +90,10 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
             const eventSubmitted:EventProps = {
                 name: name || selectedEvent?.name || "",
                 description: description || selectedEvent?.description, // Use selectedEvent data if description is not entered
-                deadlineDate: deadlineDate || selectedEvent?.deadlineDate || dayjs(), // Use selectedEvent data or current date if deadlineDate is not entered
-                deadlineTime: deadlineTime || selectedEvent?.deadlineTime || dayjs(), // Use selectedEvent data or current time if deadlineTime is not entered
+                startingDate: startingDate || selectedEvent?.startingDate || dayjs(), // Use selectedEvent data or current date if startingDate is not entered
+                startingTime: startingTime || selectedEvent?.startingTime || dayjs(), // Use selectedEvent data or current time if startingTime is not entered
+                endingDate: endingDate || selectedEvent?.endingDate || dayjs(), // Use selectedEvent data or current date if endingDate is not entered
+                endingTime: endingTime || selectedEvent?.endingTime || dayjs(), // Use selectedEvent data or current time if endingTime is not entered
                 status: status || selectedEvent?.status,
                 categories: categories || selectedEvent?.categories || [],
             };
@@ -91,16 +101,20 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
             console.log(eventSubmitted);
             dummyDataForEvents.push(eventSubmitted);
             setName("");
-            setDeadlineTime(null);
-            setDeadlineDate(null);
+            setStartingTime(null);
+            setStartingDate(null);
+            setEndingTime(null);
+            setEndingDate(null);
             setDescription("");
             setStatus({ id: 1, name: "Not started" })
         }
     };
     useEffect(() => {setNameError(""); setTimeError(""); setDateError("");
         setName(selectedEvent?.name||name)
-        setDeadlineDate(dayjs(selectedEvent?.deadlineDate)||deadlineDate)
-        setDeadlineTime(dayjs(selectedEvent?.deadlineTime)||deadlineTime)
+        setStartingDate(dayjs(selectedEvent?.startingDate)||startingDate)
+        setStartingTime(dayjs(selectedEvent?.startingTime)||startingTime)
+        setEndingDate(dayjs(selectedEvent?.endingDate)||endingDate)
+        setEndingTime(dayjs(selectedEvent?.endingTime)||endingTime)
         setDescription(selectedEvent?.description||description)
         setCategories(selectedEvent?.categories||categories);
         let nameValue = selectedEvent?.name || "";
@@ -166,15 +180,29 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
                         <div className={"mb-5 flex gap-4"}>
                             <div className={"flex-1"}>
-                                <DatePicker className={"w-full"} disabled={mode==="view"}
-                                            label={"Deadline date"} value={deadlineDate}
-                                            onChange={(newValue) => setDeadlineDate(newValue)} views={["year", "month", "day"]}/>
+                                <DatePicker className={"w-full"} disabled={mode === "view"}
+                                            label={"Starting date"} value={startingDate}
+                                            onChange={(newValue) => setStartingDate(newValue)}
+                                            views={["year", "month", "day"]}/>
                                 {dateError && <span className="text-danger text-sm">{dateError}</span>}
                             </div>
                             <div className={"flex-1"}>
-                                <TimePicker className={"w-full"} disabled={mode==="view"}  label="Basic time picker"
-                                            value={deadlineTime}
-                                            onChange={(newValue) => setDeadlineTime(newValue)} />
+                                <TimePicker className={"w-full"} disabled={mode === "view"} label="Starting time"
+                                            value={startingTime}
+                                            onChange={(newValue) => setStartingTime(newValue)}/>
+                                {timeError && <span className="text-danger text-sm">{timeError}</span>}
+                            </div>
+                            <div className={"flex-1"}>
+                                <DatePicker className={"w-full"} disabled={mode === "view"}
+                                            label={"Ending date"} value={endingDate}
+                                            onChange={(newValue) => setEndingDate(newValue)}
+                                            views={["year", "month", "day"]}/>
+                                {dateError && <span className="text-danger text-sm">{dateError}</span>}
+                            </div>
+                            <div className={"flex-1"}>
+                                <TimePicker className={"w-full"} disabled={mode === "view"} label="Ending time"
+                                            value={endingTime}
+                                            onChange={(newValue) => setEndingTime(newValue)}/>
                                 {timeError && <span className="text-danger text-sm">{timeError}</span>}
                             </div>
                         </div>
@@ -193,8 +221,9 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
                         />
                     ))}
                 </div>
-                {mode === "create" && ( <Button text={"Add a new event"} styleType={"info"} className={"mt-5 justify-center"}
-                                                type="submit"/>)}
+                {mode === "create" && (
+                    <Button text={"Add a new event"} styleType={"info"} className={"mt-5 justify-center"}
+                            type="submit"/>)}
                 {mode === "edit" && ( <Button text={"Update event"} styleType={"info"} className={"mt-5 justify-center"}
                                               type="submit"/>)}
             </Form>
