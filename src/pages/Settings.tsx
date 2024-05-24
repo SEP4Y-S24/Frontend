@@ -62,7 +62,7 @@ export const Settings = () => {
   return (
     <>
       <ContentLayout className="relative">
-        <ContentInnerContainer className={"w-full md:flex-1 mb-4 relative z-50 "}>
+        <ContentInnerContainer className={"w-full md:flex-1 mb-4 relative "}>
             <Heading text={"Switch to a different clock"} type={"heading1"}/>
             <Heading text={"To see a data of a different clock"} type={"heading4"}/>
           {clocksDummyList.length > 0 ? (
