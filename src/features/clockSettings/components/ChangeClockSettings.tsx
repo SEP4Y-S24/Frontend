@@ -38,7 +38,9 @@ const ChangeClockSettings = ({
         userId : storage.getUser().userId,
         timeOffset : selectedClock.timezone.id *60
       }
+      console.log(clockToUpdate + ' clocktoupdate')
      const response =  await updateClock(clockToUpdate, selectedClock.id)
+     console.log('response in changeclock setting    :   ' + response)
      if (response) {
       const updatedClocks = clocks.map((clock) =>
         clock.id === selectedClock.id
