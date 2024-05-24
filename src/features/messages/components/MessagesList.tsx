@@ -11,9 +11,11 @@ import {getAllAlarmsByClockId} from "../../alarm/api/alarmApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import Button from "../../../components/Elements/Button";
 
+interface MessagesListProps {
+    change: boolean;
+}
 
-
-const MessagesList = () => {
+const MessagesList = ({change}:MessagesListProps) => {
     const [activeTab, setActiveTab] = useState<'sent' | 'received'>('sent');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const messagesPerPage = 5;
@@ -47,7 +49,7 @@ const MessagesList = () => {
         };
 
         fetchMessages().then(() => setLoading(false));
-    }, []);
+    }, [change]);
 
     const messagesToDisplay = activeTab === 'received' ? receivedMessages : sentMessages;
 

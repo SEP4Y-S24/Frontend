@@ -15,12 +15,11 @@ import storage from "../../../utils/storage";
 
 
 interface AddAlarmProps {
-    change: boolean;
     setChange: React.Dispatch<React.SetStateAction<boolean>>;
 } 
 
 
-const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
+const AddAlarm: React.FC<AddAlarmProps> = ({ setChange}) => {
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
