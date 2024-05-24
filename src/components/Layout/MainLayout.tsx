@@ -38,7 +38,7 @@ const SideNavigation = () => {
     const handleClick = (index:any) => {
         setActive(index);
     };
-      //Get the clock from the storage :
+    
 
 
     return (
@@ -149,7 +149,7 @@ type MobileSidebarProps = {
 };
   //Get the clock from the storage :
 
-  const clockData : {name : string, clockId : string} = storage.getClock()
+  const clockData : {name : string, clockId : string} = storage.getClock() ? storage.getClock() : {name : "Select", clockId : "Select"}
 
 const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
     return (
