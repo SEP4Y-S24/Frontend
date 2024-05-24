@@ -37,8 +37,8 @@ const MessagesList = () => {
             setError(null);
             try {
                 console.log("messages in try")
-                const responseReceivedMessages = await getAllReceivedMessages(storage.getUser().id);
-                const responseSentMessages = await getAllSentMessages(storage.getUser().id);
+                const responseReceivedMessages = await getAllReceivedMessages(storage.getUser().userId);
+                const responseSentMessages = await getAllSentMessages(storage.getUser().userId);
 
                 console.log("messages after request ", responseReceivedMessages.messages, responseSentMessages.messages);
                 setReceivedMessages(responseReceivedMessages.messages);
