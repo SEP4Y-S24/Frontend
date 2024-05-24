@@ -40,7 +40,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     };
 
      // Sending only relevant data to the backend
-     const userFromStorage = storage.getUser().id;
+     const userFromStorage = storage.getUser().userId;
      const clockToBeSend: ClockPropsResquest = {
          userId: userFromStorage,
          name: newClock.name,
