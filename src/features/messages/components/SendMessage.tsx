@@ -10,7 +10,10 @@ import { sendMessage } from "../api/messageApi";
 import storage from "../../../utils/storage";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 
-const SendMessage = ({}: any) => {
+interface MessageParams {
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const SendMessage = ({setChange}: MessageParams) => {
   const [message, setMessage] = useState<MessageProps>({
     text: "",
     receiver: { id: 0, name: "Select" },
@@ -23,12 +26,19 @@ const SendMessage = ({}: any) => {
     { id: 2, name: "Receiver 2" },
     { id: 3, name: "Receiver 3" },
   ];
-
+//TODO replace with api call later
   const clockOptions = [
     { id: 1, name: "Clock 1" },
     { id: 2, name: "Clock 2" },
     { id: 3, name: "Clock 3" },
   ];
+
+  const updateMessages = () => {
+    setTimeout(() => {
+      setChange(prevChange => !prevChange);
+    }, 500); // 2000 milliseconds = 2 seconds
+  };
+
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
   const [clockError, setClockError] = useState("");
@@ -96,9 +106,8 @@ const SendMessage = ({}: any) => {
         userId: storage.getUser().id? storage.getUser().id : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
       sendMessage(messageToSend)
-        .then((response:any) => {
-
-          console.log("Message sent successfully:", response);
+        .then(() => {
+          updateMessages();
           setShowPopup(true);
           setMessage({
             text: "",
@@ -107,15 +116,11 @@ const SendMessage = ({}: any) => {
           });
         })
         .catch((error:any) => {
-
           console.error("Error sending message:", error);
           // Handle error, such as displaying an error message to the user
         });
     }
     setIsSubmitting(false);
-    console.log("Message:", message);
-    console.log("Receiver:", message.receiver);
-    console.log("Clock:", message.clock);
   };
 
   const handlePopupClose = () => {
