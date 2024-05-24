@@ -40,6 +40,7 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
                     name: clock.name
                 }));
                 setClocks(clocks);
+                console.log("clocks"+clocks);
             } catch (error) {
                 console.error('Error fetching clocks:', error);
             }
