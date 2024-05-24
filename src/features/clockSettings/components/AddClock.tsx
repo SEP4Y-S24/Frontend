@@ -5,46 +5,62 @@ import InputField from "../../../components/Form/InputField";
 import SelectForm from "../../../components/Form/selectForm";
 import { useState } from "react";
 import { utcTimezones } from "../data/timezones";
-import { ClockProps, TimeProps } from "../types";
+import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
+import { createClock } from "../api/clockApi";
+import storage from "../../../utils/storage";
 
 const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>> }) => {
   const [clockName, setClockName] = useState("");
+  const [clockId, setClockId] = useState("");
+  const [clockIdError, setClockIdError] = useState("");
   const [selectedTimezone, setSelectedTimezone] = useState({
     id: -13,
     name: "Select",
   });
   const [showPopup, setShowPopup] = useState(false);
   const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: 0,
+    id: "0",
     name: "Select",
     timezone: { id: -13, name: "Select" },
   });
 
-  const generateRandomId = () => {
-    return Math.floor(Math.random() * 10000); // Temporary
-  };
+
 
   function handleOnChangeTimezone(value: TimeProps) {
     setSelectedTimezone(value);
     console.log("Time:", value);
   }
 
-  const handleAddClock = () => {
+  const handleAddClock =async () => {
     const newClock: ClockProps = {
-      id: generateRandomId(),
+      id: clockId,
       name: clockName !== "" ? clockName : "Unnamed Clock",
       timezone: selectedTimezone, // Use the selected timezone value
     };
 
-    setClocks([...clocks, newClock]); // Add the new clock to the clocks array
-    setClockName(""); // Reset the clock name field
-    setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
+     // Sending only relevant data to the backend
+     const userFromStorage = storage.getUser();
+     const clockToBeSend: ClockPropsResquest = {
+         userId: userFromStorage,
+         name: newClock.name,
+         timeOffset: newClock.timezone.id * 60
+     };
+ 
+     try {
+         const response = await createClock(clockToBeSend); // sending the data to the backend
+         if (response) {
+             setClocks([...clocks, newClock]); // Add the new clock to the clocks array
+             setClockName(""); // Reset the clock name field
+             setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
+             console.log('Clock added successfully with status code:', response);
+         }
+     } catch (error) {
+         console.error('Error adding clock:', error);
+     }
+ };
 
-    console.log("Clock added:", newClock);
-  };
-
-  const handleDeleteClock = (id: number) => {
+  const handleDeleteClock = (id: string) => {
     setShowPopup(true);
     const clockToDelete = clocks.find((clock) => clock.id === id);
     if (clockToDelete) {
@@ -63,7 +79,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     setShowPopup(false);
 
     setSelectedClock({
-      id: 0,
+      id: "0",
       name: "Select",
       timezone: { id: -13, name: "Select" },
     }); // Reset selected clock
@@ -86,6 +102,15 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
           setClockName(e.target.value)
         }
       />
+      <InputField
+        labelText="Insert generated ID"
+        placeholder="12HSUHUIHZBDUZDB"
+        className={"pb-3"}
+        value={clockId}
+        onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setClockId(e.target.value)
+        }
+      />
       <SelectForm
         dropdownLabel="Select timezone"
         options={utcTimezones}
@@ -94,7 +119,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
         onChange={handleOnChangeTimezone}
       />
       <Button
-        text="Generate clock id"
+        text="Connect to the clock"
         styleType="info"
         className="mt-3 mb-2"
         onClick={handleAddClock}

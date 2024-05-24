@@ -5,9 +5,9 @@ import { Fragment} from "react";
 
 interface DropdownProps {
   dropdownLabel: string;
-  options: { id: number; name: string }[];
+  options: { id: number |string; name: string }[];
   className: string;
-  value: { id: number; name: string };
+  value: { id: number| string; name: string };
   onChange?: any;
   error?: string;
   name?: string;
@@ -28,13 +28,11 @@ export default function Dropdown({
     disabled = false,
 }: DropdownProps) {
   const handleSelectionChange = (selectedValue: {
-    id: number;
+    id: number | string;
     name: string;
   }) => {
     onChange(selectedValue);
   };
-
-
   return (
     <Listbox value={value} name={name} disabled={disabled} onChange={handleSelectionChange}>
       {({ open }) => (

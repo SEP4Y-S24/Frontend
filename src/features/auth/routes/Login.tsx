@@ -7,22 +7,23 @@ import Button from "../../../components/Elements/Button";
 import * as z from 'zod';
 import React, {useState} from "react";
 import {useLogin} from "../../../lib/auth";
-import {hashPassword} from "./index";
+import {LoginPropsRequest} from "../types";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
+import {useNavigate} from "react-router";
 
 
 const schema = z.object({
     email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
     password: z.string().min(1, 'Password is required'),
 });
-type LoginValues = {
-    email: string;
-    password: string;
-};
+
 
 export const Login = () => {
     const login = useLogin();
-    const [values, setValues] = useState<LoginValues>({ email: '', password: '' });
+    const [values, setValues] = useState<LoginPropsRequest>({ email: '', password: '' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
+    const navigate = useNavigate();
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -32,14 +33,20 @@ export const Login = () => {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-
+        setIsSubmitting(true);
         try {
             schema.parse(values);
-            values.password = await hashPassword(values.password);
-            // If validation passes, proceed with form submission
-            //console.log('Form login submitted:', values);
-            login.mutate(values);
+            const request:LoginPropsRequest = {
+                email: values.email,
+                password: values.password
+            }
+            login.mutate(request, {
+                onSuccess: () => {
+                    navigate('/');
+                }
+            } );
         } catch (error) {
+            setIsSubmitting(false);
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
                 error.errors.forEach(err => {
@@ -48,6 +55,7 @@ export const Login = () => {
                 });
                 setErrors(fieldErrors);
             }
+            console.log("Error: "+error)
         }
     };
 
@@ -71,10 +79,12 @@ export const Login = () => {
                             </div>
 
                         <div className={"pt-5"}>
-                            <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
+                            {isSubmitting ? (
+                                    <SpinnerComponent />
+                                ) : (
+                                    <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
+                                )}
                         </div>
-
-
                     <p className="mt-10 text-center text-sm text-gray-500">
                         Not a member?{' '}
                         <Link to={'/auth/register'} className={"text-primaryColor"}>Register a new account here!</Link>

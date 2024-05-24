@@ -12,11 +12,4 @@ export const AuthRoutes = () => {
         </Routes>
     );
 };
-export const hashPassword = async (password: string): Promise<string> => {
-    // Define the number of salt rounds (higher number means more security but slower hashing)
-    const saltRounds = 10;
-    // Generate a salt
-    const salt = await bcrypt.genSalt(saltRounds);
-    // Hash the password with the salt
-    return await bcrypt.hash(password, salt);
-};
+

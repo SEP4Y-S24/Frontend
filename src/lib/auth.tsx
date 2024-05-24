@@ -1,49 +1,52 @@
 import {configureAuth} from 'react-query-auth';
-import {UserResponse} from "../features/auth/types";
+
 import storage from "../utils/storage";
-import {getUser} from "../features/auth/api/getUser";
+
 import {loginWithEmailAndPassword} from "../features/auth/api/login";
 import {registerWithEmailAndPassword} from "../features/auth/api/register";
+import {
+    CreateUserPropsRequest,
+    LoginPropsRequest,
+    UserPropsResponse
+} from "../features/auth/types";
 
 
-export type LoginCredentials = {
-    email: string;
-    password: string;
-};
 
-export type RegisterCredentials = {
-    email: string;
-    name: string;
-    password: string;
-    avatarId?: number;
-};
 
-async function handleUserResponse(data: UserResponse) {
-    const { jwt, user } = data;
-    storage.setToken(jwt);
+async function handleUserResponse(data: UserPropsResponse) {
+    const { token, user } = data;
+    storage.setToken(token);
+    storage.setUser(user);
     return user;
 }
 
 async function userFn() {
     if (storage.getToken()) {
-        const {user} = await getUser();
+        const user = storage.getUser();
+        console.log("Token Exists " + user + storage.getUser());
         return user;
     }
+    else if(storage.getUser()){
+        return storage.getUser();
+    }
+    console.log("Token Does Not Exist");
     return null;
 }
 
-async function loginFn(data: LoginCredentials) {
+async function loginFn(data: LoginPropsRequest) {
+    console.log("before api " + data);
     const response = await loginWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }
 
-async function registerFn(data: RegisterCredentials) {
+async function registerFn(data: CreateUserPropsRequest) {
     const response = await registerWithEmailAndPassword(data);
     return await handleUserResponse(response);
 }
 
 async function logoutFn() {
     storage.clearToken();
+    storage.clearUser();
     window.location.assign(window.location.origin as unknown as string);
 }
 

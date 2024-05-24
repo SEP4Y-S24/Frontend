@@ -1,6 +1,7 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { lazyImport } from "../utils/lazyImport";
 import { MainLayout } from "../components/Layout";
+import storage from "../utils/storage";
 
 const { Dashboard } = lazyImport(
   () => import("../pages/Dashboard"),
@@ -20,6 +21,10 @@ const { Categories } = lazyImport(
 const { Alarm } = lazyImport(() => import("../pages/Alarm"), "Alarm");
 
 const App = () => {
+  const user = storage.getUser();
+  if (!user) {
+    return <Navigate to="/auth/login" />;
+  }
   return (
     <MainLayout>
       <Outlet />
