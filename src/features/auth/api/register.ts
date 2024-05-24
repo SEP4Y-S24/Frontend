@@ -3,7 +3,7 @@
 import {CreateUserPropsRequest, UserPropsResponse} from '../types';
 
 import axios from "axios";
-import {axiosConfig, axiosConfigAuth, baseURL} from "../../../lib/axios";
+import {axiosConfigAuth, baseURL} from "../../../lib/axios";
 
 
 export const registerWithEmailAndPassword = (data: CreateUserPropsRequest): Promise<UserPropsResponse> => {
