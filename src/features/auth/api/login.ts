@@ -1,12 +1,12 @@
 import {CreateUserPropsRequest, CreateUserPropsResponse, LoginPropsRequest, UserPropsResponse} from '../types';
 import axios from "axios";
-import {axiosConfig, baseURL} from "../../../lib/axios";
+import {axiosConfig, axiosConfigAuth, baseURL} from "../../../lib/axios";
 
 
 
 export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<UserPropsResponse> => {
 
-    return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfig)
+    return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfigAuth)
         .then(response => response.data)
         .catch(error => {
             console.log("error "+error.response.data)

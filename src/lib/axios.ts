@@ -13,3 +13,8 @@ export const axiosConfig: AxiosRequestConfig = {
         Authorization: `Bearer ${token}`
     }
 };
+export const axiosConfigAuth: AxiosRequestConfig = {
+    headers: {
+        'Ocp-Apim-Subscription-Key': functionKey,
+    }
+};

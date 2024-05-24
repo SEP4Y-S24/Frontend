@@ -3,12 +3,12 @@
 import {CreateUserPropsRequest, UserPropsResponse} from '../types';
 
 import axios from "axios";
-import {axiosConfig, baseURL} from "../../../lib/axios";
+import {axiosConfig, axiosConfigAuth, baseURL} from "../../../lib/axios";
 
 
 export const registerWithEmailAndPassword = (data: CreateUserPropsRequest): Promise<UserPropsResponse> => {
 
-    return axios.post(`${baseURL}/UserService/users`, data, axiosConfig)
+    return axios.post(`${baseURL}/UserService/users`, data, axiosConfigAuth)
         .then(response => response.data)
         .catch(error => {
             throw error.response.data;
