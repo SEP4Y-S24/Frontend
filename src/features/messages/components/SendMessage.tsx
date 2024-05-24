@@ -92,7 +92,7 @@ const SendMessage = ({}: any) => {
         userId: storage.getUser().id,
       };
       sendMessage(messageToSend)
-        .then((response) => {
+        .then((response:any) => {
           console.log("Message sent successfully:", response);
           setShowPopup(true);
           setMessage({
@@ -103,7 +103,7 @@ const SendMessage = ({}: any) => {
 
           
         })
-        .catch((error) => {
+        .catch((error:any) => {
           console.error("Error sending message:", error);
           // Handle error, such as displaying an error message to the user
         });
