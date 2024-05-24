@@ -4,12 +4,10 @@ import ToggleMessages from "./ToggleMessages";
 import {MessageResponseProps, ShowMessageProps} from "../types";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Heading from "../../../components/Elements/Headings/Heading";
-import { getPokemonPicById} from "../../avatarPic/api";
 import {getAllReceivedMessages, getAllSentMessages} from "../api/messageApi";
 import storage from "../../../utils/storage";
-import {getAllAlarmsByClockId} from "../../alarm/api/alarmApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
-import Button from "../../../components/Elements/Button";
+
 
 interface MessagesListProps {
     change: boolean;
