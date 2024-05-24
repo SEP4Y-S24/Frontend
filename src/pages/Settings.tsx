@@ -19,6 +19,12 @@ export const Settings = () => {
     name: "Select",
   });
 
+  const changeClockOnStorage =(value : {id: number; name: string })=>{
+    console.log(storage.getClock) // check this 
+    setSelectedClock(value)
+    storage.setClock(selectedClock)
+  }
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -52,7 +58,7 @@ export const Settings = () => {
                   options={clocks}
                   className="mb-5 z-50"
                   value={selectedClock}
-                  onChange={setSelectedClock}
+                  onChange={changeClockOnStorage(selectedClock)}
               />
           ) : (
               <Heading text={"No clocks have been added yet"} type={"heading4"} />

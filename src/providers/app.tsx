@@ -1,5 +1,5 @@
 import Button from "../components/Elements/Button";
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
@@ -8,8 +8,6 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
-import {useUser} from "../lib/auth";
-import { AuthLoader } from "../lib/auth";
 
 
 const ErrorFallback = () => {
