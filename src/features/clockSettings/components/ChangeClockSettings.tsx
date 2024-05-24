@@ -36,7 +36,7 @@ const ChangeClockSettings = ({
     console.log(selectedChangedTimezone.id)
     try {
       const clockToUpdate  : ClockPropsResquest = {
-        name : selectedClock.name,
+        name : newClockName,
         userId : storage.getUser().userId,
         timeOffset : selectedChangedTimezone.id *60
       }
