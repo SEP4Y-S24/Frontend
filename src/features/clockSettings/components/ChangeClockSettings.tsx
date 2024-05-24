@@ -3,8 +3,10 @@ import Button from "../../../components/Elements/Button";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import SelectForm from "../../../components/Form/selectForm";
-import { ClockProps, TimeProps } from "../types";
+import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import { utcTimezones } from "../data/timezones";
+import { updateClock } from "../api/clockApi";
+import storage from "../../../utils/storage";
 
 const ChangeClockSettings = ({
   clocks,
@@ -29,21 +31,26 @@ const ChangeClockSettings = ({
     }
   };
 
-  const handleSaveClockChanges = () => {
-    if (selectedClock) {
+  const handleSaveClockChanges =async () => {
+    try {
+      const clockToUpdate  : ClockPropsResquest = {
+        name : selectedClock.name,
+        userId : storage.getUser().userId,
+        timeOffset : selectedClock.timezone.id *60
+      }
+     const response =  await updateClock(clockToUpdate, selectedClock.id)
+     if (response) {
       const updatedClocks = clocks.map((clock) =>
         clock.id === selectedClock.id
           ? { ...clock, name: newClockName, timezone: selectedChangedTimezone }
           : clock
       );
       setClocks(updatedClocks);
-      setSelectedClock({
-        id: "0",
-        name: "Select",
-        timezone: { id: -13, name: "Select" },
-      });
       setSelectedChangedTimezone({ id: -13, name: "Select" });
       setNewClockName("");
+     }
+    } catch (error) {
+      console.log(error)
     }
   };
 

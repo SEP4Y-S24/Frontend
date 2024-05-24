@@ -11,16 +11,12 @@ import storage from "../utils/storage";
 
 export const Settings = () => {
   const [clocks, setClocks] = useState<ClockProps[]>([]);
-  const initialClock = storage.getClock() // need to check what does this object contain 
-  console.log ("Initial clock in settings " + initialClock)
-   
-   const [selectedClock, setSelectedClock] = useState<{ id: number; name: string }>({
-    id: 0,
+   const [selectedClock, setSelectedClock] = useState<{ id: string; name: string }>({
+    id: "",
     name: "Select",
   });
 
-  const changeClockOnStorage =(value : {id: number; name: string })=>{
-    console.log(storage.getClock) // check this 
+  const changeClockOnStorage =(value : {id: string; name: string })=>{
     setSelectedClock(value)
     storage.setClock(selectedClock)
   }
@@ -35,7 +31,6 @@ export const Settings = () => {
             name: clockResponse.name,
             timezone: {id :clockResponse.timeOffset, name : ""}
           }));
-          console.log("response in setting " + response.toString + "   converted clocks   " + convertedClocks.toString)
           setClocks(convertedClocks)
       } catch (error) {
         console.error("Error fetching time zones:", error);
@@ -56,7 +51,7 @@ export const Settings = () => {
               <SelectForm
                   dropdownLabel="Select a clock"
                   options={clocks}
-                  className="mb-5 z-50"
+                  className="mb-5 z-50 relative"
                   value={selectedClock}
                   onChange={() => changeClockOnStorage(selectedClock)}
               />
