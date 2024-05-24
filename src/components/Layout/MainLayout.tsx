@@ -149,7 +149,7 @@ type MobileSidebarProps = {
 };
   //Get the clock from the storage :
 
-  const clockData : {name : string, clockId : string} = storage.getClock() ? storage.getClock() : {name : "Select", clockId : "Select"}
+  const clockData : {name : string, clockId : string} = storage.getClock() ? storage.getClock() : {name : "No clock selected", clockId : "SELECTACLOCK"}
 
 const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
     return (
