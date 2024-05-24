@@ -35,7 +35,7 @@ export const Settings = () => {
             name: clockResponse.name,
             timezone: {id :clockResponse.timeOffset, name : ""}
           }));
-          console.log("response in setting " + response + "   converted clocks   " + convertedClocks)
+          console.log("response in setting " + response.toString + "   converted clocks   " + convertedClocks.toString)
           setClocks(convertedClocks)
       } catch (error) {
         console.error("Error fetching time zones:", error);
@@ -58,7 +58,7 @@ export const Settings = () => {
                   options={clocks}
                   className="mb-5 z-50"
                   value={selectedClock}
-                  onChange={changeClockOnStorage(selectedClock)}
+                  onChange={() => changeClockOnStorage(selectedClock)}
               />
           ) : (
               <Heading text={"No clocks have been added yet"} type={"heading4"} />
