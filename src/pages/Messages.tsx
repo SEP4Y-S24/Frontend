@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import MessagesList from "../features/messages/components/MessagesList";
 import SendMessage from "../features/messages/components/SendMessage";
