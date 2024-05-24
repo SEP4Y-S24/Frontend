@@ -20,17 +20,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
   const [loading, setLoading] = useState<boolean>(false); 
   const [error, setError] = useState<string | null>(null);
 
-/*
-  const toggleEnabled = (name: string, time: string) => {
-    const updatedAlarms = alarms.map(alarm => {
-      if (alarm.name === name && alarm.setOffTime === time) {
-        return { ...alarm, isEnabled: !alarm.isActive };
-      }
-      return alarm;
-    });
-    setAlarms(updatedAlarms);
-  };
-  */
 
   const setAllAlarms =  (response: AlarmsPropsResponse) => {
      setAlarms(response.alarms);
@@ -44,11 +33,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
         const response = await getAllAlarmsByClockId(clockId);
         //const response = await getDummyAlarms();
         await setAllAlarms(response);
-        console.log('Response', response);
-        console.log('alarmsVar', response);
-        console.log('changestat', change);
       } catch (error) {
-        console.error('Failed to fetch alarms:', error);
         setError('Failed to fetch alarms. Please try again later.');
       } finally {
         setLoading(false);
