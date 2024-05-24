@@ -6,19 +6,27 @@ import { MessageProps, SendMessageProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
-import { sendMessage } from "../api/createMessage";
+import { sendMessage } from "../api/messageApi";
+import storage from "../../../utils/storage";
 
-const SendMessage = ({
-  receiverOptions,
-  clockOptions,
-  updateSentMessages,
-}: any) => {
+const SendMessage = ({}: any) => {
   const [message, setMessage] = useState<MessageProps>({
     text: "",
     receiver: { id: 0, name: "Select" },
     clock: { id: 0, name: "Select" },
   });
+//TODO replace with api call later
+  const receiverOptions = [
+    { id: 1, name: "Receiver 1" },
+    { id: 2, name: "Receiver 2" },
+    { id: 3, name: "Receiver 3" },
+  ];
 
+  const clockOptions = [
+    { id: 1, name: "Clock 1" },
+    { id: 2, name: "Clock 2" },
+    { id: 3, name: "Clock 3" },
+  ];
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
   const [clockError, setClockError] = useState("");
@@ -76,11 +84,12 @@ const SendMessage = ({
     setSuccessMessage("");
 
     if (validateFields()) {
+
       const messageToSend: SendMessageProps = {
         message: message.text,
         receiverId: "5f3bb5af-e982-4a8b-8590-b620597a7360",
         clockId: "f656d97d-63b7-451a-91ee-0e620e652c9e",
-        userId: "5f3bb5af-e982-4a8b-8590-b620597a7360",
+        userId: storage.getUser().id,
       };
       sendMessage(messageToSend)
         .then((response) => {
@@ -92,13 +101,6 @@ const SendMessage = ({
             clock: { id: 0, name: "Select" },
           });
 
-          updateSentMessages((prevSentMessages: any) => [
-            ...prevSentMessages,
-            {
-              userEmail: message.receiver.name,
-              text: message.text,
-            },
-          ]);
           
         })
         .catch((error) => {
@@ -106,7 +108,6 @@ const SendMessage = ({
           // Handle error, such as displaying an error message to the user
         });
     }
-
     console.log("Message:", message);
     console.log("Receiver:", message.receiver);
     console.log("Clock:", message.clock);

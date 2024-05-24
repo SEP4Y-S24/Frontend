@@ -31,24 +31,10 @@ const commonRoutes = [
 ];
 
 export const AppProvider = () => {
-    const [loading, setLoading] = useState(true);
-    const user = useUser();
-    console.log(user);
-    useEffect(() => {
-        setLoading(false); // Simulate loading completion
-    }, []);
 
     const route =  [...protectedRoutes, ...publicRoutes];
-    const routes = [...route, ...commonRoutes];
     const router = createBrowserRouter(route);
 
-    if (loading) {
-        return (
-            <div className="w-screen h-screen flex justify-center items-center">
-                <span>Loading...</span>
-            </div>
-        );
-    }
 
     return (
         <React.Suspense
