@@ -11,7 +11,7 @@ export const addContact = (email: string): Promise<ContactPropsResponse> => {
 };
 
 export const getAllContactsByUserEmail = (userEmail: string): Promise<ContactsPropsResponse> => {
-    return axios.get(`${baseURL}/ContactService/users/${userEmail}/contact`, axiosConfig)
+    return axios.get(`${baseURL}/UserService/users/${userEmail}/contact`, axiosConfig)
         .then(response => response.data)
         .catch(error => {
             throw error.response.data;
