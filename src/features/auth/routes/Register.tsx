@@ -95,19 +95,13 @@ export const Register = () => {
             register.mutate(credentials, {
                 onSuccess: () => {
                     navigate('/');
-                }
-            } );
-
-            setEmailsList([...emailsList, values.email]);
-
-            register.mutate(credentials, {
-                onSuccess: () => {
-                    setIsSubmitting(false);
                 },
                 onError: () => {
                     setIsSubmitting(false);
                 }
-            });
+            } );
+
+            setEmailsList([...emailsList, values.email]);
             await console.log(storage.getToken())
         } catch (error) {
             setIsSubmitting(false);
