@@ -22,9 +22,9 @@ const { Alarm } = lazyImport(() => import("../pages/Alarm"), "Alarm");
 
 const App = () => {
   const user = storage.getUser();
-  // if (!user) {
-  //   return <Navigate to="/auth/login" />;
-  // }
+  if (!user) {
+    return <Navigate to="/auth/login" />;
+  }
   return (
     <MainLayout>
       <Outlet />
