@@ -36,7 +36,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await getAllContactsByUserEmail(storage.getUser().userEmail);
+        const response = await getAllContactsByUserEmail(storage.getUser().email);
         await setAllContacts(response);
         console.log("Response", response);
       } catch (error) {
