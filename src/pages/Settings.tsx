@@ -16,11 +16,18 @@ export const Settings = () => {
     name: "Select",
   });
 
+  
   const changeClockOnStorage =(value : {id: string; name: string })=>{
+    const clockToSet = {
+      clockId: value.id,
+      name: value.name
+    }
+    storage.setClock(clockToSet)
+    window.location.reload()
     setSelectedClock(value)
-    storage.setClock(selectedClock)
   }
 
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -51,9 +58,9 @@ export const Settings = () => {
               <SelectForm
                   dropdownLabel="Select a clock"
                   options={clocks}
-                  className="mb-5 z-50 relative"
+                  className="mb-5 z-50 "
                   value={selectedClock}
-                  onChange={() => changeClockOnStorage(selectedClock)}
+                  onChange={(newValue : any) => changeClockOnStorage(newValue)}
               />
           ) : (
               <Heading text={"No clocks have been added yet"} type={"heading4"} />
