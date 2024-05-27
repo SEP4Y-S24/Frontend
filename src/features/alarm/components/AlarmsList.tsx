@@ -5,6 +5,7 @@ import PaginationRounded from "../../../components/Elements/Pagination/paginatio
 import Alarm from "./Alarm";
 import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
+import storage from "../../../utils/storage";
 
 interface AlarmsListProps {
   change: boolean;
@@ -14,24 +15,22 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [alarms, setAlarms] = useState<AlarmPropsResponse[]>();
   const alarmsPerPage = 5;
-  //const clockId = storage.getClock() for now needs to be hardcoded
-  //com
-  const clockId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
+  const clockId = storage.getClock().clockId;
+
   const [loading, setLoading] = useState<boolean>(false); 
   const [error, setError] = useState<string | null>(null);
 
-
   const setAllAlarms =  (response: AlarmsPropsResponse) => {
-     setAlarms(response.alarms);
+    setAlarms(response.alarms);
     console.log('Alarms', alarms);
   };
+  
   useEffect(() => {
     const fetchAlarms = async () => {
       setLoading(true);
       setError(null);
       try {
         const response = await getAllAlarmsByClockId(clockId);
-        //const response = await getDummyAlarms();
         await setAllAlarms(response);
       } catch (error) {
         setError('Failed to fetch alarms. Please try again later.');
@@ -41,7 +40,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     };
 
     fetchAlarms().then(r => console.log('Alarms fetched'));
-  }, [change]);
+  }, []);
 
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
