@@ -52,9 +52,9 @@ const SendMessage = ({setChange}: MessageParams) => {
     return asciiRegex.test(text);
   };
 
-  // max 40 characters
+  // max 96 characters
   const validateMessageLength = (text: string): boolean => {
-    return text.length <= 40;
+    return text.length <=96;
   };
 
   const validateFields = () => {
@@ -69,7 +69,7 @@ const SendMessage = ({setChange}: MessageParams) => {
       );
       valid = false;
     } else if (!validateMessageLength(message.text)) {
-      setMessageError("Message must be no more than 40 characters.");
+      setMessageError("Message must be no more than 96 characters.");
       valid = false;
     } else {
       setMessageError("");
@@ -103,7 +103,7 @@ const SendMessage = ({setChange}: MessageParams) => {
         message: message.text,
         receiverId: "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
         clockId: "bce5c68c-d26b-4fa5-826b-2d74912a7b80",
-        userId: storage.getUser().id? storage.getUser().id : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
+        userId: storage.getUser().userId? storage.getUser().UserId : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
       sendMessage(messageToSend)
         .then(() => {

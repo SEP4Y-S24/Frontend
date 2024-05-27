@@ -1,4 +1,4 @@
-import {MessageResponseProps, MessagesResponseProps, SendMessageProps} from "../types";
+import {MessageResponseProps, MessagesResponseProps} from "../types";
 import axios from "axios";
 import {axiosConfig, baseURL} from "../../../lib/axios";
 

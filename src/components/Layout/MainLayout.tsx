@@ -79,6 +79,7 @@ const UserNavigation = () => {
             to: '',
             onClick: () => {
                 logout.mutate({});
+                storage.clearClock() // clear the clock settings
                 console.log('Sign out');
             },
         },

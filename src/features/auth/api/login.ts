@@ -1,4 +1,4 @@
-import {CreateUserPropsRequest, CreateUserPropsResponse, LoginPropsRequest, UserPropsResponse} from '../types';
+import {LoginPropsRequest, UserPropsResponse} from '../types';
 import axios from "axios";
 import {axiosConfigAuth, baseURL} from "../../../lib/axios";
 
