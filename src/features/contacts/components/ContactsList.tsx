@@ -3,7 +3,7 @@ import { ContactPropsResponse, ContactsPropsResponse } from "../types";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import { useEffect, useState } from "react";
 import Contact from "./Contact";
-import { deleteContact, getAllContactsByUserId } from "../api/contactApi";
+import { deleteContact, getAllContactsByUserEmail } from "../api/contactApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 
 interface ContactsListProps {
@@ -21,7 +21,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const contactsPerPage = 5;
 
   const [contacts, setContacts] = useState<ContactPropsResponse[]>([]);
-  const userId = "f656d97d-63b7-451a-91ee-0e620e652c9e";
+  const userEmail = "f656d97d-63b7-451a-91ee-0e620e652c9e";
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,8 +36,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await getAllContactsByUserId(userId);
-        // const response = await getDummyContacts();
+        const response = await getAllContactsByUserEmail(userEmail);
         await setAllContacts(response);
         console.log("Response", response);
       } catch (error) {
@@ -54,7 +53,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const handleDeleteContact = (contactToDelete: ContactPropsResponse) => {
     deleteContact(contactToDelete.id)
       .then(async () => {
-        const response = getAllContactsByUserId(userId);
+        const response = getAllContactsByUserEmail(userEmail);
         await setAllContacts(await response);
         console.log("Response", response);
       })

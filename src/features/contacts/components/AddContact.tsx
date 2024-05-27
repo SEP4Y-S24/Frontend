@@ -38,6 +38,7 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
         });
 
       setContactEmail("");
+      
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: { [key: string]: string } = {};
