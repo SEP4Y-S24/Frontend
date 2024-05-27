@@ -1,17 +1,24 @@
 import React, {useEffect, useState} from "react";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
 import ToggleMessages from "./ToggleMessages";
-import {dummyDataReceivedMessages, dummyDataSentMessages, ShowMessageProps} from "../types";
+import {MessageResponseProps, ShowMessageProps} from "../types";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Heading from "../../../components/Elements/Headings/Heading";
-import { getPokemonPicById} from "../../avatarPic/api";
+import {getAllReceivedMessages, getAllSentMessages} from "../api/messageApi";
+import storage from "../../../utils/storage";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
 
 
+interface MessagesListProps {
+    change: boolean;
+}
 
-const MessagesList = () => {
+const MessagesList = ({change}:MessagesListProps) => {
     const [activeTab, setActiveTab] = useState<'sent' | 'received'>('sent');
     const [currentPage, setCurrentPage] = useState<number>(1);
     const messagesPerPage = 5;
+    const [receivedMessages, setReceivedMessages] = useState<MessageResponseProps[]>([]);
+    const [sentMessages, setSentMessages] = useState<MessageResponseProps[]>([]);
 
     const handleTabChange = (tab: 'sent' | 'received') => {
         setActiveTab(tab);
@@ -24,56 +31,81 @@ const MessagesList = () => {
         setCurrentPage(value);
     };
 
-    const receivedMessages = dummyDataReceivedMessages;
-    const reversedSentMessages = dummyDataSentMessages.slice().reverse();
-    const messagesToDisplay = activeTab === 'received' ? receivedMessages : reversedSentMessages;
+    const [loading, setLoading] = useState<boolean>(true);
+    useEffect(() => {
+        const fetchMessages = async () => {
+            try {
+                const responseReceivedMessages = await getAllReceivedMessages(storage.getUser().userId);
+                const responseSentMessages = await getAllSentMessages(storage.getUser().userId);
+
+                setReceivedMessages(responseReceivedMessages.messages);
+                setSentMessages(responseSentMessages.messages);
+
+            } catch (error) {
+                console.error('Failed to get messages. Please try again later.');
+            }
+        };
+
+        fetchMessages().then(() => setLoading(false));
+    }, [change]);
+
+    const messagesToDisplay = activeTab === 'received' ? receivedMessages : sentMessages;
 
     return (
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
             <div className="flex items-center mb-2">
                 <ToggleMessages activeTab={activeTab} onTabChange={handleTabChange}/>
             </div>
-            {messagesToDisplay.length > 0 ? (
-                <>
-                    {messagesToDisplay
-                        .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage)
-                        .map((message:ShowMessageProps, index) => (
-                            <Message
-                                key={index}
-                                email={message.email}
-                                text={message.text}
-                                avatarId={message.avatarId}
-                                type={activeTab==="received"?"received":"sent"}
+            <div className={"pt-5"}>
+                {loading ? (
+                    <SpinnerComponent />
+                ) : (
+                    <>{messagesToDisplay.length > 0 ? (
+                            <>
+                                {messagesToDisplay
+                                    .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage)
+                                    .map((message:MessageResponseProps, index) => (
+                                        <Message
+                                            key={index}
+                                            email={message.receiverId}
+                                            text={message.message}
+                                            //avatarId={message.avatarId}
+                                            type={activeTab==="received"?"received":"sent"}
+                                        />
+                                    ))}
+                                {messagesToDisplay.length > messagesPerPage && (
+                                    <PaginationRounded
+                                        page={currentPage}
+                                        onChange={handleChangeOfPage}
+                                        className="flex flex-col items-center"
+                                        pages={Math.ceil(messagesToDisplay.length / messagesPerPage)}
+                                    />
+                                )}
+                            </>
+                        ) : (
+                            <Heading
+                                text={"You don't have any messages."}
+                                type={"heading4"}
+                                className="mb-3"
                             />
-                        ))}
-                    {messagesToDisplay.length > messagesPerPage && (
-                        <PaginationRounded
-                            page={currentPage}
-                            onChange={handleChangeOfPage}
-                            className="flex flex-col items-center"
-                            pages={Math.ceil(messagesToDisplay.length / messagesPerPage)}
-                        />
-                    )}
-                </>
-            ) : (
-                <Heading
-                    text={"You don't have any messages."}
-                    type={"heading4"}
-                    className="mb-3"
-                />
-            )}
+                        )}
+                    </>
+                )}
+            </div>
+
         </ContentInnerContainer>
     );
 
 }
 export default MessagesList;
+//TODO add avatar pic  when backend is ready
 const Message: React.FC<ShowMessageProps> = ({
                                                          email,
                                                          text,
-                                                         avatarId,
+                                                         //avatarId,
     type
                                                      }) => {
-    const [avatar, setAvatar]  =useState("");
+    /*const [avatar, setAvatar]  =useState("");
     useEffect(() => {
         getPokemonPicById(avatarId) // Fetch picture for Pikachu (ID 25)
             .then(pictureUrl => {
@@ -84,12 +116,12 @@ const Message: React.FC<ShowMessageProps> = ({
             })
             .catch(error => {
             });
-    }, [avatarId]);
+    }, [avatarId]);*/
 
     return (
         <div className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded">
             <img
-                src={avatar}
+                //src={avatar}
                 alt="Avatar"
                 className="w-10 h-10 rounded-full"
             />

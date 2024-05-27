@@ -1,62 +1,86 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment-timezone";
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
-import { ClockProps } from "../features/clockSettings/types";
-import { TimeProps } from "../features/clockSettings/types";
+import {ClockProps} from "../features/clockSettings/types";
 import AddClock from "../features/clockSettings/components/AddClock";
 import ChangeClockSettings from "../features/clockSettings/components/ChangeClockSettings";
+import Heading from "../components/Elements/Headings/Heading";
+import SelectForm from "../components/Form/selectForm";
+import { getAllClocks } from "../features/clockSettings/api/clockApi";
+import storage from "../utils/storage";
 
-// lifting the state up to the parent component to manage clocks as props to child components.
 export const Settings = () => {
   const [clocks, setClocks] = useState<ClockProps[]>([]);
-  const [selectedTimezone] = useState<TimeProps>({
-    id: -13,
+   const [selectedClock, setSelectedClock] = useState<{ id: string; name: string }>({
+    id: "",
     name: "Select",
   });
 
+  
+  const changeClockOnStorage =(value : {id: string; name: string })=>{
+    const clockToSet = {
+      clockId: value.id,
+      name: value.name
+    }
+    storage.setClock(clockToSet)
+    window.location.reload()
+    setSelectedClock(value)
+  }
+
+
+  
+
+
+
+
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        let timeRequest = "Etc/GMT";
-        if (selectedTimezone.id > 0) {
-          timeRequest += "+";
-        }
-        timeRequest += selectedTimezone.id;
-        const zones = moment.tz(timeRequest);
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        let formatedResponse = zones.format();
-        console.log(convertIdToString(selectedTimezone.id));
+          const response = await getAllClocks(storage.getUser().userId)
+          //Convert from clockresponseprops, to clockprops
+          const convertedClocks: ClockProps[] = response.map(clockResponse => ({
+            id: clockResponse.id,
+            name: clockResponse.name,
+            timezone: {id :clockResponse.timeOffset, name : ""}
+          }));
+          setClocks(convertedClocks)
       } catch (error) {
         console.error("Error fetching time zones:", error);
       }
     };
-    fetchData();
-  }, [selectedTimezone]);
+    fetchData();// DONE CHECK IF IT WORKS
+  }, []);
 
-  function convertIdToString(id: number): string {
-    let IdToString = "";
-    if (id > 0) {
-      IdToString += "-" + id;
-    }
-    if (id < 0) {
-      IdToString += "+" + id.toString().slice(1);
-    }
-    if (id === 0) {
-      IdToString += id;
-    }
-    return IdToString;
-  }
-
+  
+ 
   return (
     <>
-      <ContentLayout className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-        <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <AddClock clocks={clocks} setClocks={setClocks} />
+      <ContentLayout className="relative">
+        <ContentInnerContainer className={"w-full md:flex-1 mb-4 z-50 "}>
+            <Heading text={"Switch to a different clock"} type={"heading1"}/>
+            <Heading text={"To see a data of a different clock"} type={"heading4"}/>
+          {clocks.length > 0 ? (
+              <SelectForm
+                  dropdownLabel="Select a clock"
+                  options={clocks}
+                  className="mb-5 z-50 "
+                  value={selectedClock}
+                  onChange={(newValue : any) => changeClockOnStorage(newValue)}
+              />
+          ) : (
+              <Heading text={"No clocks have been added yet"} type={"heading4"} />
+          )}
+
         </ContentInnerContainer>
-        <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-          <ChangeClockSettings clocks={clocks} setClocks={setClocks} />
-        </ContentInnerContainer>
+        <div className={"flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 z-1"}>
+          <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+            <AddClock clocks={clocks} setClocks={setClocks} />
+          </ContentInnerContainer>
+          <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+            <ChangeClockSettings clocks={clocks} setClocks={setClocks} />
+          </ContentInnerContainer>
+        </div>
       </ContentLayout>
     </>
   );

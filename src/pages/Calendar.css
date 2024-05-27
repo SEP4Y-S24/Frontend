@@ -52,3 +52,9 @@
         height: 426px !important;
     }
 }
+
+.fc-event  {
+    border: white !important;
+    border-radius: 10px !important;
+    outline: none !important;
+}

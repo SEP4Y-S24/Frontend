@@ -11,8 +11,10 @@ export interface TaskProps {
 }
 export interface EventProps {
     name: string;
-    deadlineDate: any;
-    deadlineTime: any;
+    startingDate: any;
+    startingTime: any;
+    endingDate: any;
+    endingTime: any;
     description?: string;
     status: Status;
     onClick?: () => void;
@@ -103,8 +105,8 @@ export let dummyDataForTasks: TaskProps[] = [
     },
     {
         "name": "Task 4",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T10:30'),
+        "deadlineDate": ('2024-04-17'),
+        "deadlineTime": ('2024-04-17T10:30'),
         status: { id: 1, name: "Not started" },
         categories: [{  id: 5,
             name: "Food",
@@ -119,8 +121,8 @@ export let dummyDataForTasks: TaskProps[] = [
     },
     {
         "name": "Task 5",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "deadlineDate": ('2024-04-17'),
+        "deadlineTime": ('2024-04-17T15:30'),
         status: { id: 2, name: "In progress" },
         categories: [{  id: 6,
             name: "Whatever",
@@ -132,8 +134,8 @@ export let dummyDataForTasks: TaskProps[] = [
     },
     {
         "name": "Task 6",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T18:30'),
+        "deadlineDate": ('2024-04-17'),
+        "deadlineTime": ('2024-04-17T18:30'),
         status: { id: 1, name: "Not started" },
         categories: [{  id: 6,
             name: "Whatever",
@@ -145,8 +147,8 @@ export let dummyDataForTasks: TaskProps[] = [
     },
     {
         "name": "Task 7",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "deadlineDate": ('2024-04-17'),
+        "deadlineTime": ('2024-04-17T15:30'),
         status: { id: 3, name: "Done" },
         categories: [{ id: 6,
             name: "Whatever",
@@ -162,8 +164,10 @@ export let dummyDataForEvents: EventProps[] = [
     {
         "name": "Event 1",
         "description": "Event 1 description",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "startingDate": ('2024-04-17'),
+        "startingTime": ('2024-04-17T15:30'),
+        "endingDate": ('2024-04-18'),
+        "endingTime": ('2024-04-18T15:30'),
         status: { id: 1, name: "Not started" },
         categories: [{id: 6,
             name: "Whatever",
@@ -171,8 +175,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 2",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "startingDate": ('2024-04-19'),
+        "startingTime": ('2024-04-19T15:30'),
+        "endingDate": ('2024-04-20'),
+        "endingTime": ('2024-04-20T15:30'),
         status: { id: 2, name: "In progress" },
         categories:[
             { id: 5,
@@ -184,8 +190,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 3",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "startingDate": ('2024-04-21'),
+        "startingTime": ('2024-04-21T15:30'),
+        "endingDate": ('2024-04-22'),
+        "endingTime": ('2024-04-22T15:30'),
         status: { id: 3, name: "Done" },
         categories: [{  id: 5,
             name: "Food",
@@ -197,8 +205,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 4",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T10:30'),
+        "startingDate": ('2024-04-23'),
+        "startingTime": ('2024-04-3=23T15:30'),
+        "endingDate": ('2024-04-25'),
+        "endingTime": ('2024-04-25T15:30'),
         status: { id: 1, name: "Not started" },
         categories: [{  id: 5,
             name: "Food",
@@ -213,8 +223,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 5",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "startingDate": ('2024-04-26'),
+        "startingTime": ('2024-04-26T15:30'),
+        "endingDate": ('2024-04-27'),
+        "endingTime": ('2024-04-27T15:30'),
         status: { id: 2, name: "In progress" },
         categories: [{  id: 6,
             name: "Whatever",
@@ -226,8 +238,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 6",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T18:30'),
+        "startingDate": ('2024-04-28'),
+        "startingTime": ('2024-04-28T15:30'),
+        "endingDate": ('2024-04-28'),
+        "endingTime": ('2024-04-28T15:30'),
         status: { id: 1, name: "Not started" },
         categories: [{  id: 6,
             name: "Whatever",
@@ -239,8 +253,10 @@ export let dummyDataForEvents: EventProps[] = [
     },
     {
         "name": "Event 7",
-        "deadlineDate": ('2022-04-17'),
-        "deadlineTime": ('2022-04-17T15:30'),
+        "startingDate": ('2024-04-29'),
+        "startingTime": ('2024-04-29T15:30'),
+        "endingDate": ('2024-04-30'),
+        "endingTime": ('2024-04-30T15:30'),
         status: { id: 3, name: "Done" },
         categories: [{ id: 6,
             name: "Whatever",

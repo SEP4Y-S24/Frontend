@@ -3,8 +3,10 @@ import Button from "../../../components/Elements/Button";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import SelectForm from "../../../components/Form/selectForm";
-import { ClockProps, TimeProps } from "../types";
+import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import { utcTimezones } from "../data/timezones";
+import { updateClock } from "../api/clockApi";
+import storage from "../../../utils/storage";
 
 const ChangeClockSettings = ({
   clocks,
@@ -14,7 +16,7 @@ const ChangeClockSettings = ({
   setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>>;
 }) => {
   const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: 0,
+    id: "0",
     name: "Select",
     timezone: { id: -13, name: "Select" },
   });
@@ -29,27 +31,38 @@ const ChangeClockSettings = ({
     }
   };
 
-  const handleSaveClockChanges = () => {
-    if (selectedClock) {
+  const handleSaveClockChanges =async () => {
+    console.log("is the function being called??")
+    console.log(selectedChangedTimezone.id)
+    try {
+      const clockToUpdate  : ClockPropsResquest = {
+        name : newClockName,
+        userId : storage.getUser().userId,
+        timeOffset : selectedChangedTimezone.id *60
+      }
+      console.log(JSON.stringify(clockToUpdate, null, 2))
+      console.log(clockToUpdate + ' clocktoupdate')
+     const response =  await updateClock(clockToUpdate, selectedClock.id)
+     console.log('response in changeclock setting    :   ' + response)
+     if (response) {
       const updatedClocks = clocks.map((clock) =>
         clock.id === selectedClock.id
           ? { ...clock, name: newClockName, timezone: selectedChangedTimezone }
           : clock
       );
       setClocks(updatedClocks);
-      setSelectedClock({
-        id: 0,
-        name: "Select",
-        timezone: { id: -13, name: "Select" },
-      });
       setSelectedChangedTimezone({ id: -13, name: "Select" });
       setNewClockName("");
+     }
+    } catch (error) {
+      console.log(error)
     }
   };
 
   function handleOnChangeTimezone(value: TimeProps) {
-    setSelectedChangedTimezone(value);
-    console.log("Time:", value);
+    setSelectedChangedTimezone({id: value.id, name: value.name});
+    // console.log(' handleon change' + value.id + value.name)
+    console.log(' handleon change' + selectedChangedTimezone.id + selectedChangedTimezone.name)
   }
   return (
     <>

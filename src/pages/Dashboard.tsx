@@ -23,6 +23,7 @@ export const Dashboard = () => {
     const [temperature, setTemperature] = useState<MeasuredDataResponse>();
     const [co2, setCo2] = useState<MeasuredDataResponse>();
     const [humidity, setHumidity] = useState<MeasuredDataResponse>();
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [clock, setClock] = useState(storage.getClock());
 
     const { isLoading, error, data } = useQuery({

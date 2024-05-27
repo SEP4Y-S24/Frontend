@@ -5,9 +5,9 @@ import { Fragment} from "react";
 
 interface DropdownProps {
   dropdownLabel: string;
-  options: { id: number; name: string }[];
+  options: { id: number |string; name: string }[];
   className: string;
-  value: { id: number; name: string };
+  value: { id: number| string; name: string };
   onChange?: any;
   error?: string;
   name?: string;
@@ -28,13 +28,11 @@ export default function Dropdown({
     disabled = false,
 }: DropdownProps) {
   const handleSelectionChange = (selectedValue: {
-    id: number;
+    id: number | string;
     name: string;
   }) => {
     onChange(selectedValue);
   };
-
-
   return (
     <Listbox value={value} name={name} disabled={disabled} onChange={handleSelectionChange}>
       {({ open }) => (
@@ -62,7 +60,7 @@ export default function Dropdown({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <Listbox.Options className="relative z-10 mt-1 max-h-56 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
                 {options.map((element) => (
                   <Listbox.Option
                     key={element.id}

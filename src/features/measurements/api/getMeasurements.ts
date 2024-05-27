@@ -1,6 +1,3 @@
-
-import axios from "axios";
-import {axiosConfig, baseURL} from "../../../lib/axios";
 import {MeasuredDataResponse} from "../types";
 
 
