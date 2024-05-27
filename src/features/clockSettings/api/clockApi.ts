@@ -33,6 +33,16 @@ export const getAllClocks = (userId: string): Promise<ClockPropsResponse[]> => {
             throw error.response.data;
         });
 };
+//Deleting a clock
+export const deleteClock = ( clockId: string): Promise<void> => {
+    return axios.delete(`${baseURL}/ClockService/clock/${clockId}`, axiosConfig)
+        .then(() => {})
+        .catch(error => {
+            throw error.response.data;
+        });
+};
+
+
 
 
 
