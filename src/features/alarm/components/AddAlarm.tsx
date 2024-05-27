@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers";
@@ -9,16 +9,17 @@ import Button from "../../../components/Elements/Button";
 import {CreateAlarmProps} from "../types";
 import { createAlarm} from "../api/alarmApi";
 import SelectForm from "../../../components/Form/selectForm";
-import {SimpleClockProps} from "../../clockSettings/types";
+import {ClockPropsResponse, SimpleClockProps} from "../../clockSettings/types";
+import {getAllClocks} from "../../clockSettings/api/clockApi";
+import storage from "../../../utils/storage";
 
 
 interface AddAlarmProps {
-    change: boolean;
     setChange: React.Dispatch<React.SetStateAction<boolean>>;
 } 
 
 
-const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
+const AddAlarm: React.FC<AddAlarmProps> = ({ setChange}) => {
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
@@ -28,11 +29,31 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
         id: 0,
         name: "Select",
     });
+    const [clocks, setClocks] = useState<SimpleClockProps[]>([]);
+    useEffect(() => {
+        const fetchClocks = async () => {
+            try {
+                console.log("inside try of fetching clocks");
+                const response = await getAllClocks(storage.getUser().userId); // Adjust the endpoint to your API
+                const clocks: SimpleClockProps[] = response.map(clock => ({
+                    id: clock.id,
+                    name: clock.name
+                }));
+                setClocks(clocks);
+                console.log("clocks"+clocks);
+            } catch (error) {
+                console.error('Error fetching clocks:', error);
+            }
+        };
 
-    const clocks: SimpleClockProps[] = [
-        { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
-        { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
-    ];
+        fetchClocks();
+    }, []);
+
+    const toggleChangeAfterTwoSeconds = () => {
+        setTimeout(() => {
+            setChange(prevChange => !prevChange);
+        }, 500); // 2000 milliseconds = 2 seconds
+    };
 
   const handleAddAlarm = () => {
     if (!alarmTime) {
@@ -54,11 +75,10 @@ const AddAlarm: React.FC<AddAlarmProps> = ({change, setChange}) => {
             minutes: Number(alarmTime.format("mm")),
             name: alarmName,
         }
-        setChange(!change);
         console.log(createAlarmData);
         createAlarm(createAlarmData).then((response) => {
             console.log(response);
-            setChange(!change)
+            toggleChangeAfterTwoSeconds()
         }).catch(
             (error) => {
                 console.log(error);

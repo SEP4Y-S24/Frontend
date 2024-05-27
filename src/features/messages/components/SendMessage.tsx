@@ -1,23 +1,43 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import TextArea from "../../../components/Form/TextArea";
 import SelectForm from "../../../components/Form/selectForm";
-import { useState } from "react";
+import React, { useState } from "react";
 import { MessageProps, SendMessageProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
-import { sendMessage } from "../api/createMessage";
+import { sendMessage } from "../api/messageApi";
+import storage from "../../../utils/storage";
+import SpinnerComponent from "../../spinner/SpinnerComponent";
 
-const SendMessage = ({
-  receiverOptions,
-  clockOptions,
-  updateSentMessages,
-}: any) => {
+interface MessageParams {
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
+const SendMessage = ({setChange}: MessageParams) => {
   const [message, setMessage] = useState<MessageProps>({
     text: "",
     receiver: { id: 0, name: "Select" },
     clock: { id: 0, name: "Select" },
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+//TODO replace with api call later
+  const receiverOptions = [
+    { id: 1, name: "Receiver 1" },
+    { id: 2, name: "Receiver 2" },
+    { id: 3, name: "Receiver 3" },
+  ];
+//TODO replace with api call later
+  const clockOptions = [
+    { id: 1, name: "Clock 1" },
+    { id: 2, name: "Clock 2" },
+    { id: 3, name: "Clock 3" },
+  ];
+
+  const updateMessages = () => {
+    setTimeout(() => {
+      setChange(prevChange => !prevChange);
+    }, 500); // 2000 milliseconds = 2 seconds
+  };
 
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
@@ -76,40 +96,31 @@ const SendMessage = ({
     setSuccessMessage("");
 
     if (validateFields()) {
+
+      setIsSubmitting(true);
+
       const messageToSend: SendMessageProps = {
         message: message.text,
-        receiverId: "5f3bb5af-e982-4a8b-8590-b620597a7360",
-        clockId: "f656d97d-63b7-451a-91ee-0e620e652c9e",
-        userId: "5f3bb5af-e982-4a8b-8590-b620597a7360",
+        receiverId: "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
+        clockId: "bce5c68c-d26b-4fa5-826b-2d74912a7b80",
+        userId: storage.getUser().id? storage.getUser().id : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
       sendMessage(messageToSend)
-        .then((response) => {
-          console.log("Message sent successfully:", response);
+        .then(() => {
+          updateMessages();
           setShowPopup(true);
           setMessage({
             text: "",
             receiver: { id: 0, name: "Select" },
             clock: { id: 0, name: "Select" },
           });
-
-          updateSentMessages((prevSentMessages: any) => [
-            ...prevSentMessages,
-            {
-              userEmail: message.receiver.name,
-              text: message.text,
-            },
-          ]);
-          
         })
-        .catch((error) => {
+        .catch((error:any) => {
           console.error("Error sending message:", error);
           // Handle error, such as displaying an error message to the user
         });
     }
-
-    console.log("Message:", message);
-    console.log("Receiver:", message.receiver);
-    console.log("Clock:", message.clock);
+    setIsSubmitting(false);
   };
 
   const handlePopupClose = () => {
@@ -165,11 +176,18 @@ const SendMessage = ({
           }
           error={clockError}
         />
-        <Button
-          text="Click me"
-          styleType={"info"}
-          onClick={handleSendMessage}
-        />
+        <div className={"pt-5"}>
+          {isSubmitting ? (
+              <SpinnerComponent />
+          ) : (
+              <Button
+                  text="Click me"
+                  styleType={"info"}
+                  onClick={handleSendMessage}
+              />
+          )}
+        </div>
+
 
         {successMessage && <p className="text-green mt-3">{successMessage}</p>}
 

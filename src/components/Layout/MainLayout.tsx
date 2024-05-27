@@ -11,6 +11,8 @@ import {NavLink, Link} from 'react-router-dom';
 import logo from '../../assets/Logo.svg';
 import {useLogout, useUser} from "../../lib/auth";
 import Heading from "../Elements/Headings/Heading";
+import storage from '../../utils/storage';
+
 
 
 type SideNavigationItem = {
@@ -36,6 +38,8 @@ const SideNavigation = () => {
     const handleClick = (index:any) => {
         setActive(index);
     };
+    
+
 
     return (
         <>
@@ -81,6 +85,8 @@ const UserNavigation = () => {
     ].filter(Boolean) as UserNavigationItem[];
     const user = useUser();
     const userName = user.data?.email;
+
+  
 
 
     return (
@@ -141,6 +147,9 @@ type MobileSidebarProps = {
     sidebarOpen: boolean;
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+  //Get the clock from the storage :
+
+  const clockData : {name : string, clockId : string} = storage.getClock() ? storage.getClock() : {name : "No clock selected", clockId : "SELECTACLOCK"}
 
 const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
     return (
@@ -199,10 +208,16 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
                             </nav>
                         </div>
                         <div className="flex flex-col h-16 flex-shrink-0 px-4 bg-white">
+                            <NavLink
+                                key={"clock"}
+                                to={'./settings'}
+                                className="block"
+                            >
                             <div className={"bg-primaryColorOpacity p-2 rounded"}>
-                                <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
-                                <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                                <Heading text={clockData.name} className={"text-center"} type={"heading3"}/>
+                                <Heading text={clockData.clockId} className={"text-center"} type={"heading5"}/>
                             </div>
+                            </NavLink>
                         </div>
                     </div>
                 </Transition.Child>
@@ -226,10 +241,16 @@ const Sidebar = () => {
                         </nav>
                     </div>
                     <div className="flex flex-col h-20 flex-shrink-0 px-6 bg-gray-900">
+                        <NavLink
+                            key={"clock"}
+                            to={'./settings'}
+                            className="block"
+                        >
                         <div className={"bg-primaryColorOpacity p-2 rounded"}>
-                            <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
-                            <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                            <Heading text={clockData.name} className={"text-center"} type={"heading3"}/>
+                            <Heading text={clockData.clockId} className={"text-center"} type={"heading5"}/>
                         </div>
+                        </NavLink>
 
                     </div>
                 </div>

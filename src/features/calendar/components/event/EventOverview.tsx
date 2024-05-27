@@ -1,22 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
-import { ContentInnerContainer } from "../../../../components/Layout/ContentInnerContainer";
+import {useEffect, useMemo, useState} from "react";
+import {ContentInnerContainer} from "../../../../components/Layout/ContentInnerContainer";
 import Heading from "../../../../components/Elements/Headings/Heading";
 import Badge from "../../../../components/Elements/Badge/Badge";
 import PaginationRounded from "../../../../components/Elements/Pagination/pagination";
 import * as React from "react";
 import {EventProps, dummyCategories} from "../../types";
-import { EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import {EyeIcon, PencilSquareIcon, PlusIcon, XMarkIcon} from "@heroicons/react/24/outline";
 
 const Event: React.FC<EventProps> = ({
-                                       name,
-                                       deadlineDate,
-                                       deadlineTime,
-                                       status,
-                                       categories,
-                                       onDelete,
-                                       onClick,
-                                       onEdit,
-                                   }) => {
+                                         name,
+                                         startingDate,
+                                         startingTime,
+                                         endingDate,
+                                         endingTime,
+                                         status,
+                                         categories,
+                                         onDelete,
+                                         onClick,
+                                         onEdit,
+                                     }) => {
     function getStyleTypeByStatus(status: string) {
         switch (status) {
             case "Not started":
@@ -31,23 +33,25 @@ const Event: React.FC<EventProps> = ({
     }
 
     return (
-        <div className="flex items-center justify-between space-x-3 px-3 py-1 my-2 bg-whiteHover hover:bg-background rounded">
+        <div
+            className="flex items-center justify-between space-x-3 px-3 py-1 my-2 bg-whiteHover hover:bg-background rounded">
             <div>
-                <Heading text={name} type={"heading3"} />
-                <Heading text={"Deadline: " + deadlineDate + " at: " + deadlineTime} type={"heading5"} />
+                <Heading text={name} type={"heading3"}/>
+                <Heading text={"Starting: " + startingDate + " at: " + startingTime} type={"heading5"}/>
+                <Heading text={"Ending: " + endingDate + " at: " + endingTime} type={"heading5"}/>
             </div>
             <div>
-                <Badge text={status.name} styleType={getStyleTypeByStatus(status.name)} isFilled={false} />
+                <Badge text={status.name} styleType={getStyleTypeByStatus(status.name)} isFilled={false}/>
             </div>
             <div className="flex items-center space-x-2">
                 <div>
-                    <EyeIcon className="text-dark h-5 w-5 mr-1 cursor-pointer" onClick={onClick} />
+                    <EyeIcon className="text-dark h-5 w-5 mr-1 cursor-pointer" onClick={onClick}/>
                 </div>
                 <div>
-                    <PencilSquareIcon className="text-dark h-5 w-5 cursor-pointer" onClick={onEdit} />
+                    <PencilSquareIcon className="text-dark h-5 w-5 cursor-pointer" onClick={onEdit}/>
                 </div>
                 <div>
-                    <XMarkIcon className="text-dark h-5 w-5 cursor-pointer" onClick={onDelete} />
+                    <XMarkIcon className="text-dark h-5 w-5 cursor-pointer" onClick={onDelete}/>
                 </div>
             </div>
         </div>
@@ -61,7 +65,7 @@ interface EventOverviewProps {
     setMode: React.Dispatch<React.SetStateAction<"create" | "edit" | "view">>;
 }
 
-export const EventOverview: React.FC<EventOverviewProps> = ({ setSelectedEvent, events, setEvents, setMode }) => {
+export const EventOverview: React.FC<EventOverviewProps> = ({setSelectedEvent, events, setEvents, setMode}) => {
     const [statusFilters, setStatusFilters] = useState<{ [key: string]: boolean }>({
         "Not started": false,
         "In progress": false,
@@ -107,10 +111,12 @@ export const EventOverview: React.FC<EventOverviewProps> = ({ setSelectedEvent, 
             <Event
                 key={index}
                 name={event.name}
-                deadlineDate={event.deadlineDate}
+                startingDate={event.startingDate}
                 onDelete={() => handleEventDelete(event)}
-                deadlineTime={event.deadlineTime}
+                startingTime={event.startingTime}
                 onEdit={() => handleEventEdit(event)}
+                endingDate={event.endingDate}
+                endingTime={event.endingTime}
                 status={event.status}
                 onClick={() => handleEventClick(event)}
 
@@ -157,12 +163,13 @@ export const EventOverview: React.FC<EventOverviewProps> = ({ setSelectedEvent, 
                 return "warning"; // Default to warning if status is unknown
         }
     }
+
     return (
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
             <div className="flex justify-between items-center">
-                <Heading text={"Events"} type={"heading1"} />
+                <Heading text={"Events"} type={"heading1"}/>
                 <div>
-                    <PlusIcon className="text-dark h-5 w-5 cursor-pointer" onClick={handleEventAdd} />
+                    <PlusIcon className="text-dark h-5 w-5 cursor-pointer" onClick={handleEventAdd}/>
                 </div>
             </div>
             <div>
@@ -179,7 +186,9 @@ export const EventOverview: React.FC<EventOverviewProps> = ({ setSelectedEvent, 
             </div>
             <div>
                 <label htmlFor="categoryFilter" className={"mr-2"}>Category:</label>
-                <select id="categoryFilter" value={selectedCategory} className="appearance-none bg-transparent border border-stroke rounded px-2  focus:outline-none cursor-pointer" onChange={handleCategoryFilterChange}>
+                <select id="categoryFilter" value={selectedCategory}
+                        className="appearance-none bg-transparent border border-stroke rounded px-2  focus:outline-none cursor-pointer"
+                        onChange={handleCategoryFilterChange}>
                     <option value="All">All</option>
                     {categories.map(category => (
                         <option key={category.id} value={category.name}>{category.name}</option>

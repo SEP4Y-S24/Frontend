@@ -1,5 +1,5 @@
 import Button from "../components/Elements/Button";
-import React from "react";
+import React, { useState} from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
@@ -8,7 +8,6 @@ import {
 import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
-import {useUser} from "../lib/auth";
 
 
 const ErrorFallback = () => {
@@ -28,16 +27,14 @@ const ErrorFallback = () => {
 const commonRoutes = [
     { path: '/', element: <Landing /> },
 ];
+
 export const AppProvider = () => {
-    const user = useUser();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const route = user.data ? protectedRoutes : publicRoutes;
-    //console.log(route);
-    const routes =  [...protectedRoutes, ...commonRoutes];
-    const router = createBrowserRouter(routes);
+
+    const route =  [...protectedRoutes, ...publicRoutes];
+    const router = createBrowserRouter(route);
+
 
     return (
-
         <React.Suspense
             fallback={
                 <div className="flex items-center justify-center w-screen h-screen">
@@ -46,9 +43,8 @@ export const AppProvider = () => {
             }
         >
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                    <RouterProvider router={router} />
+                <RouterProvider router={router} />
             </ErrorBoundary>
         </React.Suspense>
-
     );
 };
