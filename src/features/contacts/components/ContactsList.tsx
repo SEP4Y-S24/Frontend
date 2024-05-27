@@ -21,7 +21,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const contactsPerPage = 5;
 
   const [contacts, setContacts] = useState<ContactPropsResponse[]>([]);
-  const userEmail = "example@gmail.com";
+  const userEmail = "test@gmail.com";
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
