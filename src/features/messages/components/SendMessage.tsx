@@ -101,9 +101,9 @@ const SendMessage = ({setChange}: MessageParams) => {
 
       const messageToSend: SendMessageProps = {
         message: message.text,
-        receiverId: "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
-        clockId: "bce5c68c-d26b-4fa5-826b-2d74912a7b80",
-        userId: storage.getUser().userId? storage.getUser().UserId : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
+        receiverId: "2a5ea358-0ae2-4acd-9aaf-4ab0f90bbd1e",
+        clockId: "0bb753b1-6ba4-414d-9065-66ede2ce4a97",
+        userId: storage.getUser().userId? storage.getUser().userId : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
       sendMessage(messageToSend)
         .then(() => {
@@ -181,7 +181,7 @@ const SendMessage = ({setChange}: MessageParams) => {
               <SpinnerComponent />
           ) : (
               <Button
-                  text="Click me"
+                  text="Send"
                   styleType={"info"}
                   onClick={handleSendMessage}
               />
