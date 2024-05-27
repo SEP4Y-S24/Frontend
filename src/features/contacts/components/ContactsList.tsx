@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Contact from "./Contact";
 import { deleteContact, getAllContactsByUserEmail } from "../api/contactApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
+import storage from "../../../utils/storage";
 
 interface ContactsListProps {
   change: boolean;
@@ -21,7 +22,6 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const contactsPerPage = 5;
 
   const [contacts, setContacts] = useState<ContactPropsResponse[]>([]);
-  const userEmail = "test@gmail.com";
 
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -36,7 +36,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await getAllContactsByUserEmail(userEmail);
+        const response = await getAllContactsByUserEmail(storage.getUser().userEmail);
         await setAllContacts(response);
         console.log("Response", response);
       } catch (error) {
@@ -53,7 +53,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const handleDeleteContact = (contactToDelete: ContactPropsResponse) => {
     deleteContact(contactToDelete.id)
       .then(async () => {
-        const response = getAllContactsByUserEmail(userEmail);
+        const response = getAllContactsByUserEmail(storage.getUser().userEmail);
         await setAllContacts(await response);
         console.log("Response", response);
       })
