@@ -7,6 +7,7 @@ import Heading from "../../../components/Elements/Headings/Heading";
 import {getAllReceivedMessages, getAllSentMessages} from "../api/messageApi";
 import storage from "../../../utils/storage";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
+import {getPokemonPicById} from "../../avatarPic/api";
 
 
 interface MessagesListProps {
@@ -40,6 +41,8 @@ const MessagesList = ({change}:MessagesListProps) => {
 
                 setReceivedMessages(responseReceivedMessages.messages);
                 setSentMessages(responseSentMessages.messages);
+                console.log(responseReceivedMessages.messages);
+                console.log(responseSentMessages.messages);
 
             } catch (error) {
                 console.error('Failed to get messages. Please try again later.');
@@ -63,13 +66,13 @@ const MessagesList = ({change}:MessagesListProps) => {
                     <>{messagesToDisplay.length > 0 ? (
                             <>
                                 {messagesToDisplay
-                                    .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage)
+                                    .slice((currentPage - 1) * messagesPerPage, currentPage * messagesPerPage).reverse()
                                     .map((message:MessageResponseProps, index) => (
                                         <Message
                                             key={index}
-                                            email={message.receiverId}
+                                            email={activeTab==="sent"?message.receiverEmail:message.senderEmail}
                                             text={message.message}
-                                            //avatarId={message.avatarId}
+                                            avatarId={activeTab==="sent"?message.receiverAvatarId:message.senderAvatarId}
                                             type={activeTab==="received"?"received":"sent"}
                                         />
                                     ))}
@@ -102,10 +105,10 @@ export default MessagesList;
 const Message: React.FC<ShowMessageProps> = ({
                                                          email,
                                                          text,
-                                                         //avatarId,
+                                                         avatarId,
     type
                                                      }) => {
-    /*const [avatar, setAvatar]  =useState("");
+    const [avatar, setAvatar]  =useState("");
     useEffect(() => {
         getPokemonPicById(avatarId) // Fetch picture for Pikachu (ID 25)
             .then(pictureUrl => {
@@ -114,14 +117,12 @@ const Message: React.FC<ShowMessageProps> = ({
                     console.log( pictureUrl)
                 }
             })
-            .catch(error => {
-            });
-    }, [avatarId]);*/
+    }, [avatarId]);
 
     return (
         <div className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded">
             <img
-                //src={avatar}
+                src={avatar}
                 alt="Avatar"
                 className="w-10 h-10 rounded-full"
             />

@@ -16,8 +16,7 @@ const { Calendar } = lazyImport(() => import("../pages/Calendar"), "Calendar");
 const {Statistics} = lazyImport(()=> import("../pages/Statistics"),"Statistics")
 const { Categories } = lazyImport(
   () => import("../pages/Categories"),
-  "Categories"
-);
+  "Categories");
 const { Alarm } = lazyImport(() => import("../pages/Alarm"), "Alarm");
 
 const App = () => {

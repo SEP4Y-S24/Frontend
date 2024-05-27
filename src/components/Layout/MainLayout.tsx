@@ -79,6 +79,7 @@ const UserNavigation = () => {
             to: '',
             onClick: () => {
                 logout.mutate({});
+                storage.clearClock() // clear the clock settings
                 console.log('Sign out');
             },
         },
@@ -273,7 +274,6 @@ type MainLayoutProps = {
 
 export const MainLayout = ({children}: MainLayoutProps) => {
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
     return (
         <div className="h-screen flex overflow-hidden bg-gray-100">
             <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
@@ -282,8 +282,7 @@ export const MainLayout = ({children}: MainLayoutProps) => {
                 <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
                     <button
                         className="px-4 border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                        onClick={() => setSidebarOpen(true)}
-                    >
+                        onClick={() => setSidebarOpen(true)}>
                         <span className="sr-only">Open sidebar</span>
                         <Bars4Icon className="h-6 w-6" aria-hidden="true"/>
                     </button>

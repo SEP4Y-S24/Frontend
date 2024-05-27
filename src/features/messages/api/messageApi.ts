@@ -3,7 +3,7 @@ import axios from "axios";
 import {axiosConfig, baseURL} from "../../../lib/axios";
 
 
-export const sendMessage = (data: MessageResponseProps): Promise<MessageResponseProps> => {
+export const sendMessage = (data: SendMessageProps): Promise<SendMessageProps> => {
     return axios.post(`${baseURL}/UserService/messages`, data, axiosConfig)
         .then(response => response.data)
         .catch(error => {
