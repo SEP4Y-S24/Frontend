@@ -53,7 +53,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   const handleDeleteContact = (contactToDelete: ContactPropsResponse) => {
     deleteContact(contactToDelete.id)
       .then(async () => {
-        const response = getAllContactsByUserEmail(storage.getUser().userEmail);
+        const response = getAllContactsByUserEmail(storage.getUser().email);
         await setAllContacts(await response);
         console.log("Response", response);
       })
