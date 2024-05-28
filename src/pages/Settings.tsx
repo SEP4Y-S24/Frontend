@@ -28,11 +28,6 @@ export const Settings = () => {
   }
 
 
-  
-
-
-
-
  
   useEffect(() => {
     const fetchData = async () => {

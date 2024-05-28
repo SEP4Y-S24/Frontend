@@ -54,7 +54,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     deleteAlarm(alarmToDelete.id).then(async () => {
       const response = getAllAlarmsByClockId(clockId);
       await setAllAlarms(await response);
-      console.log('Response', response);
     }).catch((error) => {
       console.error('Failed to delete alarm:', error);
     });
