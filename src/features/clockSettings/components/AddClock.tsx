@@ -7,13 +7,12 @@ import { useState } from "react";
 import { utcTimezones } from "../data/timezones";
 import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
-import { createClock } from "../api/clockApi";
+import { createClock, deleteClock } from "../api/clockApi";
 import storage from "../../../utils/storage";
 
 const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>> }) => {
   const [clockName, setClockName] = useState("");
   const [clockId, setClockId] = useState("");
-  const [clockIdError, setClockIdError] = useState("");
   const [selectedTimezone, setSelectedTimezone] = useState({
     id: -13,
     name: "Select",
@@ -29,7 +28,6 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
 
   function handleOnChangeTimezone(value: TimeProps) {
     setSelectedTimezone(value);
-    console.log("Time:", value);
   }
 
   const handleAddClock =async () => {
@@ -40,7 +38,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
     };
 
      // Sending only relevant data to the backend
-     const userFromStorage = storage.getUser();
+     const userFromStorage = storage.getUser().userId;
      const clockToBeSend: ClockPropsResquest = {
          userId: userFromStorage,
          name: newClock.name,
@@ -69,15 +67,27 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
   };
 
   // Function to handle the deletion process
-  const handleConfirmDelete = () => {
-    const updatedClocks = [...clocks];
-    updatedClocks.splice(
-      updatedClocks.findIndex((clock) => clock.id === selectedClock.id),
-      1
-    );
-    setClocks(updatedClocks);
-    setShowPopup(false);
+  const handleConfirmDelete =async () => {
+    console.log("selected clock " + selectedClock.id)
+    try{
+          
+           await deleteClock(selectedClock.id)
+          const updatedClocks = clocks.filter((clock) => clock.id !== selectedClock.id);
+          setClocks(updatedClocks);
+          setShowPopup(false);
 
+          setSelectedClock({
+            id: "0",
+            name: "Select",
+            timezone: { id: -13, name: "Select" }, // Adjust this if timezone structure is different
+          }); // Reset selected clock
+        }
+    catch(error){
+      console.error('Error deleting clock:', error);
+      setShowPopup(false)
+    }
+    
+    
     setSelectedClock({
       id: "0",
       name: "Select",

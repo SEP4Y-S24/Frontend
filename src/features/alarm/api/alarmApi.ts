@@ -44,11 +44,4 @@ export const deleteAlarm = ( alarmId: string): Promise<void> => {
             throw error.response.data;
         });
 };
-/*
-export const getDummyAlarms = (): Promise<AlarmPropsResponse[]> => {
-    return new Promise((resolve) => {
-        setTimeout(() => {
-            resolve(dummyAlarms);
-        }, 1000); // Simulate a 1 second delay for the mock API call
-    });
-};*/
+

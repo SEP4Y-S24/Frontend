@@ -13,6 +13,8 @@ import {useLogout, useUser} from "../../lib/auth";
 import Heading from "../Elements/Headings/Heading";
 import {getPokemonPicById} from "../../features/avatarPic/api";
 import {useEffect} from "react";
+import storage from '../../utils/storage';
+
 
 
 type SideNavigationItem = {
@@ -81,6 +83,7 @@ const UserNavigation = () => {
             to: '',
             onClick: () => {
                 logout.mutate({});
+                storage.clearClock() // clear the clock settings
                 console.log('Sign out');
             },
         },
@@ -140,8 +143,7 @@ const UserNavigation = () => {
                                             to={item.to}
                                             onClick={item?.onClick}
                                             className={clsx(
-                                                active ? 'bg-gray-100' : '',
-                                                'block px-4 py-2 text-sm text-gray-700'
+                                                'block px-4 py-2 text-sm text-primaryText font-medium hover:bg-primaryColorOpacity hover:text-primaryColor',
                                             )}
                                         >
                                             {item.name}
@@ -163,6 +165,9 @@ type MobileSidebarProps = {
     sidebarOpen: boolean;
     setSidebarOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
+  //Get the clock from the storage :
+
+  const clockData : {name : string, clockId : string} = storage.getClock() ? storage.getClock() : {name : "No clock selected", clockId : "Select a clock"}
 
 const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
     return (
@@ -227,8 +232,8 @@ const MobileSidebar = ({sidebarOpen, setSidebarOpen}: MobileSidebarProps) => {
                                 className="block"
                             >
                             <div className={"bg-primaryColorOpacity p-2 rounded"}>
-                                <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
-                                <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                                <Heading text={clockData.name} className={"text-center"} type={"heading3"}/>
+                                <Heading text={clockData.clockId} className={"text-center"} type={"heading5"}/>
                             </div>
                             </NavLink>
                         </div>
@@ -260,8 +265,8 @@ const Sidebar = () => {
                             className="block"
                         >
                         <div className={"bg-primaryColorOpacity p-2 rounded"}>
-                            <Heading text={"Clock: Kabelikova"} className={"text-center"} type={"heading3"}/>
-                            <Heading text={"Id:123"} className={"text-center"} type={"heading5"}/>
+                            <Heading text={clockData.name} className={"text-center"} type={"heading3"}/>
+                            <Heading text={clockData.clockId} className={"text-center"} type={"heading5"}/>
                         </div>
                         </NavLink>
 
@@ -286,7 +291,6 @@ type MainLayoutProps = {
 
 export const MainLayout = ({children}: MainLayoutProps) => {
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
     return (
         <div className="h-screen flex overflow-hidden bg-gray-100">
             <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
@@ -295,8 +299,7 @@ export const MainLayout = ({children}: MainLayoutProps) => {
                 <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
                     <button
                         className="px-4 border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                        onClick={() => setSidebarOpen(true)}
-                    >
+                        onClick={() => setSidebarOpen(true)}>
                         <span className="sr-only">Open sidebar</span>
                         <Bars4Icon className="h-6 w-6" aria-hidden="true"/>
                     </button>
