@@ -5,9 +5,10 @@ interface Props{
     onClick?: () => void;
     type?: "button" | "submit" | "reset";
     className?: string;
+    disabled?: boolean;
 }
 
-const Button = ({text, onClick, styleType, className, type}: Props) => {
+const Button = ({text, onClick, styleType, className, type, disabled}: Props) => {
     let border;
     let textColor;
     let hover;
@@ -57,7 +58,7 @@ const Button = ({text, onClick, styleType, className, type}: Props) => {
     return (
         <button   className={clsx(
             `${color} ${hover} ${className} py-2 px-4 rounded ${border} ${textColor}`
-        )}  onClick={onClick} type={type}>{text}</button>
+        )}  onClick={onClick} type={type} disabled={disabled}>{text}</button>
 );
 };
 

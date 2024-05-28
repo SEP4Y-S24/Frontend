@@ -1,11 +1,12 @@
 import Heading from "../../../components/Elements/Headings/Heading";
-import {AlarmPropsResponse, AlarmsPropsResponse} from "../types";
+import { AlarmPropsResponse, AlarmsPropsResponse } from "../types";
 import { useEffect, useState } from "react";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import Alarm from "./Alarm";
-import {deleteAlarm, getAllAlarmsByClockId} from "../api/alarmApi";
+import { deleteAlarm, getAllAlarmsByClockId } from "../api/alarmApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import storage from "../../../utils/storage";
+import PopUp from "../../../components/Elements/PopUp/PopUp";
 
 interface AlarmsListProps {
   change: boolean;
@@ -15,32 +16,51 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [alarms, setAlarms] = useState<AlarmPropsResponse[]>();
   const alarmsPerPage = 5;
-  const clockId = storage.getClock().clockId;
 
-  const [loading, setLoading] = useState<boolean>(false); 
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPopup, setShowPopup] = useState(false);
 
-  const setAllAlarms =  (response: AlarmsPropsResponse) => {
+  const [clockId, setClockId] = useState<string | null>(null);
+
+  const setAllAlarms = (response: AlarmsPropsResponse) => {
     setAlarms(response.alarms);
-    console.log('Alarms', alarms);
+    console.log("Alarms", alarms);
   };
-  
+
   useEffect(() => {
+
     const fetchAlarms = async () => {
+
       setLoading(true);
       setError(null);
+
       try {
-        const response = await getAllAlarmsByClockId(clockId);
-        await setAllAlarms(response);
+        const storedClockId = storage.getClock()?.clockId || null;
+        setClockId(storedClockId);
+
+        if (!storedClockId) {
+          setShowPopup(true);
+          setLoading(false);
+          return;
+        }
+
+        try {
+          const response = await getAllAlarmsByClockId(storedClockId);
+          setAlarms(response.alarms);
+        } catch (error) {
+          setError("Failed to fetch alarms. Please try again later.");
+        }
       } catch (error) {
-        setError('Failed to fetch alarms. Please try again later.');
+        console.error("Error fetching clock ID from storage:", error);
+        setClockId(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchAlarms().then(r => console.log('Alarms fetched'));
-  }, []);
+    fetchAlarms().then((r) => console.log("Alarms fetched"));
+  }, [change]);
 
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
@@ -50,22 +70,44 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
   };
 
   const handleAlarmDelete = (alarmToDelete: AlarmPropsResponse) => {
-    deleteAlarm(alarmToDelete.id).then(async () => {
-      const response = getAllAlarmsByClockId(clockId);
-      await setAllAlarms(await response);
-      console.log('Response', response);
-    }).catch((error) => {
-      console.error('Failed to delete alarm:', error);
-    });
+    if (clockId) {
+      deleteAlarm(alarmToDelete.id)
+        .then(async () => {
+          const response = getAllAlarmsByClockId(clockId);
+          await setAllAlarms(await response);
+          console.log("Response", response);
+        })
+        .catch((error) => {
+          console.error("Failed to delete alarm:", error);
+        });
+    }
   };
+
+  if (clockId == null) {
+  }
 
   return (
     <>
       <Heading text={"Alarms"} type={"heading1"} className="mb-3" />
+      {showPopup && (
+        <PopUp
+          title="Error"
+          textAlert="Please select a clock in the Clock settings."
+          type="info"
+          buttonCancelText="Close"
+          onCancel={() => setShowPopup(false)}
+        />
+      )}
       {loading ? (
         <SpinnerComponent />
       ) : error ? (
         <Heading text={error} type={"heading4"} className="mb-3 text-red-600" />
+      ) : clockId == null ? (
+        <Heading
+          text={"Clock is not selected. Please select a clock in the Clock settings."}
+          type={"heading4"}
+          className="mb-3 text-red-600"
+        />
       ) : (
         <>
           {alarms && alarms.length > 0 ? (

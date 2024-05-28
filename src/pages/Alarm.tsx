@@ -7,7 +7,6 @@ import {useState} from "react";
 
 
 export const Alarm = () => {
-
     const [change, setChange] = useState<boolean>(false);
   return (
     <>
