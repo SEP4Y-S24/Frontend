@@ -11,6 +11,8 @@ import {NavLink, Link} from 'react-router-dom';
 import logo from '../../assets/Logo.svg';
 import {useLogout, useUser} from "../../lib/auth";
 import Heading from "../Elements/Headings/Heading";
+import {getPokemonPicById} from "../../features/avatarPic/api";
+import {useEffect} from "react";
 import storage from '../../utils/storage';
 
 
@@ -38,8 +40,6 @@ const SideNavigation = () => {
     const handleClick = (index:any) => {
         setActive(index);
     };
-    
-
 
     return (
         <>
@@ -69,8 +69,12 @@ type UserNavigationItem = {
 };
 
 const UserNavigation = () => {
-
+    const [userAvatar, setUserAvatar] = React.useState<string | null>(null);
     const logout = useLogout();
+    const user = useUser();
+    const userName = user.data?.email;
+    let userAvatarId:number = parseInt(user.data?.avatarId);
+
 
     const userNavigation = [
         {name: 'Your Profile', to: './profile'},
@@ -84,11 +88,20 @@ const UserNavigation = () => {
             },
         },
     ].filter(Boolean) as UserNavigationItem[];
-    const user = useUser();
-    const userName = user.data?.email;
 
-  
-
+    useEffect(() => {
+        if (userAvatarId === undefined || isNaN(userAvatarId))
+        {
+            userAvatarId = 1;
+        }
+        const fetchUserAvatar = async () => {
+            if (userAvatarId) {
+                const avatar = await getPokemonPicById(userAvatarId);
+                setUserAvatar(avatar);
+            }
+        };
+        fetchUserAvatar();
+    }, [userAvatarId]);
 
     return (
         <Menu as="div" className="ml-3 relative">
@@ -96,15 +109,18 @@ const UserNavigation = () => {
                 <>
                     <div>
                         <Menu.Button
-                            className="max-w-xs p-2 flex items-center text-sm rounded-full focus:outline-none ">
+                            className="max-w-xs p-2 flex items-center text-sm rounded-full focus:outline-none">
                             <div className='grid grid-cols-1 pr-4'>
                                 <div><span className='text-dark font-medium'>{userName}</span></div>
                                 <div><span className='text-xs text-primaryText'>Clock user</span></div>
                             </div>
-                            <div className='rounded-3xl max-w-10 max-h-10'>
-                                <img alt='userAvatar' className='rounded-full'
-                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRlyG6nAdKXe4OsY7Un96eqGuC7XxxSBaUKZQ&usqp=CAU"/>
-                            </div>
+                            {userAvatar && (
+                                <img
+                                    className="h-8 w-8 rounded-full"
+                                    src={userAvatar}
+                                    alt="User Avatar"
+                                />
+                            )}
                         </Menu.Button>
                     </div>
                     <Transition
@@ -119,14 +135,13 @@ const UserNavigation = () => {
                     >
                         <Menu.Items
                             static
-                            className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white "
-                        >
+                            className="origin-top-right z-10 absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
                             {userNavigation.map((item) => (
                                 <Menu.Item key={item.name}>
                                     {({active}) => (
                                         <Link
-                                            onClick={item.onClick}
                                             to={item.to}
+                                            onClick={item?.onClick}
                                             className={clsx(
                                                 'block px-4 py-2 text-sm text-primaryText font-medium hover:bg-primaryColorOpacity hover:text-primaryColor',
                                             )}
@@ -143,6 +158,8 @@ const UserNavigation = () => {
         </Menu>
     );
 };
+
+export default UserNavigation;
 
 type MobileSidebarProps = {
     sidebarOpen: boolean;
@@ -274,7 +291,6 @@ type MainLayoutProps = {
 
 export const MainLayout = ({children}: MainLayoutProps) => {
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
-
     return (
         <div className="h-screen flex overflow-hidden bg-gray-100">
             <MobileSidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen}/>
@@ -283,8 +299,7 @@ export const MainLayout = ({children}: MainLayoutProps) => {
                 <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow">
                     <button
                         className="px-4 border-gray-200 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 md:hidden"
-                        onClick={() => setSidebarOpen(true)}
-                    >
+                        onClick={() => setSidebarOpen(true)}>
                         <span className="sr-only">Open sidebar</span>
                         <Bars4Icon className="h-6 w-6" aria-hidden="true"/>
                     </button>
