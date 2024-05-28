@@ -1,7 +1,7 @@
 export interface MessageProps {
     text: string;
-    receiver: { id: number; name: string };
-    clock: { id: number; name: string };
+    receiver: { id: string; name: string };
+    clock: { id: string; name: string };
 }
 
 export interface SendMessageProps {
