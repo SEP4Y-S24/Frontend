@@ -5,9 +5,10 @@ interface Props{
     onClick?: () => void;
     type?: "button" | "submit" | "reset";
     className?: string;
+    disabled?: boolean;
 }
 
-const Button = ({text, onClick, styleType, className, type}: Props) => {
+const Button = ({text, onClick, styleType, className, type, disabled}: Props) => {
     let border;
     let textColor;
     let hover;
@@ -15,6 +16,7 @@ const Button = ({text, onClick, styleType, className, type}: Props) => {
     if (type === undefined) {
         type = "button";
     }
+    let isDisabled = disabled ? disabled : false;
 
     switch (styleType) {
         case "danger":
