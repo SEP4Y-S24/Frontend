@@ -16,6 +16,7 @@ const Button = ({text, onClick, styleType, className, type, disabled}: Props) =>
     if (type === undefined) {
         type = "button";
     }
+    let isDisabled = disabled ? disabled : false;
 
     switch (styleType) {
         case "danger":
