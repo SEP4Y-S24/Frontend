@@ -13,12 +13,14 @@ import storage from "../../../utils/storage";
 import { useQuery } from "@tanstack/react-query";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import { CreateUserPropsRequest } from "../types";
-import {useNavigate} from "react-router";
+import { useNavigate } from "react-router";
+import PopUp from "../../../components/Elements/PopUp/PopUp";
+import {ERROR_HANDLING} from "./AuthenticationConstants";
 
 const schema = z.object({
-    email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
-    password: z.string().min(1, 'Password needs to be at least 1 character long.'),
-    name: z.string().min(1, 'Name is required.')
+    email: z.string().min(1, ERROR_HANDLING.INVALID_EMAIL_FORMAT),
+    password: z.string().min(1, ERROR_HANDLING.INVALID_PASSWORD_FORMAT),
+    name: z.string().min(1, ERROR_HANDLING.INVALID_NAME_FORMAT),
 });
 
 type RegisterValues = {
@@ -33,20 +35,19 @@ const SLIDE_COUNT = 6
 const SLIDES = Array.from(Array(SLIDE_COUNT).keys())
 
 export const Register = () => {
-    // for register form
     const [values, setValues] = useState<RegisterValues>({ email: '', password: '', name: '', avatarId: '1' });
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [showPopup, setShowPopup] = useState(false); // State to manage PopUp visibility
+    const [popupMessage, setPopupMessage] = useState(""); // State to manage PopUp message
     const [pokemonError, setPokemonError] = useState<string>('');
     const [emailsList, setEmailsList] = useState<string[]>([]);
+    const navigate = useNavigate();
 
-    // for pokemon image slider
     const [pokemonList, setPokemonList] = useState<Pokemon[]>([]);
     const handlePokemonSelect = (pokemonId: string) => {
         handleChange({ target: { name: 'avatarId', value: pokemonId } } as React.ChangeEvent<HTMLInputElement>)
     };
-    const navigate = useNavigate();
 
     const { isLoading, error, data } = useQuery({
         queryKey: ['pokemonList'],
@@ -57,13 +58,6 @@ export const Register = () => {
         if (data) {
             setPokemonList(data);
         }
-        const emails: string[] = [
-            "asd@gmail.com",
-            "dsa@gmail.com"
-        ];
-
-        setEmailsList(emails);
-
     }, [data]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +74,9 @@ export const Register = () => {
             schema.parse(values);
 
             if (emailsList.includes(values.email)) {
-                setErrors({ ...errors, email: 'Email is already taken' });
+                setErrors({ ...errors, email: ERROR_HANDLING.EMAIL_TAKEN });
+                setPopupMessage(ERROR_HANDLING.EMAIL_TAKEN);
+                setShowPopup(true); // Show PopUp with error message
                 setIsSubmitting(false);
                 return;
             }
@@ -96,22 +92,27 @@ export const Register = () => {
                 onSuccess: () => {
                     navigate('/');
                 },
-                onError: () => {
+                onError: (error) => {
+                    // @ts-ignore
+                    setPopupMessage(error);
+                    setShowPopup(true); // Show PopUp with error message
                     setIsSubmitting(false);
                 }
-            } );
+            });
 
-            setEmailsList([...emailsList, values.email]);
-            await console.log(storage.getToken())
         } catch (error) {
+            let displayedError:string = '';
             setIsSubmitting(false);
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
                 error.errors.forEach(err => {
                     const path = err.path.join('.');
                     fieldErrors[path] = err.message;
+                    displayedError = err.message;
                 });
                 setErrors(fieldErrors);
+                setPopupMessage(displayedError);
+                setShowPopup(true); // Show PopUp with validation errors
             }
         }
     };
@@ -125,34 +126,24 @@ export const Register = () => {
                     </div>
                     <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div>
-                            <InputField type={"text"} id={"name"} labelText={"Name"} name={"name"}
-                                        onChange={handleChange}
-                                        error={errors.name} />
+                            <InputField type={"text"} id={"name"} labelText={"Name"} name={"name"} onChange={handleChange} />
                         </div>
                         <div>
-                            <InputField type={"email"} id={"email"} labelText={"Email address"} name={"email"}
-                                        onChange={handleChange}
-                                        error={errors.email} />
+                            <InputField type={"email"} id={"email"} labelText={"Email address"} name={"email"} onChange={handleChange}/>
                         </div>
                         <div>
-                            <InputField type={"password"} id={"password"} labelText={"Password"} name={"password"}
-                                        onChange={handleChange}
-                                        error={errors.password} />
+                            <InputField type={"password"} id={"password"} labelText={"Password"} name={"password"} onChange={handleChange}/>
                         </div>
-                        <label
-                            className="block my-2 text-base font-normal text-dark"> Choose your avatar:
-                        </label>
+                        <label className="block my-2 text-base font-normal text-dark"> Choose your avatar:</label>
                         {isLoading && <SpinnerComponent />}
-                        {error && <p className={"text-red-500"}>{"Error loading pokemons"}</p>}
-                        {data && <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS}
-                                                onSelect={handlePokemonSelect} />}
+                        {error && <p className={"text-red-500"}>{ERROR_HANDLING.FAIL_LOADING_POKEMONS}</p>}
+                        {data && <EmblaCarousel data={pokemonList} slides={SLIDES} options={OPTIONS} onSelect={handlePokemonSelect} />}
 
                         <div className={"pt-5"}>
                             {isSubmitting ? (
                                 <SpinnerComponent />
                             ) : (
-                                <Button text={"Register"} styleType={"info"} className={"w-full justify-center"}
-                                        type="submit" />
+                                <Button text={"Register"} styleType={"info"} className={"w-full justify-center"} type="submit" />
                             )}
                         </div>
                         <p className="mt-10 text-center text-sm text-gray-500">
@@ -162,6 +153,16 @@ export const Register = () => {
                     </div>
                 </div>
             </Form>
+
+            {showPopup && (
+                <PopUp
+                    title="Error"
+                    textAlert={popupMessage}
+                    type="danger"
+                    buttonCancelText="Close"
+                    onCancel={() => setShowPopup(false)} // Close PopUp on cancel
+                />
+            )}
         </Layout>
     );
 };

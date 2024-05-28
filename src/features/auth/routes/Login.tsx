@@ -1,22 +1,24 @@
-
-import {Form, Link} from 'react-router-dom';
+import { Form, Link } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import Heading from "../../../components/Elements/Headings/Heading";
 import InputField from "../../../components/Form/InputField";
 import Button from "../../../components/Elements/Button";
 import * as z from 'zod';
-import React, {useState} from "react";
-import {useLogin} from "../../../lib/auth";
-import {LoginPropsRequest} from "../types";
+import React, { useState } from "react";
+import { useLogin } from "../../../lib/auth";
+import { LoginPropsRequest } from "../types";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
-import {useNavigate} from "react-router";
-
+import { useNavigate } from "react-router";
+import PopUp from "../../../components/Elements/PopUp/PopUp";
+import {ERROR_HANDLING} from "./AuthenticationConstants";
+import {loginWithEmailAndPassword} from "../api/login";
+import {Simulate} from "react-dom/test-utils";
+import error = Simulate.error;
 
 const schema = z.object({
-    email: z.string().min(1, 'Email is required').email('Invalid email format. Please insert valid email.'),
-    password: z.string().min(1, 'Password is required'),
+    email: z.string().min(1, ERROR_HANDLING.EMAIL_REQUIRED).email(ERROR_HANDLING.INVALID_EMAIL_FORMAT),
+    password: z.string().min(1, ERROR_HANDLING.INVALID_PASSWORD_FORMAT),
 });
-
 
 export const Login = () => {
     const login = useLogin();
@@ -24,6 +26,8 @@ export const Login = () => {
     const [errors, setErrors] = useState<{ [key: string]: string }>({});
     const navigate = useNavigate();
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [showPopup, setShowPopup] = useState(false);
+    const [popupMessage, setPopupMessage] = useState("");
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -36,62 +40,77 @@ export const Login = () => {
         setIsSubmitting(true);
         try {
             schema.parse(values);
-            const request:LoginPropsRequest = {
+            const request: LoginPropsRequest = {
                 email: values.email,
                 password: values.password
             }
             login.mutate(request, {
                 onSuccess: () => {
                     navigate('/');
+                },
+                onError: (error) => {
+                    // @ts-ignore
+                    setPopupMessage(error);
+                    setShowPopup(true);
+                    setIsSubmitting(false);
                 }
-            } );
+            });
         } catch (error) {
+            let displayedError:string = '';
             setIsSubmitting(false);
             if (error instanceof z.ZodError) {
                 const fieldErrors: { [key: string]: string } = {};
                 error.errors.forEach(err => {
                     const path = err.path.join('.');
                     fieldErrors[path] = err.message;
+                    displayedError = err.message;
                 });
                 setErrors(fieldErrors);
+                setPopupMessage(displayedError);
+                setShowPopup(true); // Show PopUp with validation errors
             }
-            console.log("Error: "+error)
+            console.log("Error: " + error)
         }
     };
-
-
     return (
         <Layout>
-
             <Form onSubmit={handleSubmit}>
-            <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-                <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                    <Heading text={"Sign in to your account"} type={"heading1"} className={"text-center"}/>
-                </div>
-                <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
+                    <div className="sm:mx-auto sm:w-full sm:max-w-sm">
+                        <Heading text={"Sign in to your account"} type={"heading1"} className={"text-center"} />
+                    </div>
+                    <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                         <div>
-                            <InputField type={"email"} id={"email"} labelText={"Email address"}  name={"email"} onChange={handleChange}
-                                        error={errors.email}/>
+                            <InputField type={"email"} id={"email"} labelText={"Email address"} name={"email"} onChange={handleChange}/>
                         </div>
                         <div>
-                            <InputField type={"password"} id={"password"} labelText={"Password"}  name={"password"}  onChange={handleChange}
-                                        error={errors.password}/>
-                            </div>
+                            <InputField type={"password"} id={"password"} labelText={"Password"} name={"password"} onChange={handleChange}/>
+                        </div>
 
                         <div className={"pt-5"}>
                             {isSubmitting ? (
-                                    <SpinnerComponent />
-                                ) : (
-                                    <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit"/>
-                                )}
+                                <SpinnerComponent />
+                            ) : (
+                                <Button text={"Sign in"} styleType={"info"} className={"w-full justify-center"} type="submit" />
+                            )}
                         </div>
-                    <p className="mt-10 text-center text-sm text-gray-500">
-                        Not a member?{' '}
-                        <Link to={'/auth/register'} className={"text-primaryColor"}>Register a new account here!</Link>
-                    </p>
+                        <p className="mt-10 text-center text-sm text-gray-500">
+                            Not a member?{' '}
+                            <Link to={'/auth/register'} className={"text-primaryColor"}>Register a new account here!</Link>
+                        </p>
+                    </div>
                 </div>
-            </div>
             </Form>
+
+            {showPopup && (
+                <PopUp
+                    title="Error"
+                    textAlert={popupMessage}
+                    type="danger"
+                    buttonCancelText="Close"
+                    onCancel={() => setShowPopup(false)} // Close PopUp on cancel
+                />
+            )}
         </Layout>
     );
 };
