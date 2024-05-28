@@ -11,6 +11,7 @@ import { createAlarm } from "../api/alarmApi";
 import { SimpleClockProps } from "../../clockSettings/types";
 import { getAllClocks } from "../../clockSettings/api/clockApi";
 import storage from "../../../utils/storage";
+import PopUp from "../../../components/Elements/PopUp/PopUp";
 
 interface AddAlarmProps {
   change: boolean;
@@ -18,24 +19,31 @@ interface AddAlarmProps {
 }
 
 const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
-  const clockId = storage.getClock().clockId;
   const [alarmName, setAlarmName] = useState("");
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
   const [timeError, setTimeError] = useState("");
   const [clockError, setClockError] = useState("");
   const [clocks, setClocks] = useState<SimpleClockProps[]>([]);
+  const [clockId, setClockId] = useState<string | null>(null);
+
   useEffect(() => {
+    try {
+      const storedClockId = storage.getClock()?.clockId || null;
+      setClockId(storedClockId);
+    } catch (error) {
+      console.error("Error fetching clock ID from storage:", error);
+      setClockId(null);
+    }
+
     const fetchClocks = async () => {
       try {
-        console.log("inside try of fetching clocks");
-        const response = await getAllClocks(storage.getUser().userId); // Adjust the endpoint to your API
+        const response = await getAllClocks(storage.getUser().userId);
         const clocks: SimpleClockProps[] = response.map((clock) => ({
           id: clock.id,
           name: clock.name,
         }));
         setClocks(clocks);
-        console.log("clocks" + clocks);
       } catch (error) {
         console.error("Error fetching clocks:", error);
       }
@@ -51,29 +59,29 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
   };
 
   const handleAddAlarm = () => {
-    if (!alarmTime) {
-      setTimeError("Please select a time.");
-      return;
+    if (clockId != null) {
+      if (alarmTime == null) {
+        setTimeError("Please select a time.");
+        return;
+      } else {
+        let createAlarmData: CreateAlarmProps = {
+          clock_id: clockId,
+          hours: Number(alarmTime.format("HH")),
+          minutes: Number(alarmTime.format("mm")),
+          name: alarmName,
+        };
+        console.log(createAlarmData);
+        createAlarm(createAlarmData)
+          .then((response) => {
+            console.log(response);
+            setChange((prevChange) => !prevChange);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      }
     }
-    if (!alarmName) {
-      setNameError("Please enter a name.");
-      return;
-    } else {
-      let createAlarmData: CreateAlarmProps = {
-        clock_id: clockId,
-        hours: Number(alarmTime.format("HH")),
-        minutes: Number(alarmTime.format("mm")),
-        name: alarmName,
-      };
-      console.log(createAlarmData);
-      createAlarm(createAlarmData)
-        .then((response) => {
-          console.log(response);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
+
     // Reset fields
     setAlarmName("");
     setAlarmTime(null);
@@ -115,6 +123,7 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
         styleType={"info"}
         className={"mt-5 justify-center"}
         type="submit"
+        disabled={clockId === null}
       />
     </>
   );
