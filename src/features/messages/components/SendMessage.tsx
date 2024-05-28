@@ -1,7 +1,7 @@
 import Heading from "../../../components/Elements/Headings/Heading";
 import TextArea from "../../../components/Form/TextArea";
 import SelectForm from "../../../components/Form/selectForm";
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import { MessageProps, SendMessageProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import Button from "../../../components/Elements/Button";
@@ -9,29 +9,86 @@ import { ContentInnerContainer } from "../../../components/Layout/ContentInnerCo
 import { sendMessage } from "../api/messageApi";
 import storage from "../../../utils/storage";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
+import {getAllContactsByUserEmail} from "../../contacts/api/contactApi";
+import {getAllClocks} from "../../clockSettings/api/clockApi";
+
 
 interface MessageParams {
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
+interface SimpleReceivers{
+    id: string;
+    name: string;
+}
+interface SimpleClocks{
+    id: string;
+    name: string;
+}
 const SendMessage = ({setChange}: MessageParams) => {
+  const [contacts, setContacts] = useState<SimpleReceivers[]>();
+  const [contactError, setContactError] = useState<string>("");
+  const [receiverLoad, setReceiverLoad] = useState<boolean>(false);
+  const [clockLoad, setClockLoad] = useState<boolean>(false);
+  const [clocks, setClocks] = useState<SimpleClocks[]>([]);
+  const [clocksError, setClocksError] = useState('');
   const [message, setMessage] = useState<MessageProps>({
     text: "",
-    receiver: { id: 0, name: "Select" },
-    clock: { id: 0, name: "Select" },
+    receiver: { id: "0", name: "Select" },
+    clock: { id: "0", name: "Select" },
   });
+  useEffect(() => {
+    const updatedMessage = {
+      ...message,
+      clock: { id: "0", name: "Select" }
+    };
+    setClocksError("");
+    setMessage(updatedMessage);
+    const fetchContacts = async () => {
+      try {
+        setReceiverLoad(true);
+        const response = await getAllContactsByUserEmail(storage.getUser().email);
+        const receivers = response.users.map((receiver) => ({
+          id: receiver.userId,
+          name: receiver.name,
+        }));
+        setReceiverLoad(false);
+        await setContacts(receivers);
+
+        if (receivers.length > 0) {
+          setClockLoad(true);
+          await fetchClocks(message.receiver.id);
+          setReceiverLoad(false);
+        } else {
+          setContactError("No contacts found! Please first add contacts to send messages.");
+        }
+      } catch (error) {
+        setContactError("Failed to fetch contacts. Please try again later.");
+      } finally {
+        setReceiverLoad(false);
+      }
+    };
+
+    const fetchClocks = async (contactId: string) => {
+      try {
+        const clocksResponse = await getAllClocks(contactId);
+        if (clocksResponse.length === 0 || (clocksResponse.length === 1 && Object.keys(clocksResponse[0]).length === 0)) {
+          setClocksError("Receiver has no clocks");
+        } else {
+          setClocks(clocksResponse);
+        }
+      } catch (error) {
+        setClocksError("Failed to fetch clocks. Please try again later.");
+      }
+    };
+
+    fetchContacts().then(() => console.log("Contacts and clocks fetched"));
+  }, [message.receiver.id]);
+
+
   const [isSubmitting, setIsSubmitting] = useState(false);
-//TODO replace with api call later
-  const receiverOptions = [
-    { id: 1, name: "Receiver 1" },
-    { id: 2, name: "Receiver 2" },
-    { id: 3, name: "Receiver 3" },
-  ];
-//TODO replace with api call later
-  const clockOptions = [
-    { id: 1, name: "Clock 1" },
-    { id: 2, name: "Clock 2" },
-    { id: 3, name: "Clock 3" },
-  ];
+
+
+
 
   const updateMessages = () => {
     setTimeout(() => {
@@ -52,9 +109,11 @@ const SendMessage = ({setChange}: MessageParams) => {
     return asciiRegex.test(text);
   };
 
-  // max 40 characters
+
+
+  // max 96 characters
   const validateMessageLength = (text: string): boolean => {
-    return text.length <= 40;
+    return text.length <=96;
   };
 
   const validateFields = () => {
@@ -69,20 +128,20 @@ const SendMessage = ({setChange}: MessageParams) => {
       );
       valid = false;
     } else if (!validateMessageLength(message.text)) {
-      setMessageError("Message must be no more than 40 characters.");
+      setMessageError("Message must be no more than 96 characters.");
       valid = false;
     } else {
       setMessageError("");
     }
 
-    if (!message.receiver || message.receiver.id === 0) {
+    if (!message.receiver || message.receiver.id === "0") {
       setReceiverError("Please select a receiver");
       valid = false;
     } else {
       setReceiverError("");
     }
 
-    if (!message.clock || message.clock.id === 0) {
+    if (!message.clock || message.clock.id === "0") {
       setClockError("Please select a clock");
       valid = false;
     } else {
@@ -96,23 +155,23 @@ const SendMessage = ({setChange}: MessageParams) => {
     setSuccessMessage("");
 
     if (validateFields()) {
-
       setIsSubmitting(true);
-
       const messageToSend: SendMessageProps = {
         message: message.text,
-        receiverId: "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
-        clockId: "bce5c68c-d26b-4fa5-826b-2d74912a7b80",
-        userId: storage.getUser().id? storage.getUser().id : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
+        receiverId: message.receiver.id,
+        clockId: message.clock.id,
+        userId: storage.getUser().userId? storage.getUser().userId : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
+      console.log("Message to send:", messageToSend)
+
       sendMessage(messageToSend)
         .then(() => {
           updateMessages();
           setShowPopup(true);
           setMessage({
             text: "",
-            receiver: { id: 0, name: "Select" },
-            clock: { id: 0, name: "Select" },
+            receiver: { id: "0", name: "Select" },
+            clock: { id: "0", name: "Select" },
           });
         })
         .catch((error:any) => {
@@ -130,12 +189,14 @@ const SendMessage = ({setChange}: MessageParams) => {
   return (
     <>
       <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
+        {receiverLoad?<SpinnerComponent/>:<>
         <Heading text={"Send a message"} type={"heading1"} />
         <Heading
           text={"Do not have specific contact? Add a new contact here!"}
           type={"heading4"}
           className={"pb-3"}
         />
+
         <TextArea
           rows={4}
           labelText="Your message"
@@ -150,9 +211,10 @@ const SendMessage = ({setChange}: MessageParams) => {
           }
           error={messageError}
         />
+          <span className="text-danger text-sm">{contactError}</span>
         <SelectForm
-          dropdownLabel="Select receiver"
-          options={receiverOptions}
+          dropdownLabel="Select receiver from contacts"
+          options={contacts? contacts : [{id: "0", name: "Select"}]}
           className="mb-4"
           value={message.receiver}
           onChange={(newValue: any) =>
@@ -163,10 +225,11 @@ const SendMessage = ({setChange}: MessageParams) => {
           }
           error={receiverError}
         />
+          <span className="text-danger text-sm">{clocksError}</span>
         <SelectForm
-          dropdownLabel="Select clocks of receiver"
-          options={clockOptions}
-          className="mb-5"
+          dropdownLabel= {clocksError? clocksError: "Select clocks of receiver"}
+          options={clocks.length? clocks : [{id: "0", name: "Select"}]}
+          className={ "mb-5" }
           value={message.clock}
           onChange={(newValue: any) =>
             setMessage((prevMessage) => ({
@@ -174,6 +237,7 @@ const SendMessage = ({setChange}: MessageParams) => {
               clock: newValue,
             }))
           }
+          disabled={!!clocksError}
           error={clockError}
         />
         <div className={"pt-5"}>
@@ -181,9 +245,10 @@ const SendMessage = ({setChange}: MessageParams) => {
               <SpinnerComponent />
           ) : (
               <Button
-                  text="Click me"
+                  text="Send"
                   styleType={"info"}
                   onClick={handleSendMessage}
+
               />
           )}
         </div>
@@ -200,6 +265,7 @@ const SendMessage = ({setChange}: MessageParams) => {
             onCancel={handlePopupClose}
           />
         )}
+        </>}
       </ContentInnerContainer>
     </>
   );

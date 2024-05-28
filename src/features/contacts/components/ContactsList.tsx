@@ -1,17 +1,19 @@
 import Heading from "../../../components/Elements/Headings/Heading";
-import { ContactPropsResponse, ContactsPropsResponse } from "../types";
+import { ContactPropsResponse } from "../types";
 import PaginationRounded from "../../../components/Elements/Pagination/pagination";
 import { useEffect, useState } from "react";
 import Contact from "./Contact";
 import { deleteContact, getAllContactsByUserEmail } from "../api/contactApi";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import storage from "../../../utils/storage";
+import PopUp from "../../../components/Elements/PopUp/PopUp";
 
 interface ContactsListProps {
   change: boolean;
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
+const ContactsList: React.FC<ContactsListProps> = ({ change, setChange }) => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const handleChangeOfPage = (
     event: React.ChangeEvent<unknown>,
@@ -21,26 +23,25 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
   };
   const contactsPerPage = 5;
 
-  const [contacts, setContacts] = useState<ContactPropsResponse[]>([]);
-
+  const [contacts, setContacts] = useState<ContactPropsResponse[]>();
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const [showPopUp, setShowPopUp] = useState<boolean>(false);
+  const [contactToDelete, setContactToDelete] =
+    useState<ContactPropsResponse | null>(null);
 
-  const setAllContacts = (response: ContactsPropsResponse) => {
-    setContacts(response.contacts);
-    console.log("Contacts", contacts);
-  };
+  const userEmail = storage.getUser().email;
 
   useEffect(() => {
     const fetchContacts = async () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await getAllContactsByUserEmail(storage.getUser().email);
-        await setAllContacts(response);
+        const response = await getAllContactsByUserEmail(userEmail);
+        await setContacts(response.users);
+        console.log("Response", contacts);
         console.log("Response", response);
       } catch (error) {
-        console.error("Failed to fetch contacts:", error);
         setError("Failed to fetch contacts. Please try again later.");
       } finally {
         setLoading(false);
@@ -50,16 +51,21 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
     fetchContacts().then((r) => console.log("Contacts fetched"));
   }, [change]);
 
-  const handleDeleteContact = (contactToDelete: ContactPropsResponse) => {
-    deleteContact(contactToDelete.id)
-      .then(async () => {
-        const response = getAllContactsByUserEmail(storage.getUser().email);
-        await setAllContacts(await response);
-        console.log("Response", response);
-      })
-      .catch((error) => {
-        console.error("Failed to delete alarm:", error);
-      });
+  const handleDeletePopup = (contact: ContactPropsResponse) => {
+    setContactToDelete(contact);
+    setShowPopUp(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (contactToDelete) {
+      try {
+        await deleteContact(contactToDelete.email, userEmail);
+        setChange(!change);
+        setShowPopUp(false);
+      } catch (error) {
+        console.error("Failed to delete contact:", error);
+      }
+    }
   };
 
   return (
@@ -71,22 +77,23 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
         <Heading text={error} type={"heading4"} className="mb-3 text-red-600" />
       ) : (
         <>
-          {contacts.length === 0 ? (
-            <Heading text={"You have no contacts."} type={"heading4"} />
-          ) : (
+          {contacts && contacts.length > 0 ? (
             <>
-              {contacts.map((contact, index) => (
-                <Contact
-                  key={index}
-                  email={contact.email}
-                  imageSrc={contact.imageSrc}
-                  index={index}
-                  onDelete={() => handleDeleteContact(contact)}
-                />
-              ))}
-
-              {/* Conditionally render pagination only when there are 5 or more contacts*/}
-              {contacts.length > contactsPerPage && ( // Display pagination only if there are more than 5 alarms
+              {contacts
+                .slice(
+                  (currentPage - 1) * contactsPerPage,
+                  currentPage * contactsPerPage
+                )
+                .map((contact) => (
+                  <Contact
+                    key={contact.userId}
+                    contact_id={contact.userId}
+                    email={contact.email}
+                    avatarId={contact.avatarId}
+                    onDelete={() => handleDeletePopup(contact)}
+                  />
+                ))}
+              {contacts.length > contactsPerPage && (
                 <PaginationRounded
                   page={currentPage}
                   onChange={handleChangeOfPage}
@@ -95,8 +102,26 @@ const ContactsList: React.FC<ContactsListProps> = ({ change }) => {
                 />
               )}
             </>
+          ) : (
+            <Heading
+              text={"You have no contacts."}
+              type={"heading4"}
+              className="mb-3"
+            />
           )}
         </>
+      )}
+
+      {showPopUp && (
+        <PopUp
+          title="Delete contact"
+          textAlert="Are you sure you want to delete this contact?"
+          type="danger"
+          buttonCancelText="Cancel"
+          buttonProceedText={"Delete"}
+          onClickProceed={handleConfirmDelete}
+          onCancel={() => setShowPopUp(false)}
+        />
       )}
     </>
   );

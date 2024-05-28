@@ -1,31 +1,42 @@
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import Heading from "../../../components/Elements/Headings/Heading";
 import { ContactProps } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { getPokemonPicById } from "../../avatarPic/api";
 
 
 const Contact: React.FC<ContactProps> = ({
   email,
-  imageSrc,
+  avatarId,
   onDelete,
-  index,
+  contact_id,
 }) => {
 
     const [isHovered, setIsHovered] = useState(false);
+    const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+    useEffect(() => {
+      const fetchImage = async () => {
+        const url = await getPokemonPicById(avatarId);
+        setImageUrl(url);
+      };
+  
+      fetchImage();
+    }, [avatarId]);
  
   return (  
     <div
-      key={index}
+      key={contact_id}
       className="flex items-center space-x-3 p-3 hover:bg-whiteHover rounded"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
       <div className="rounded-full overflow-hidden h-10 w-10 ">
-        <img
-          src={imageSrc}
-          alt={email}
-          className="h-full w-full object-cover"
-        />
+      {imageUrl ? (
+          <img src={imageUrl} alt={email} className="h-full w-full object-cover" />
+        ) : (
+          <div className="h-full w-full bg-gray-200" /> // Placeholder while loading
+        )}
       </div>
       <div className="flex-grow">
         <Heading text={email} type={"heading3"} />

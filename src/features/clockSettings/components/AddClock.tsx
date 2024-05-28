@@ -68,13 +68,14 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
 
   // Function to handle the deletion process
   const handleConfirmDelete =async () => {
-    
+    console.log("selected clock " + selectedClock.id)
     try{
+          
            await deleteClock(selectedClock.id)
           const updatedClocks = clocks.filter((clock) => clock.id !== selectedClock.id);
           setClocks(updatedClocks);
           setShowPopup(false);
-      
+
           setSelectedClock({
             id: "0",
             name: "Select",
@@ -83,16 +84,10 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
         }
     catch(error){
       console.error('Error deleting clock:', error);
+      setShowPopup(false)
     }
     
-    const updatedClocks = [...clocks];
-    updatedClocks.splice(
-      updatedClocks.findIndex((clock) => clock.id === selectedClock.id),
-      1
-    );
-    setClocks(updatedClocks);
-    setShowPopup(false);
-
+    
     setSelectedClock({
       id: "0",
       name: "Select",
