@@ -32,9 +32,6 @@ const ChangeClockSettings = ({
   };
 
   const handleSaveClockChanges =async () => {
-
-
-
     console.log(selectedChangedTimezone.id)
     try {
       const clockToUpdate  : ClockPropsResquest = {

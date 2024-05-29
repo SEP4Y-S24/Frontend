@@ -38,7 +38,6 @@ export const Settings = () => {
             timezone: {id :clockResponse.timeOffset, name : ""}
           }));
           setClocks(convertedClocks)
-          console.log("helloooo")
           console.log(JSON.stringify(response),2)
       } catch (error) {
         console.error("Error fetching time zones:", error);

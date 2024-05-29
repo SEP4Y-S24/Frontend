@@ -69,7 +69,6 @@ export const Login = () => {
                 setPopupMessage(displayedError);
                 setShowPopup(true); // Show PopUp with validation errors
             }
-            console.log("Error: " + error)
         }
     };
     return (

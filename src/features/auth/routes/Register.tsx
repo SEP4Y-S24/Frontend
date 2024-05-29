@@ -73,8 +73,10 @@ export const Register = () => {
             schema.parse(values);
 
             if (emailsList.includes(values.email)) {
-                setErrors({ ...errors, email: ERROR_HANDLING.EMAIL_TAKEN });
-                setPopupMessage(ERROR_HANDLING.EMAIL_TAKEN);
+                // @ts-ignore
+                setErrors({ ...errors, email: register.error });
+                // @ts-ignore
+                setPopupMessage(register.error);
                 setShowPopup(true); // Show PopUp with error message
                 setIsSubmitting(false);
                 return;
