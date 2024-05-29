@@ -192,7 +192,7 @@ const SendMessage = ({setChange}: MessageParams) => {
         {receiverLoad?<SpinnerComponent/>:<>
         <Heading text={"Send a message"} type={"heading1"} />
         <Heading
-          text={"Do not have specific contact? Add a new contact here!"}
+          text={"Do not have specific contact? Add a new one in 'Contacts' !"}
           type={"heading4"}
           className={"pb-3"}
         />
@@ -227,7 +227,7 @@ const SendMessage = ({setChange}: MessageParams) => {
         />
           <span className="text-danger text-sm">{clocksError}</span>
         <SelectForm
-          dropdownLabel= {clocksError? clocksError: "Select clocks of receiver"}
+          dropdownLabel= {"Select clocks of receiver"}
           options={clocks.length? clocks : [{id: "0", name: "Select"}]}
           className={ "mb-5" }
           value={message.clock}
@@ -238,7 +238,6 @@ const SendMessage = ({setChange}: MessageParams) => {
             }))
           }
           disabled={!!clocksError}
-          error={clockError}
         />
         <div className={"pt-5"}>
           {isSubmitting ? (

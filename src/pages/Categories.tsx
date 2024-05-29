@@ -23,7 +23,7 @@ export const Categories = () => {
     const [categories, setCategories] = useState<TagResponse[]>([]);
     const [color, setColor] = useState("#aabbcc");
     const schema = z.object({
-        category: z.string().min(1, 'You can not add empty category.ts.').max(20, 'Category name is too long. Max 20 characters.')
+        category: z.string().min(1, 'You can not add empty category.').max(20, 'Category name is too long. Max 20 characters.')
     });
     const handleTaskDelete = async (catToDelete: TagResponse) => {
         await deleteCategory(catToDelete.id);
