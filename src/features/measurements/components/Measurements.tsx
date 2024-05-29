@@ -24,7 +24,6 @@ export const Measurements = () => {
       try {
         const storedClockId = storage.getClock()?.clockId || null;
         setClockId(storedClockId);
-        console.log(storedClockId);
         if (!storedClockId) {
           setIsLoading(false);
           console.log("Clock not selected");
@@ -37,29 +36,25 @@ export const Measurements = () => {
           const responseCo2 = await getMeasurements(
             storedClockId,
             MeasurementType.CO2
-          );
-          console.log("CO2: ", responseCo2);
+          )
           setCo2Measurement(responseCo2);
 
           const responseHumidity = await getMeasurements(
             storedClockId,
             MeasurementType.Humidity
           );
-          console.log("Humidity: ", responseHumidity);
           setHumidityMeasurement(responseHumidity);
 
           const responseAirCondition = await getMeasurements(
             storedClockId,
             MeasurementType.AirCondition
           );
-          console.log("Air condition: ", responseAirCondition);
           setAirConditionMeasurement(responseAirCondition);
 
           const responseTemperature = await getMeasurements(
             storedClockId,
             MeasurementType.Temperature
           );
-          console.log("Temperature: ", responseTemperature);
           setTemperatureMeasurement(responseTemperature);
 
           setIsLoading(false); // Reset loading state
@@ -74,7 +69,7 @@ export const Measurements = () => {
       }
     };
 
-    fetchMeasurements().then(() => console.log("Measurements fetched"));
+    fetchMeasurements().then();
   }, []);
 
   return (
