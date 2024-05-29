@@ -6,26 +6,17 @@ import Button from "../components/Elements/Button";
 
 export const Landing = () => {
     const navigate = useNavigate();
-    //const { user } = useAuth();
-
     const handleStart = () => {
         navigate('/auth/login');
-        /*if (user) {
-            navigate('/app');
-        } else {
-            navigate('/auth/login');
-        }*/
     };
 
     return (
         <>
-
             <div className="bg-white h-[100vh] flex items-center">
                 <div className="max-w-7xl mx-auto text-center py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
                     <h2 className="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-4xl">
                         <span className="block">Welcome to Smart Clock app</span>
                     </h2>
-
                     <p>The best smart clock ever made</p>
                     <div className="mt-8 flex justify-center">
                         <div className="inline-flex rounded-md shadow">

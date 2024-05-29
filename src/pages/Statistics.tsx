@@ -48,14 +48,15 @@ export const Statistics = () => {
                   default:
                       typeToSend = "temperature"      
               }
-              const response = await getAvarageMeasurement(typeToSend,storage.getClock().clockId)
+              const clockId = storage.getClock().clockId
+              const response = await getAvarageMeasurement(typeToSend,clockId)
               if(response){
                 setData(response)
                 setIsLoading(false)
               }
             } catch (error) {
             setIsLoading(false)
-              setError("Error fetching data, please try again later")
+            setError("Something went wrong. Please try again later, or select a different clock in settings.")
               console.error("Error : ", error);
             }
           }
@@ -67,23 +68,14 @@ export const Statistics = () => {
                 const generateRandomValue = (min:number, max:number) => {
                     return Math.random() * (max - min) + min;
                 };
-    
-                // Create a mock array with random values between 0 and 50
+                // Create a mock array with random values between 0 and 50 because backend was only proving the average for a day
                 const mockData = xAxis.map(() => generateRandomValue(0, 50));
-    
                 setGraphData(mockData)
-                
             }
         }
         handleData()
-    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [tab,data])
-
-
-   
-
-    
-
     return (
         <>
             <ContentLayout className="flex flex-row md:flex-row space-y-4 md:space-y-0 md:space-x-4">

@@ -4,7 +4,6 @@ import { useState } from "react";
 import ContactsList from "../features/contacts/components/ContactsList";
 import AddContact from "../features/contacts/components/AddContact";
 
-
 export const Contacts = () => {
   const [change, setChange] = useState<boolean>(false);
   
@@ -16,14 +15,12 @@ export const Contacts = () => {
             change={change} setChange={setChange}
           />
         </ContentInnerContainer>
-
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
           <AddContact
             change={change}
             setChange={setChange}
           />
         </ContentInnerContainer>
-
       </ContentLayout>
     </>
   );

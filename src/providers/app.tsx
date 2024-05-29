@@ -1,11 +1,10 @@
 import Button from "../components/Elements/Button";
-import React, { useState} from "react";
+import React from "react";
 import {ErrorBoundary} from "react-error-boundary";
 import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
-import {Landing} from "../pages/Landing";
 import {publicRoutes} from "../routes/public";
 import { protectedRoutes} from "../routes/protected";
 
@@ -21,12 +20,6 @@ const ErrorFallback = () => {
         </div>
     );
 };
-
-
-
-const commonRoutes = [
-    { path: '/', element: <Landing /> },
-];
 
 export const AppProvider = () => {
 
