@@ -202,7 +202,7 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
                         </div>
                     </LocalizationProvider>
                 </div>
-                <Heading text={"Select category"} type={"heading3"} className={"mt-2"}/>
+                <Heading text={"Select category.ts"} type={"heading3"} className={"mt-2"}/>
                 <div>
                     {defaultCategories.map((category) => (
                         <CategoryTag

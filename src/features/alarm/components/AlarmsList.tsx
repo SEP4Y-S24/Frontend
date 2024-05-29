@@ -81,8 +81,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     }
   };
 
-  if (clockId == null) {
-  }
 
   return (
     <>
