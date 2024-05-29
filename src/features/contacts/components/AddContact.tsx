@@ -65,7 +65,6 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
   return (
     <>
       <Heading text={"Add a new contact"} type={"heading1"} />
-
       <Heading
         text={"Add a new contact to your list!"}
         type={"heading4"}
