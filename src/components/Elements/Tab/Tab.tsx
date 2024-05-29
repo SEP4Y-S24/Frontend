@@ -1,4 +1,4 @@
-import React, { useState, ReactNode, useEffect } from 'react';
+import React, {ReactNode } from 'react';
 
 interface TabProps {
     label: string;

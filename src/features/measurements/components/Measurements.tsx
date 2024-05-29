@@ -14,6 +14,7 @@ export const Measurements = () => {
   const [airConditionMeasurement, setAirConditionMeasurement] = useState<MeasurementPropsResponse>({ value: "" });
   const [temperatureMeasurement, setTemperatureMeasurement] = useState<MeasurementPropsResponse>({ value: "" });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clockId, setClockId] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
