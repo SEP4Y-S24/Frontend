@@ -34,12 +34,12 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
 
       addContact(contactEmailToAdd, loggedUserEmail )
         .then((response) => {
-          console.log(response);
+          
           setShowPopUp(true);
           setChange(!change);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           setErrors({ apiError: "Something went wrong. Please try again." });
         });
 

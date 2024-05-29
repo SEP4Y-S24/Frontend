@@ -3,3 +3,8 @@ export interface GraphProps {
     series: number []
     color : string
 }
+
+
+export interface GraphPropsResponse{
+    average:number
+}

@@ -92,6 +92,7 @@ const UserNavigation = () => {
     useEffect(() => {
         if (userAvatarId === undefined || isNaN(userAvatarId))
         {
+            // eslint-disable-next-line react-hooks/exhaustive-deps
             userAvatarId = 1;
         }
         const fetchUserAvatar = async () => {

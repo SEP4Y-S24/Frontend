@@ -38,9 +38,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change, setChange }) => {
       setError(null);
       try {
         const response = await getAllContactsByUserEmail(userEmail);
-        await setContacts(response.users);
-        console.log("Response", contacts);
-        console.log("Response", response);
+         setContacts(response.users);
       } catch (error) {
         setError("Failed to fetch contacts. Please try again later.");
       } finally {
@@ -49,6 +47,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change, setChange }) => {
     };
 
     fetchContacts().then((r) => console.log("Contacts fetched"));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change]);
 
   const handleDeletePopup = (contact: ContactPropsResponse) => {

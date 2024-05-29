@@ -12,7 +12,7 @@ export const createAlarm = (data: CreateAlarmProps): Promise<AlarmPropsResponse>
         });
 };
 
-// done ready for testing
+
 export const getAllAlarmsByClockId = (clockId: string): Promise<AlarmsPropsResponse> => {
     return axios.get(`${baseURL}/AlarmService/alarms/clocks/${clockId}`, axiosConfig)
         .then(response => response.data)

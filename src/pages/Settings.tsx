@@ -16,7 +16,6 @@ export const Settings = () => {
     name: "Select",
   });
 
-  
   const changeClockOnStorage =(value : {id: string; name: string })=>{
     const clockToSet = {
       clockId: value.id,
@@ -27,13 +26,6 @@ export const Settings = () => {
     setSelectedClock(value)
   }
 
-
-  
-
-
-
-
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -49,11 +41,9 @@ export const Settings = () => {
         console.error("Error fetching time zones:", error);
       }
     };
-    fetchData();// DONE CHECK IF IT WORKS
+    fetchData();
   }, []);
 
-  
- 
   return (
     <>
       <ContentLayout className="relative">
@@ -71,7 +61,6 @@ export const Settings = () => {
           ) : (
               <Heading text={"No clocks have been added yet"} type={"heading4"} />
           )}
-
         </ContentInnerContainer>
         <div className={"flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 z-1"}>
           <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">

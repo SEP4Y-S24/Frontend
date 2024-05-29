@@ -1,8 +1,6 @@
 import {useEffect, useState} from "react";
 import {CategoriesType, dummyCategories, dummyDataForEvents, EventProps} from "../../types";
 import * as React from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import * as z from "zod";
 import {ContentInnerContainer} from "../../../../components/Layout/ContentInnerContainer";
 import {Form} from "react-router-dom";
 import Heading from "../../../../components/Elements/Headings/Heading";
@@ -15,8 +13,6 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import dayjs, {Dayjs} from "dayjs";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {DateTimePicker} from "@mui/x-date-pickers";
 import CategoryTag from "../CategoryTag";
 interface EventFormProps {
     selectedEvent: EventProps | null;
@@ -44,8 +40,8 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
         name: "Not started",
     });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const {name, value} = e.target;
+       
+        const {value} = e.target;
         setName(value);
     };
     let headingText = '';
@@ -97,8 +93,6 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
                 status: status || selectedEvent?.status,
                 categories: categories || selectedEvent?.categories || [],
             };
-            console.log(categories);
-            console.log(eventSubmitted);
             dummyDataForEvents.push(eventSubmitted);
             setName("");
             setStartingTime(null);
@@ -208,7 +202,7 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent , mode}) => 
                         </div>
                     </LocalizationProvider>
                 </div>
-                <Heading text={"Select category"} type={"heading3"} className={"mt-2"}/>
+                <Heading text={"Select category.ts"} type={"heading3"} className={"mt-2"}/>
                 <div>
                     {defaultCategories.map((category) => (
                         <CategoryTag

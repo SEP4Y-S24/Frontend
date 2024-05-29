@@ -51,7 +51,6 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
              setClocks([...clocks, newClock]); // Add the new clock to the clocks array
              setClockName(""); // Reset the clock name field
              setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
-             console.log('Clock added successfully with status code:', response);
          }
      } catch (error) {
          console.error('Error adding clock:', error);
@@ -68,10 +67,11 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
 
   // Function to handle the deletion process
   const handleConfirmDelete =async () => {
-    console.log("selected clock " + selectedClock.id)
+   
     try{
           
            await deleteClock(selectedClock.id)
+          
           const updatedClocks = clocks.filter((clock) => clock.id !== selectedClock.id);
           setClocks(updatedClocks);
           setShowPopup(false);
@@ -79,20 +79,13 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
           setSelectedClock({
             id: "0",
             name: "Select",
-            timezone: { id: -13, name: "Select" }, // Adjust this if timezone structure is different
+            timezone: { id: -13, name: "Select" },
           }); // Reset selected clock
         }
     catch(error){
       console.error('Error deleting clock:', error);
       setShowPopup(false)
     }
-    
-    
-    setSelectedClock({
-      id: "0",
-      name: "Select",
-      timezone: { id: -13, name: "Select" },
-    }); // Reset selected clock
   };
 
   return (

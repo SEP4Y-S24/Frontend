@@ -24,7 +24,6 @@ const Alarm: React.FC<AlarmProps> = ({
     updateAlarm(alarm_id, checkedAlarm)
       .then(() => {
         setChecked(!checked);
-        console.log("Updated", checked);
       })
       .catch((error) => {
         console.error("Failed to update alarm:", error);
