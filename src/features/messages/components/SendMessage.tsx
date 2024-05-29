@@ -28,6 +28,7 @@ const SendMessage = ({setChange}: MessageParams) => {
   const [contacts, setContacts] = useState<SimpleReceivers[]>();
   const [contactError, setContactError] = useState<string>("");
   const [receiverLoad, setReceiverLoad] = useState<boolean>(false);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clockLoad, setClockLoad] = useState<boolean>(false);
   const [clocks, setClocks] = useState<SimpleClocks[]>([]);
   const [clocksError, setClocksError] = useState('');
@@ -81,7 +82,8 @@ const SendMessage = ({setChange}: MessageParams) => {
       }
     };
 
-    fetchContacts().then(() => console.log("Contacts and clocks fetched"));
+    fetchContacts()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message.receiver.id]);
 
 
@@ -162,7 +164,6 @@ const SendMessage = ({setChange}: MessageParams) => {
         clockId: message.clock.id,
         userId: storage.getUser().userId? storage.getUser().userId : "f8a383e2-38ee-4755-ac1f-c6aa881a5798",
       };
-      console.log("Message to send:", messageToSend)
 
       sendMessage(messageToSend)
         .then(() => {
