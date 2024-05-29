@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
 import Heading from "../../../components/Elements/Headings/Heading";
 import { ContentInnerContainer } from "../../../components/Layout/ContentInnerContainer";
-import { useUser } from "../../../lib/auth";
-import storage from "../../../utils/storage";
+
 
 const CurrentTime = () => {
     let timezone = "Europe/Copenhagen";
@@ -21,10 +20,6 @@ const CurrentTime = () => {
       timeZone: timezone,
       hour12: false, // Display 24-hour format
     });
-    const user = useUser();
-    const name = user.data?.name;
-    //const email = user.data?.email;
-    const token = storage.getToken();
     return (
       <ContentInnerContainer className="mx-1 flex-1 md:h-auto bg-white">
         <Heading text={"Current time"} type={"heading1"} />
