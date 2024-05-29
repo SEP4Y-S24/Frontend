@@ -1,6 +1,4 @@
 import clsx from "clsx";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import {useState} from "react";
 interface Props{
     text: string;
     styleType: "warning" | "success" | "info" | "neutral" | "danger";
