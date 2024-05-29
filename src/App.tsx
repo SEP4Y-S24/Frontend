@@ -1,9 +1,6 @@
-import React, {useEffect} from "react";
-
+import React from "react";
 import {AppProvider} from "./providers/app";
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import storage from "./utils/storage";
 
 
 

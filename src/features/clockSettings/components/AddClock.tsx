@@ -51,7 +51,6 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
              setClocks([...clocks, newClock]); // Add the new clock to the clocks array
              setClockName(""); // Reset the clock name field
              setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
-             console.log('Clock added successfully with status code:', response);
          }
      } catch (error) {
          console.error('Error adding clock:', error);

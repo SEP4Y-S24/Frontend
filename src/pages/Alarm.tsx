@@ -14,7 +14,6 @@ export const Alarm = () => {
         <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
           <AlarmsList change={change}/>
         </ContentInnerContainer>
-
          <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
         <AddAlarm change={change} setChange={setChange} />
         </ContentInnerContainer>

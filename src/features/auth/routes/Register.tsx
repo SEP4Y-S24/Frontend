@@ -102,7 +102,6 @@ export const Register = () => {
             } );
 
             setEmailsList([...emailsList, values.email]);
-            await console.log(storage.getToken())
         } catch (error) {
             setIsSubmitting(false);
             if (error instanceof z.ZodError) {

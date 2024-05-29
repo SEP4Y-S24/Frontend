@@ -1,4 +1,3 @@
-import React from "react";
 import { ContentInnerContainer } from "../components/Layout/ContentInnerContainer";
 import { ContentLayout } from "../components/Layout/ContentLayout";
 import FullCalendar from "@fullcalendar/react";
@@ -78,5 +77,3 @@ export const Calendar = () => {
         </ContentLayout>
     );
 };
-
-// Other types and dummy data as in the original code...

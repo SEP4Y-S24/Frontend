@@ -139,35 +139,4 @@ const PopUp = ({
     </Transition.Root>
   );
 };
-/*
-usage of popup:
-
-const [showPopup, setShowPopup] = useState(false);
-    const handleButtonClick = () => {
-        // Set showPopup state to true to display the popup
-        setShowPopup(true);
-    };
-    const proceed = () => {
-        console.log("Proceed button clicked");
-    };
-    return (
-        <>
-            <h1>Dashboard</h1>
-            <button onClick={handleButtonClick}>Open Popup</button>
-
-
-{showPopup && (
-    <PopUp
-        title="Warning"
-        textAlert="Are you sure you want to deactivate?"
-        type="success"
-        buttonCancelText="Cancel"
-        buttonProceedText={"Deactivate"}
-        onClickProceed={proceed}
-    />
-)}
-</>
-
-);
- */
 export default PopUp;

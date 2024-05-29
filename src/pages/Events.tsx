@@ -8,9 +8,7 @@ import {EventForm} from "../features/calendar/components/event/EventForm";
 import {useEffect, useState} from "react";
 import {dummyDataForEvents, EventProps} from "../features/calendar/types";
 
-
 export const Events = () => {
-
     const [selectedEvent, setSelectedEvent] = useState<EventProps | null>(null);
     const [events, setEvents] = useState<EventProps[]>(dummyDataForEvents);
     const [mode, setMode] = useState<"create" | "edit" | "view" >("create");
