@@ -2,13 +2,13 @@ import {ContentInnerContainer} from "../../../components/Layout/ContentInnerCont
 import Heading from "../../../components/Elements/Headings/Heading";
 interface MeasuredDataProps{
     name: string;
-    day: string;
+    // day: string;
     value: string;
     icon: JSX.Element;
     colorBackground: string;
 }
 
-const MeasuredDataBox = ({ name, day, value, icon, colorBackground}:MeasuredDataProps) => {
+const MeasuredDataBox = ({ name, value, icon, colorBackground}:MeasuredDataProps) => {
     return (
 
         <ContentInnerContainer className="flex-1 w-full sm:w-1/2 md:w-1/2 lg:w-1/2 bg-white m-1">
@@ -20,7 +20,7 @@ const MeasuredDataBox = ({ name, day, value, icon, colorBackground}:MeasuredData
                 </div>
                 <div className=" md:w-auto">
                     <Heading text={name} type={"heading3"}/>
-                    <Heading text={day} type={"heading5"}/>
+                    {/* <Heading text={day} type={"heading5"}/> */}
                 </div>
             </div>
             <div className="w-full md:w-auto">

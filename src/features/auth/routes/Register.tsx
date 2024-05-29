@@ -9,7 +9,6 @@ import { EmblaOptionsType } from "embla-carousel";
 import EmblaCarousel from "../../../components/Elements/Carousel/Carousel";
 import { fetchPokemon, Pokemon } from "../../avatarPic/api";
 import { useRegister } from "../../../lib/auth";
-import storage from "../../../utils/storage";
 import { useQuery } from "@tanstack/react-query";
 import SpinnerComponent from "../../spinner/SpinnerComponent";
 import { CreateUserPropsRequest } from "../types";
@@ -100,6 +99,7 @@ export const Register = () => {
                 }
             });
 
+            setEmailsList([...emailsList, values.email]);
         } catch (error) {
             let displayedError:string = '';
             setIsSubmitting(false);
@@ -160,7 +160,7 @@ export const Register = () => {
                     textAlert={popupMessage}
                     type="danger"
                     buttonCancelText="Close"
-                    onCancel={() => setShowPopup(false)} // Close PopUp on cancel
+                    onCancel={() => setShowPopup(false)}
                 />
             )}
         </Layout>

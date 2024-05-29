@@ -87,8 +87,6 @@ export const TaskForm: React.FC<TaskFormProps> = ({ selectedTask , mode}) => {
                 status: status || selectedTask?.status,
                 categories: categories || selectedTask?.categories || [],
             };
-            console.log(categories);
-            console.log(taskSubmitted);
             dummyDataForTasks.push(taskSubmitted);
             setName("");
             setDeadlineTime(null);

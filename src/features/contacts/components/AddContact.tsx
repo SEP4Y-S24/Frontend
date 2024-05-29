@@ -34,12 +34,12 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
 
       addContact(contactEmailToAdd, loggedUserEmail )
         .then((response) => {
-          console.log(response);
+          
           setShowPopUp(true);
           setChange(!change);
         })
         .catch((error) => {
-          console.log(error);
+          console.error(error);
           setErrors({ apiError: "Something went wrong. Please try again." });
         });
 
@@ -65,7 +65,6 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
   return (
     <>
       <Heading text={"Add a new contact"} type={"heading1"} />
-
       <Heading
         text={"Add a new contact to your list!"}
         type={"heading4"}

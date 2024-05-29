@@ -37,12 +37,9 @@ const MessagesList = ({change}:MessagesListProps) => {
         const fetchMessages = async () => {
             try {
                 const responseReceivedMessages = await getAllReceivedMessages(storage.getUser().userId);
-                const responseSentMessages = await getAllSentMessages(storage.getUser().userId);
-
+                const responseSentMessages = await getAllSentMessages(storage.getUser().userId)
                 setReceivedMessages(responseReceivedMessages.messages);
                 setSentMessages(responseSentMessages.messages);
-                console.log(responseReceivedMessages.messages);
-                console.log(responseSentMessages.messages);
 
             } catch (error) {
                 console.error('Failed to get messages. Please try again later.');
@@ -101,7 +98,6 @@ const MessagesList = ({change}:MessagesListProps) => {
 
 }
 export default MessagesList;
-//TODO add avatar pic  when backend is ready
 const Message: React.FC<ShowMessageProps> = ({
                                                          email,
                                                          text,
@@ -114,7 +110,6 @@ const Message: React.FC<ShowMessageProps> = ({
             .then(pictureUrl => {
                 if (pictureUrl) {
                     setAvatar(pictureUrl)
-                    console.log( pictureUrl)
                 }
             })
     }, [avatarId]);

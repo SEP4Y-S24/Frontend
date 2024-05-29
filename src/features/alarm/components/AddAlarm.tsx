@@ -11,8 +11,6 @@ import { createAlarm } from "../api/alarmApi";
 import { SimpleClockProps } from "../../clockSettings/types";
 import { getAllClocks } from "../../clockSettings/api/clockApi";
 import storage from "../../../utils/storage";
-import PopUp from "../../../components/Elements/PopUp/PopUp";
-
 interface AddAlarmProps {
   change: boolean;
   setChange: React.Dispatch<React.SetStateAction<boolean>>;
@@ -23,46 +21,42 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
   const [nameError, setNameError] = useState("");
   const [alarmTime, setAlarmTime] = React.useState<Dayjs | null>(null);
   const [timeError, setTimeError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clockError, setClockError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clocks, setClocks] = useState<SimpleClockProps[]>([]);
   const [clockId, setClockId] = useState<string | null>(null);
 
   useEffect(() => {
     try {
-      const storedClockId = storage.getClock()?.clockId || null;
-      setClockId(storedClockId);
+      const storedClockId = storage.getClock()?.clockId || null
+      setClockId(storedClockId)
     } catch (error) {
-      console.error("Error fetching clock ID from storage:", error);
-      setClockId(null);
+      console.error("Error fetching clock ID from storage:", error)
+      setClockId(null)
     }
 
     const fetchClocks = async () => {
       try {
-        const response = await getAllClocks(storage.getUser().userId);
+        const response = await getAllClocks(storage.getUser().userId)
         const clocks: SimpleClockProps[] = response.map((clock) => ({
           id: clock.id,
           name: clock.name,
         }));
-        setClocks(clocks);
+        setClocks(clocks)
       } catch (error) {
-        console.error("Error fetching clocks:", error);
+        console.error("Error fetching clocks:", error)
       }
     };
 
     fetchClocks();
   }, []);
 
-  const toggleChangeAfterTwoSeconds = () => {
-    setTimeout(() => {
-      setChange((prevChange) => !prevChange);
-    }, 2000); // 2000 milliseconds = 2 seconds
-  };
-
   const handleAddAlarm = () => {
     if (clockId != null) {
       if (alarmTime == null) {
         setTimeError("Please select a time.");
-        return;
+        return
       } else {
         let createAlarmData: CreateAlarmProps = {
           clock_id: clockId,
@@ -70,24 +64,23 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
           minutes: Number(alarmTime.format("mm")),
           name: alarmName,
         };
-        console.log(createAlarmData);
+        
         createAlarm(createAlarmData)
           .then((response) => {
-            console.log(response);
-            setChange((prevChange) => !prevChange);
+            setChange((prevChange) => !prevChange)
           })
           .catch((error) => {
-            console.log(error);
+            console.log(error)
           });
       }
     }
 
     // Reset fields
-    setAlarmName("");
-    setAlarmTime(null);
-    setTimeError("");
-    setNameError("");
-    setClockError("");
+    setAlarmName("")
+    setAlarmTime(null)
+    setTimeError("")
+    setNameError("")
+    setClockError("")
   };
 
   return (
@@ -128,4 +121,4 @@ const AddAlarm: React.FC<AddAlarmProps> = ({ change, setChange }) => {
     </>
   );
 };
-export default AddAlarm;
+export default AddAlarm

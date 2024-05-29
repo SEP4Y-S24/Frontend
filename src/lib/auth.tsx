@@ -1,7 +1,5 @@
 import {configureAuth} from 'react-query-auth';
-
 import storage from "../utils/storage";
-
 import {loginWithEmailAndPassword} from "../features/auth/api/login";
 import {registerWithEmailAndPassword} from "../features/auth/api/register";
 import {

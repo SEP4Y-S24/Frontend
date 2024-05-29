@@ -25,7 +25,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
 
   const setAllAlarms = (response: AlarmsPropsResponse) => {
     setAlarms(response.alarms);
-    console.log("Alarms", alarms);
   };
 
   useEffect(() => {
@@ -59,7 +58,7 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
       }
     };
 
-    fetchAlarms().then((r) => console.log("Alarms fetched"));
+    fetchAlarms()
   }, [change]);
 
   const handleChangeOfPage = (
@@ -75,7 +74,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
         .then(async () => {
           const response = getAllAlarmsByClockId(clockId);
           await setAllAlarms(await response);
-          console.log("Response", response);
         })
         .catch((error) => {
           console.error("Failed to delete alarm:", error);
@@ -83,8 +81,6 @@ const AlarmsList: React.FC<AlarmsListProps> = (change) => {
     }
   };
 
-  if (clockId == null) {
-  }
 
   return (
     <>

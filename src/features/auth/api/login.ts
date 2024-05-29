@@ -13,7 +13,3 @@ export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<User
             throw error;
         });
 };
-
-/*export const loginWithEmailAndPassword = (data: LoginCredentialsDTO): Promise<UserResponse> => {
-    return axios.post('/auth/login', data);
-};*/

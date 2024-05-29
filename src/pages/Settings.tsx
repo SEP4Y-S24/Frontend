@@ -11,12 +11,12 @@ import storage from "../utils/storage";
 
 export const Settings = () => {
   const [clocks, setClocks] = useState<ClockProps[]>([]);
+  const [change, setChange] = useState<boolean>(false);
    const [selectedClock, setSelectedClock] = useState<{ id: string; name: string }>({
     id: "",
     name: "Select",
   });
 
-  
   const changeClockOnStorage =(value : {id: string; name: string })=>{
     const clockToSet = {
       clockId: value.id,
@@ -27,8 +27,6 @@ export const Settings = () => {
     setSelectedClock(value)
   }
 
-
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -40,15 +38,15 @@ export const Settings = () => {
             timezone: {id :clockResponse.timeOffset, name : ""}
           }));
           setClocks(convertedClocks)
+          console.log("helloooo")
+          console.log(JSON.stringify(response),2)
       } catch (error) {
         console.error("Error fetching time zones:", error);
       }
     };
-    fetchData();// DONE CHECK IF IT WORKS
-  }, []);
+    fetchData();
+  }, [change]);
 
-  
- 
   return (
     <>
       <ContentLayout className="relative">
@@ -66,11 +64,10 @@ export const Settings = () => {
           ) : (
               <Heading text={"No clocks have been added yet"} type={"heading4"} />
           )}
-
         </ContentInnerContainer>
         <div className={"flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 z-1"}>
           <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <AddClock clocks={clocks} setClocks={setClocks} />
+            <AddClock clocks={clocks} setClocks={setClocks} setChange={setChange} />
           </ContentInnerContainer>
           <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
             <ChangeClockSettings clocks={clocks} setClocks={setClocks} />

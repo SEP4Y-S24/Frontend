@@ -14,7 +14,7 @@ const CategoryTag: React.FC<Props> = ({ text, onClick, className, color, selecte
     const classStyle = clsx(
         "inline-flex items-center rounded-md px-2 py-1 text-xs font-medium mr-1 relative cursor-pointer",
         className,
-        { 'selected': selected } // Add 'selected' class if the category is selected
+        { 'selected': selected } // Add 'selected' class if the category.ts is selected
     );
 
     const handleClick = () => {

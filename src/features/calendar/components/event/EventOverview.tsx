@@ -127,20 +127,17 @@ export const EventOverview: React.FC<EventOverviewProps> = ({setSelectedEvent, e
     const handleEventClick = (event: EventProps) => {
         setSelectedEvent(event);
         setMode("view");
-        console.log("Selected event", event)
     };
 
     const handleEventEdit = (event: EventProps) => {
         setSelectedEvent(event);
         setMode("edit");
-        console.log("Selected event for editing", event)
     };
 
     const handleEventDelete = (eventToDelete: EventProps) => {
         const updatedEvents = events ? events.filter(event => event !== eventToDelete) : [];
         setEvents(updatedEvents);
         setMode("create");
-        console.log("Deleted event", eventToDelete)
     };
 
     const handleEventAdd = () => {

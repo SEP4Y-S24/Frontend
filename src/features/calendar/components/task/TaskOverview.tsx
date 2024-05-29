@@ -121,20 +121,17 @@ export const TaskOverview: React.FC<TaskOverviewProps> = ({ setSelectedTask, tas
     const handleTaskClick = (task: TaskProps) => {
         setSelectedTask(task);
         setMode("view");
-        console.log("Selected task", task)
     };
 
     const handleTaskEdit = (task: TaskProps) => {
         setSelectedTask(task);
         setMode("edit");
-        console.log("Selected task for editing", task)
     };
 
     const handleTaskDelete = (taskToDelete: TaskProps) => {
         const updatedTasks = tasks ? tasks.filter(task => task !== taskToDelete) : [];
         setTasks(updatedTasks);
-        setMode("create");
-        console.log("Deleted task", taskToDelete)
+        setMode("create")
     };
 
     const handleTaskAdd = () => {
