@@ -42,7 +42,6 @@ export const Tabs: React.FC<TabsProps> = ({ children, onTabChange }) => {
         </div>
     );
 };
-
 export const Tab: React.FC<TabProps> = ({ children }) => {
     return <>{children}</>;
 };
