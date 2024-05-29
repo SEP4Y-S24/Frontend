@@ -10,6 +10,7 @@ import {SimpleClockProps} from "../features/clockSettings/types";
 export const Statistics = () => {
     const [data, setData] = useState<number[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [clockList, setClockList] = useState<SimpleClockProps[]>([]); // Clock list state
     const [error, setError] = useState<string>(''); // Error state
 
