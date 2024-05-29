@@ -9,6 +9,7 @@ import { getAvarageMeasurement } from '../features/graph/graphApi';
 import storage from '../utils/storage';
 import {  GraphPropsResponse } from '../features/graph/types';
 import Heading from '../components/Elements/Headings/Heading';
+import { SimpleClockProps } from '../features/clockSettings/types';
 
 export const Statistics = () => {
     const [data, setData] = useState<GraphPropsResponse>();
