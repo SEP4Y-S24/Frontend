@@ -1,9 +1,14 @@
-import React from "react";
+export enum MeasurementType {
+  CO2 = "co2",
+  Humidity = "humidity",
+  Temperature = "temperature",
+  AirCondition = "aircondition",
+}
 
+export interface MeasurementPropsResponse {
+  value: string;
+}
 
-
-export type MeasuredDataResponse = {
-    name: string;
-    day: string;
-    value: string;
+export interface MeasurementsPropsResponse {
+  measurements: MeasurementPropsResponse[];
 }
