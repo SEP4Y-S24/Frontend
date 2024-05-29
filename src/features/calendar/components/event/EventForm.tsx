@@ -66,7 +66,9 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent, mode }) => 
     }
 
     const handleSubmit = async () => {
-        if (validate()) {
+        if (!validate()) {
+            return;
+        }
             const currentDateTime = dayjs(); // Get the current date and time
             const eventSubmitted: EventProps = {
                 name: name || selectedEvent?.name || "",
@@ -81,13 +83,16 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent, mode }) => 
 
             dummyDataForEvents.push(eventSubmitted);
             setName("");
-            setStartingTime(null);
-            setStartingDate(null);
-            setEndingTime(null);
-            setEndingDate(null);
+            setStartingTime(currentDateTime);
+            setStartingDate(currentDateTime);
+            setEndingTime(currentDateTime);
+            setEndingDate(currentDateTime);
             setDescription("");
+            setStartingDateError("");
+            setStartingTimeError("");
+            setEndingDateError("");
+            setEndingTimeError("");
             setStatus({ id: 1, name: "Not started" });
-        }
     };
 
     const validate = () => {
@@ -117,12 +122,23 @@ export const EventForm: React.FC<EventFormProps> = ({ selectedEvent, mode }) => 
         if (!endingDate) {
             setEndingDateError("Select ending date");
             valid = false;
+        } else if (endingDate.isBefore(startingDate, "day")) {
+            setEndingDateError("Ending date cannot be before starting date");
+            valid = false;
         } else {
             setEndingDateError("");
         }
 
         if (!endingTime) {
             setEndingTimeError("Select ending time");
+            valid = false;
+        } else if (
+            endingDate?.isSame(startingDate, "day") &&
+            endingTime.isBefore(startingTime)
+        ) {
+            setEndingTimeError(
+                "Ending time cannot be before starting time on the same day"
+            );
             valid = false;
         } else {
             setEndingTimeError("");
