@@ -11,6 +11,7 @@ import storage from "../utils/storage";
 
 export const Settings = () => {
   const [clocks, setClocks] = useState<ClockProps[]>([]);
+  const [change, setChange] = useState<boolean>(false);
    const [selectedClock, setSelectedClock] = useState<{ id: string; name: string }>({
     id: "",
     name: "Select",
@@ -37,12 +38,14 @@ export const Settings = () => {
             timezone: {id :clockResponse.timeOffset, name : ""}
           }));
           setClocks(convertedClocks)
+          console.log("helloooo")
+          console.log(JSON.stringify(response),2)
       } catch (error) {
         console.error("Error fetching time zones:", error);
       }
     };
     fetchData();
-  }, []);
+  }, [change]);
 
   return (
     <>
@@ -64,7 +67,7 @@ export const Settings = () => {
         </ContentInnerContainer>
         <div className={"flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 z-1"}>
           <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
-            <AddClock clocks={clocks} setClocks={setClocks} />
+            <AddClock clocks={clocks} setClocks={setClocks} setChange={setChange} />
           </ContentInnerContainer>
           <ContentInnerContainer className="flex-1 h-16 md:h-auto bg-white">
             <ChangeClockSettings clocks={clocks} setClocks={setClocks} />

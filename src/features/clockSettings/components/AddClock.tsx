@@ -9,25 +9,18 @@ import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import { createClock, deleteClock } from "../api/clockApi";
 import storage from "../../../utils/storage";
-
-const AddClock = ({
-  clocks,
-  setClocks,
-}: {
+interface AddClockProps {
   clocks: ClockProps[];
   setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>>;
-}) => {
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+const AddClock: React.FC<AddClockProps> = ({clocks, setClocks, setChange, })=> {
   const [clockName, setClockName] = useState("");
   const [clockId, setClockId] = useState("");
-  const [selectedTimezone, setSelectedTimezone] = useState({
-    id: -13,
-    name: "Select",
-  });
+  const [selectedTimezone, setSelectedTimezone] = useState({ id: -13, name: "Select"});
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: "0",
-    name: "Select",
-    timezone: { id: -13, name: "Select" },
+  const [selectedClock, setSelectedClock] = useState<ClockProps>({id: "0", name: "Select", timezone: { id: -13, name: "Select" },
   });
   const [idError, setIdError] = useState("");
   const [timezoneError, setTimezoneError] = useState("");
@@ -58,13 +51,13 @@ const AddClock = ({
     const newClock: ClockProps = {
       id: clockId,
       name: clockName !== "" ? clockName : "Unnamed Clock",
-      timezone: selectedTimezone, // Use the selected timezone value
+      timezone: selectedTimezone,
     };
 
-    // Sending only relevant data to the backend
     const userFromStorage = storage.getUser().userId;
+
     const clockToBeSend: ClockPropsResquest = {
-      clockId: newClock.id,
+      id: newClock.id,
       userId: userFromStorage,
       name: newClock.name,
       timeOffset: newClock.timezone.id * 60,
@@ -73,13 +66,11 @@ const AddClock = ({
     try {
       console.log(JSON.stringify(clockToBeSend), 2);
       const response = await createClock(clockToBeSend);
+      setChange((prevChange) => !prevChange);
 
-      if (response) {
-        setClocks([...clocks, newClock]);
-        setClockName("");
-        setSelectedTimezone({ id: -13, name: "Select" });
-        console.log("Clock added successfully with status code:", response);
-      }
+      setClockName("");
+      setSelectedTimezone({ id: -13, name: "Select" });
+      console.log("Clock added successfully with status code:", response);
     } catch (error) {
       console.error("Error adding clock:", error);
       setIdError("Invalid clock ID. Please try again.");
@@ -99,17 +90,15 @@ const AddClock = ({
     try {
       await deleteClock(selectedClock.id);
 
-      const updatedClocks = clocks.filter(
-        (clock) => clock.id !== selectedClock.id
-      );
-      setClocks(updatedClocks);
+      setChange((prevChange) => !prevChange);
+
       setShowPopup(false);
 
       setSelectedClock({
         id: "0",
         name: "Select",
         timezone: { id: -13, name: "Select" },
-      }); // Reset selected clock
+      });
     } catch (error) {
       console.error("Error deleting clock:", error);
       setShowPopup(false);

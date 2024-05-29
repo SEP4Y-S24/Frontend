@@ -63,7 +63,7 @@ const SendMessage = ({setChange}: MessageParams) => {
           setContactError("No contacts found! Please first add contacts to send messages.");
         }
       } catch (error) {
-        setContactError("Failed to fetch contacts. Please try again later.");
+        // setContactError("Failed to fetch contacts. Please try again later.");
       } finally {
         setReceiverLoad(false);
       }
@@ -78,7 +78,7 @@ const SendMessage = ({setChange}: MessageParams) => {
           setClocks(clocksResponse);
         }
       } catch (error) {
-        setClocksError("Failed to fetch clocks. Please try again later.");
+        // setClocksError("Failed to fetch clocks. Please try again later.");
       }
     };
 
@@ -89,9 +89,6 @@ const SendMessage = ({setChange}: MessageParams) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-
-
   const updateMessages = () => {
     setTimeout(() => {
       setChange(prevChange => !prevChange);
@@ -101,7 +98,6 @@ const SendMessage = ({setChange}: MessageParams) => {
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
   const [clockError, setClockError] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
   const [showPopUp, setShowPopup] = useState(false);
 
   // for ASCII characters only
@@ -110,8 +106,6 @@ const SendMessage = ({setChange}: MessageParams) => {
     const asciiRegex = /^[\x00-\x7F]*$/;
     return asciiRegex.test(text);
   };
-
-
 
   // max 96 characters
   const validateMessageLength = (text: string): boolean => {
@@ -154,7 +148,6 @@ const SendMessage = ({setChange}: MessageParams) => {
   };
 
   const handleSendMessage = () => {
-    setSuccessMessage("");
 
     if (validateFields()) {
       setIsSubmitting(true);
@@ -204,12 +197,13 @@ const SendMessage = ({setChange}: MessageParams) => {
           placeholder="Write your message here"
           className="mb-4"
           value={message.text}
-          onChange={(newValue: string) =>
+          onChange={(newValue: string) => {
             setMessage((prevMessage) => ({
               ...prevMessage,
               text: newValue,
-            }))
-          }
+            }));
+            setMessageError("");
+          }}
           error={messageError}
         />
           <span className="text-danger text-sm">{contactError}</span>
@@ -218,12 +212,13 @@ const SendMessage = ({setChange}: MessageParams) => {
           options={contacts? contacts : [{id: "0", name: "Select"}]}
           className="mb-4"
           value={message.receiver}
-          onChange={(newValue: any) =>
+          onChange={(newValue: any) => {
             setMessage((prevMessage) => ({
               ...prevMessage,
               receiver: newValue,
-            }))
-          }
+            }));
+            setReceiverError(""); 
+          }}
           error={receiverError}
         />
           <span className="text-danger text-sm">{clocksError}</span>
@@ -238,6 +233,7 @@ const SendMessage = ({setChange}: MessageParams) => {
               clock: newValue,
             }))
           }
+          error={receiverError}
           disabled={!!clocksError}
         />
         <div className={"pt-5"}>
@@ -252,9 +248,6 @@ const SendMessage = ({setChange}: MessageParams) => {
               />
           )}
         </div>
-
-
-        {successMessage && <p className="text-green mt-3">{successMessage}</p>}
 
         {showPopUp && (
           <PopUp
