@@ -1,17 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import Graph from '../features/graph/components/graph';
 import { ContentLayout } from '../components/Layout/ContentLayout';
 import { ContentInnerContainer } from '../components/Layout/ContentInnerContainer';
 import { Tabs, Tab } from '../components/Elements/Tab/Tab';
 import './Statistics.css';
 import SpinnerComponent from "../features/spinner/SpinnerComponent";
-import {SimpleClockProps} from "../features/clockSettings/types";
+import { getAvarageMeasurement } from '../features/graph/graphApi';
+import storage from '../utils/storage';
+import {  GraphPropsResponse } from '../features/graph/types';
 
 export const Statistics = () => {
-    const [data, setData] = useState<number[]>([]);
+    const [data, setData] = useState<GraphPropsResponse>();
+    const [graphData,setGraphData] = useState <number[]>([])
     const [isLoading, setIsLoading] = useState<boolean>(true); // Loading state
-    const [clockList, setClockList] = useState<SimpleClockProps[]>([]); // Clock list state
     const [error, setError] = useState<string>(''); // Error state
+    const [tabComponentValue,setTabComponentValue] = useState<string>("Temperature")
 
     const categoryType = [
         { id: "1", name: 'Temperature', color: '#13C296' },
@@ -20,34 +23,62 @@ export const Statistics = () => {
         { id: "4", name: 'Air Condition', color: '#3758F9' }
     ];
 
-    let tabComponentValue = categoryType[0].id;
+    const handleData = ()=>{
+        // if(data){
+        //     // const tempData = data.map((item) => {
+        //     //     return item.value
+        //     })
+        //     setGraphData(tempData)
+        }
 
-    console.log(tabComponentValue);
+
+    const fetchData = useCallback(async () => {
+        setIsLoading(true)
+        try {
+          let typeToSend : string
+          switch(tabComponentValue){
+              case "Temperature":
+                  typeToSend = "temperature"
+                  break
+              case "Humidity":
+                  typeToSend = "humidity"
+                  break
+              case "CO2 Level":
+                  typeToSend = "co2" 
+                  break
+              case "Air Condition":
+                  typeToSend = "aircondition"
+                  break 
+              default:
+                  typeToSend = "temperature"      
+          }
+          const response = await getAvarageMeasurement(typeToSend,storage.getClock().clockId)
+          if(response){
+            console.log(response)
+            setData(response)
+            setIsLoading(false)
+          }
+        } catch (error) {
+        setIsLoading(false)
+          setError("Error fetching data, please try again later")
+          console.error("Error : ", error);
+        }
+      },[tabComponentValue]) ;
+
+    const handleTabChange = (label: string) => {
+        setTabComponentValue(label)
+        fetchData();
+        
+    };
+    
+
 
     useEffect(() => {
-        // Simulate data fetching
-        setTimeout(() => {
-            const fetchData = [2, 5.5, 2, 8.5, 1.5, 5];
-            setData(fetchData);
-            setIsLoading(false); // Set loading to false after data is fetched
-        }, 2000); // Simulate a 2-second fetch delay
+        setIsLoading(false)
+        fetchData();// DONE CHECK IF IT WORKS
+      }, [fetchData]);
 
-        const clocks: SimpleClockProps[] = [
-            { id: "f656d97d-63b7-451a-91ee-0e620e652c9e", name: "Alexa" },
-            { id: "f656d97d-63b7-451a-91ee-0e620e652c99", name: "Ricardo clock" }
-        ];
-
-        // Simulate fetching clock list
-        setTimeout(() => {
-            const fetchedClockList = clocks; // Replace with actual data fetching logic
-            setClockList(fetchedClockList);
-            if (fetchedClockList.length === 0) {
-                setError('No clock connected');
-            }
-        }, 2000); // Simulate a 2-second fetch delay
-    }, []);
-
-    const xAxis = [1, 5, 10, 15, 20, 25, 30];
+    const xAxis = [1,2, 4, 6, 8, 10, 12, 14,16,18,20,22,24];
 
     return (
         <>
@@ -56,13 +87,13 @@ export const Statistics = () => {
                     {isLoading && <SpinnerComponent />} {/* Show spinner when loading */}
                     {!isLoading && (
                         <>
-                            {error && <p className="text-red-500">{error}</p>} {/* Show error if no clock connected */}
+                            {error && <p className="text-red-500">{error}</p>}
                             {!error && (
-                                <Tabs>
+                                <Tabs  onTabChange={handleTabChange}>
                                     {categoryType.map(type => (
                                         <Tab key={type.id} label={type.name}>
                                             <div className="p-4">
-                                                <Graph xAxis={xAxis} series={data} color={type.color} />
+                                                <Graph xAxis={xAxis} series={graphData} color={type.color} />
                                             </div>
                                         </Tab>
                                     ))}
