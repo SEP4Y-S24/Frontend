@@ -32,8 +32,10 @@ const ChangeClockSettings = ({
   };
 
   const handleSaveClockChanges =async () => {
+    console.log(selectedChangedTimezone.id)
     try {
       const clockToUpdate  : ClockPropsResquest = {
+        id: storage.getClock().clockId,
         name : newClockName,
         userId : storage.getUser().userId,
         timeOffset : selectedChangedTimezone.id *60
@@ -55,7 +57,8 @@ const ChangeClockSettings = ({
   };
 
   function handleOnChangeTimezone(value: TimeProps) {
-    setSelectedChangedTimezone({id: value.id, name: value.name}); 
+    setSelectedChangedTimezone({id: value.id, name: value.name});
+    console.log(' handleon change' + selectedChangedTimezone.id + selectedChangedTimezone.name)
   }
   return (
     <>

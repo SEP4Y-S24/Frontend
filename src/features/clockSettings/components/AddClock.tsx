@@ -9,53 +9,73 @@ import { ClockProps, ClockPropsResquest, TimeProps } from "../types";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import { createClock, deleteClock } from "../api/clockApi";
 import storage from "../../../utils/storage";
+interface AddClockProps {
+  clocks: ClockProps[];
+  setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>>;
+  setChange: React.Dispatch<React.SetStateAction<boolean>>;
+}
 
-const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: React.Dispatch<React.SetStateAction<ClockProps[]>> }) => {
+const AddClock: React.FC<AddClockProps> = ({clocks, setClocks, setChange, })=> {
   const [clockName, setClockName] = useState("");
   const [clockId, setClockId] = useState("");
-  const [selectedTimezone, setSelectedTimezone] = useState({
-    id: -13,
-    name: "Select",
-  });
+  const [selectedTimezone, setSelectedTimezone] = useState({ id: -13, name: "Select"});
   const [showPopup, setShowPopup] = useState(false);
-  const [selectedClock, setSelectedClock] = useState<ClockProps>({
-    id: "0",
-    name: "Select",
-    timezone: { id: -13, name: "Select" },
+  const [selectedClock, setSelectedClock] = useState<ClockProps>({id: "0", name: "Select", timezone: { id: -13, name: "Select" },
   });
-
-
+  const [idError, setIdError] = useState("");
+  const [timezoneError, setTimezoneError] = useState("");
 
   function handleOnChangeTimezone(value: TimeProps) {
     setSelectedTimezone(value);
   }
 
-  const handleAddClock =async () => {
+  const handleAddClock = async () => {
+    let valid = true;
+
+    if (!clockId) {
+      setIdError("Please enter a clock ID.");
+      valid = false;
+    } else {
+      setIdError("");
+    }
+
+    if (selectedTimezone.id === -13) {
+      setTimezoneError("Please select a timezone.");
+      valid = false;
+    } else {
+      setTimezoneError("");
+    }
+
+    if (!valid) return; // Prevent submission if validation fails
+
     const newClock: ClockProps = {
       id: clockId,
       name: clockName !== "" ? clockName : "Unnamed Clock",
-      timezone: selectedTimezone, // Use the selected timezone value
+      timezone: selectedTimezone,
     };
 
-     // Sending only relevant data to the backend
-     const userFromStorage = storage.getUser().userId;
-     const clockToBeSend: ClockPropsResquest = {
-         userId: userFromStorage,
-         name: newClock.name,
-         timeOffset: newClock.timezone.id * 60
-     };
- 
-     try {
-         const response = await createClock(clockToBeSend); // sending the data to the backend
-         if (response) {
-             setClocks([...clocks, newClock]); // Add the new clock to the clocks array
-             setClockName(""); // Reset the clock name field
-             setSelectedTimezone({ id: -13, name: "Select" }); // Reset the selected timezone
-         }
-     } catch (error) {
-         console.error('Error adding clock:', error);
-     }
- };
+    const userFromStorage = storage.getUser().userId;
+
+    const clockToBeSend: ClockPropsResquest = {
+      id: newClock.id,
+      userId: userFromStorage,
+      name: newClock.name,
+      timeOffset: newClock.timezone.id * 60,
+    };
+
+    try {
+      console.log(JSON.stringify(clockToBeSend), 2);
+      const response = await createClock(clockToBeSend);
+      setChange((prevChange) => !prevChange);
+
+      setClockName("");
+      setSelectedTimezone({ id: -13, name: "Select" });
+      console.log("Clock added successfully with status code:", response);
+    } catch (error) {
+      console.error("Error adding clock:", error);
+      setIdError("Invalid clock ID. Please try again.");
+    }
+  };
 
   const handleDeleteClock = (id: string) => {
     setShowPopup(true);
@@ -66,25 +86,22 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
   };
 
   // Function to handle the deletion process
-  const handleConfirmDelete =async () => {
-   
-    try{
-          
-           await deleteClock(selectedClock.id)
-          
-          const updatedClocks = clocks.filter((clock) => clock.id !== selectedClock.id);
-          setClocks(updatedClocks);
-          setShowPopup(false);
+  const handleConfirmDelete = async () => {
+    try {
+      await deleteClock(selectedClock.id);
 
-          setSelectedClock({
-            id: "0",
-            name: "Select",
-            timezone: { id: -13, name: "Select" },
-          }); // Reset selected clock
-        }
-    catch(error){
-      console.error('Error deleting clock:', error);
-      setShowPopup(false)
+      setChange((prevChange) => !prevChange);
+
+      setShowPopup(false);
+
+      setSelectedClock({
+        id: "0",
+        name: "Select",
+        timezone: { id: -13, name: "Select" },
+      });
+    } catch (error) {
+      console.error("Error deleting clock:", error);
+      setShowPopup(false);
     }
   };
 
@@ -113,6 +130,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
         onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
           setClockId(e.target.value)
         }
+        error={idError}
       />
       <SelectForm
         dropdownLabel="Select timezone"
@@ -120,6 +138,7 @@ const AddClock = ({ clocks, setClocks }: { clocks: ClockProps[]; setClocks: Reac
         className="pb-3"
         value={selectedTimezone}
         onChange={handleOnChangeTimezone}
+        error={timezoneError}
       />
       <Button
         text="Connect to the clock"

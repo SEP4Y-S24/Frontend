@@ -8,6 +8,8 @@ export const loginWithEmailAndPassword = (data: LoginPropsRequest): Promise<User
     return axios.post(`${baseURL}/UserService/users/login`, data, axiosConfigAuth)
         .then(response => response.data)
         .catch(error => {
-            throw error.response.data;
+            error = error.response.data;
+            console.log("error: " + error)
+            throw error;
         });
 };

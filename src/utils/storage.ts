@@ -16,7 +16,6 @@ const storage = {
         return JSON.parse(window.localStorage.getItem('user') as string);
     },
     setUser: (user: any) => {
-        console.log("setUser");
         window.localStorage.setItem('user', JSON.stringify(user));
     },
     clearUser: () => {

@@ -24,6 +24,7 @@ export interface ClockPropsResponse{
 }
 
 export interface ClockPropsResquest{
+  id: string
   userId: string
   name?: string
   timeOffset: number
