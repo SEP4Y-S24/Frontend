@@ -54,6 +54,13 @@ To get started with the Smart Clock React Web Application, follow these steps:
 
 4. Open your browser and navigate to `http://localhost:3000` to view the application.
 
+
+## Deployed Version
+
+- The most recent and up-to-date version can be found at :
+   https://smartclock-frontend.vercel.app/
+
+
 ## Usage
 
 Once the application is running, you can:
