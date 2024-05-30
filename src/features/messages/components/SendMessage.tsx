@@ -97,6 +97,7 @@ const SendMessage = ({setChange}: MessageParams) => {
 
   const [messageError, setMessageError] = useState("");
   const [receiverError, setReceiverError] = useState("");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [clockError, setClockError] = useState("");
   const [showPopUp, setShowPopup] = useState(false);
 

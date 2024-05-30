@@ -39,7 +39,6 @@ export const Register = () => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showPopup, setShowPopup] = useState(false); // State to manage PopUp visibility
     const [popupMessage, setPopupMessage] = useState(""); // State to manage PopUp message
-    const [pokemonError, setPokemonError] = useState<string>('');
     const [emailsList, setEmailsList] = useState<string[]>([]);
     const navigate = useNavigate();
 

@@ -11,9 +11,7 @@ import SpinnerComponent from "../../spinner/SpinnerComponent";
 import { useNavigate } from "react-router";
 import PopUp from "../../../components/Elements/PopUp/PopUp";
 import {ERROR_HANDLING} from "./AuthenticationConstants";
-import {loginWithEmailAndPassword} from "../api/login";
-import {Simulate} from "react-dom/test-utils";
-import error = Simulate.error;
+
 
 const schema = z.object({
     email: z.string().min(1, ERROR_HANDLING.EMAIL_REQUIRED).email(ERROR_HANDLING.INVALID_EMAIL_FORMAT),

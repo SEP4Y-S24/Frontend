@@ -47,6 +47,7 @@ const ContactsList: React.FC<ContactsListProps> = ({ change, setChange }) => {
     };
 
     fetchContacts().then((r) => console.log("Contacts fetched"));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [change]);
 
   const handleDeletePopup = (contact: ContactPropsResponse) => {
