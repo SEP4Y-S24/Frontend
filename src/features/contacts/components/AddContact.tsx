@@ -22,29 +22,29 @@ interface AddContactProps {
 const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
   const [contactEmailToAdd, setContactEmail] = useState("");
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
-  const loggedUserEmail = storage.getUser().email; 
+  const loggedUserEmail = storage.getUser().email;
 
   const [showPopUp, setShowPopUp] = useState<boolean>(false);
-  
+
   const handleAddContact = () => {
     setErrors({});
 
     try {
       schema.parse({ email: contactEmailToAdd });
 
-      addContact(contactEmailToAdd, loggedUserEmail )
+      addContact(contactEmailToAdd, loggedUserEmail)
         .then((response) => {
-          
           setShowPopUp(true);
           setChange(!change);
         })
         .catch((error) => {
           console.error(error);
-          setErrors({ apiError: "Something went wrong. Please try again." });
+          setErrors({
+            apiError: `User with email ${contactEmailToAdd} was not found.`,
+          });
         });
 
       setContactEmail("");
-      
     } catch (error) {
       if (error instanceof z.ZodError) {
         const fieldErrors: { [key: string]: string } = {};
@@ -80,6 +80,7 @@ const AddContact: React.FC<AddContactProps> = ({ change, setChange }) => {
       <Button text="Add" styleType={"info"} onClick={handleAddContact} />
 
       {errors.email && <p className="text-green mt-3">{errors.email}</p>}
+      {errors.apiError && <p className="text-red mt-3">{errors.apiError}</p>}
 
       {showPopUp && (
         <PopUp
